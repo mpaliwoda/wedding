@@ -1,0 +1,48 @@
+<svg width="180" height="200" viewBox="0 0 180 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Watercolor-style floral design for bottom -->
+  <defs>
+    <filter id="watercolor">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="5" seed="4"/>
+      <feColorMatrix type="saturate" values="0.5"/>
+      <feBlend in="SourceGraphic" in2="blurOut" mode="multiply"/>
+    </filter>
+  </defs>
+
+  <!-- Purple flower cluster -->
+  <ellipse cx="70" cy="65" rx="18" ry="20" fill="#b39cc4" opacity="0.7" filter="url(#watercolor)"/>
+  <ellipse cx="92" cy="62" rx="17" ry="19" fill="#c5b0d5" opacity="0.7" filter="url(#watercolor)"/>
+  <ellipse cx="81" cy="48" rx="15" ry="18" fill="#b39cc4" opacity="0.7" filter="url(#watercolor)"/>
+  <ellipse cx="81" cy="79" rx="16" ry="17" fill="#c5b0d5" opacity="0.7" filter="url(#watercolor)"/>
+  <ellipse cx="58" cy="62" rx="14" ry="17" fill="#b39cc4" opacity="0.7" filter="url(#watercolor)"/>
+  <circle cx="81" cy="63" r="9" fill="#9b7aad" opacity="0.8"/>
+
+  <!-- Pink flower -->
+  <ellipse cx="115" cy="80" rx="16" ry="18" fill="#e8b4c8" opacity="0.7" filter="url(#watercolor)"/>
+  <ellipse cx="133" cy="77" rx="15" ry="17" fill="#f5cfd9" opacity="0.7" filter="url(#watercolor)"/>
+  <ellipse cx="124" cy="65" rx="14" ry="16" fill="#e8b4c8" opacity="0.7" filter="url(#watercolor)"/>
+  <ellipse cx="124" cy="92" rx="15" ry="16" fill="#f5cfd9" opacity="0.7" filter="url(#watercolor)"/>
+  <ellipse cx="107" cy="77" rx="13" ry="15" fill="#e8b4c8" opacity="0.7" filter="url(#watercolor)"/>
+  <circle cx="124" cy="78" r="7" fill="#d48ba6" opacity="0.8"/>
+
+  <!-- Small yellow flowers -->
+  <ellipse cx="45" cy="100" rx="8" ry="9" fill="#f4d58d" opacity="0.6" filter="url(#watercolor)"/>
+  <ellipse cx="55" cy="98" rx="7" ry="8" fill="#f7e4a8" opacity="0.6" filter="url(#watercolor)"/>
+  <circle cx="50" cy="99" r="4" fill="#e8c170" opacity="0.7"/>
+
+  <ellipse cx="140" cy="105" rx="8" ry="9" fill="#f4d58d" opacity="0.6" filter="url(#watercolor)"/>
+  <ellipse cx="150" cy="103" rx="7" ry="8" fill="#f7e4a8" opacity="0.6" filter="url(#watercolor)"/>
+  <circle cx="145" cy="104" r="4" fill="#e8c170" opacity="0.7"/>
+
+  <!-- Stems and leaves -->
+  <path d="M 81 79 Q 78 100 75 130" stroke="#8b9e7d" stroke-width="2" fill="none" opacity="0.6"/>
+  <path d="M 124 92 Q 122 110 120 135" stroke="#8b9e7d" stroke-width="1.5" fill="none" opacity="0.6"/>
+  <path d="M 50 102 Q 48 115 46 130" stroke="#8b9e7d" stroke-width="1" fill="none" opacity="0.6"/>
+  <path d="M 145 108 Q 143 120 141 135" stroke="#8b9e7d" stroke-width="1" fill="none" opacity="0.6"/>
+
+  <!-- Leaves scattered -->
+  <ellipse cx="72" cy="95" rx="13" ry="6" fill="#a8b99a" opacity="0.5" transform="rotate(-25 72 95)"/>
+  <ellipse cx="85" cy="110" rx="12" ry="6" fill="#8b9e7d" opacity="0.5" transform="rotate(20 85 110)"/>
+  <ellipse cx="118" cy="108" rx="11" ry="5" fill="#a8b99a" opacity="0.5" transform="rotate(-30 118 108)"/>
+  <ellipse cx="55" cy="115" rx="10" ry="5" fill="#8b9e7d" opacity="0.5" transform="rotate(15 55 115)"/>
+  <ellipse cx="138" cy="118" rx="10" ry="5" fill="#a8b99a" opacity="0.5" transform="rotate(-20 138 118)"/>
+</svg>
