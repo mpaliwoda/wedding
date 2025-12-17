@@ -294,7 +294,18 @@ h1, h2, h3 {
     font-size: 1.5rem;
     color: var(--secondary-color);
     font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.time-tbd {
+    font-size: 0.95rem;
+    color: var(--accent-color);
+    font-style: italic;
     margin-bottom: 15px;
+    padding: 8px 15px;
+    background: rgba(92, 107, 192, 0.08);
+    border-radius: 8px;
+    display: inline-block;
 }
 
 .detail-location {
