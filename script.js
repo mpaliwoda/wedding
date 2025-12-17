@@ -49,6 +49,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set initial language
     switchLanguage(currentLang);
 
+    // Update language for dynamically loaded elements
+    function updateLanguage() {
+        const lang = currentLang;
+        document.querySelectorAll('[data-en], [data-pl]').forEach(element => {
+            const text = element.getAttribute(`data-${lang}`);
+            if (text) {
+                element.textContent = text;
+            }
+        });
+    }
+
     // Smooth scroll for internal links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -114,4 +125,84 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(card);
     });
+
+    // Calendar functionality
+    const calendarBtn = document.getElementById('addToCalendar');
+    const calendarDropdown = document.getElementById('calendarDropdown');
+
+    if (calendarBtn && calendarDropdown) {
+        // Toggle dropdown
+        calendarBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            calendarDropdown.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!calendarBtn.contains(e.target) && !calendarDropdown.contains(e.target)) {
+                calendarDropdown.classList.remove('show');
+            }
+        });
+
+        // Handle calendar service clicks
+        document.querySelectorAll('.calendar-option').forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                const service = this.getAttribute('data-service');
+
+                // Event details
+                const eventDetails = {
+                    title: 'Irena & Marcin Wedding / Wesele Irena i Marcin',
+                    description: 'Wedding ceremony and reception at Gospoda Nad Zimną Rzeczką',
+                    location: 'Gospoda Nad Zimną Rzeczką, ul. Zimna Rzeczka 8, Kłokoczyn',
+                    startDate: '20260710',
+                    endDate: '20260711', // Next day for all-day event
+                    startTime: '', // No time yet
+                    endTime: ''
+                };
+
+                switch(service) {
+                    case 'google':
+                        const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventDetails.title)}&dates=${eventDetails.startDate}/${eventDetails.endDate}&details=${encodeURIComponent(eventDetails.description)}&location=${encodeURIComponent(eventDetails.location)}`;
+                        window.open(googleUrl, '_blank');
+                        break;
+
+                    case 'outlook':
+                        const outlookUrl = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${encodeURIComponent(eventDetails.title)}&startdt=${eventDetails.startDate}&enddt=${eventDetails.endDate}&body=${encodeURIComponent(eventDetails.description)}&location=${encodeURIComponent(eventDetails.location)}`;
+                        window.open(outlookUrl, '_blank');
+                        break;
+
+                    case 'apple':
+                    case 'ics':
+                        // Generate .ics file
+                        const icsContent = [
+                            'BEGIN:VCALENDAR',
+                            'VERSION:2.0',
+                            'PRODID:-//Irena & Marcin Wedding//EN',
+                            'BEGIN:VEVENT',
+                            `DTSTART;VALUE=DATE:${eventDetails.startDate}`,
+                            `DTEND;VALUE=DATE:${eventDetails.endDate}`,
+                            `SUMMARY:${eventDetails.title}`,
+                            `DESCRIPTION:${eventDetails.description}`,
+                            `LOCATION:${eventDetails.location}`,
+                            'STATUS:CONFIRMED',
+                            'SEQUENCE:0',
+                            'END:VEVENT',
+                            'END:VCALENDAR'
+                        ].join('\r\n');
+
+                        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+                        const link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = 'irena-marcin-wedding.ics';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        break;
+                }
+
+                calendarDropdown.classList.remove('show');
+            });
+        });
+    }
 });
