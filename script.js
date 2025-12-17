@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const scrollIndicator = document.querySelector('.scroll-indicator');
     if (scrollIndicator) {
         scrollIndicator.addEventListener('click', function() {
-            const nextSection = document.querySelector('.story-section');
+            const nextSection = document.querySelector('.details-section');
             if (nextSection) {
                 nextSection.scrollIntoView({
                     behavior: 'smooth'
@@ -106,4 +106,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Observe info cards for animation
+    document.querySelectorAll('.info-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
 });

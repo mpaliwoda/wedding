@@ -170,11 +170,14 @@ h1, h2, h3 {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 40px;
     margin-top: 50px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .detail-card {
     background: var(--background-white);
-    padding: 40px;
+    padding: 50px;
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -190,15 +193,20 @@ h1, h2, h3 {
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.12);
 }
 
+.venue-card {
+    width: 100%;
+}
+
 .detail-card .icon {
     font-size: 3rem;
     margin-bottom: 20px;
 }
 
 .detail-card h3 {
-    font-size: 2rem;
+    font-size: 2.2rem;
     color: var(--primary-color);
     margin-bottom: 15px;
+    font-weight: 600;
 }
 
 .detail-time {
@@ -316,40 +324,47 @@ h1, h2, h3 {
     color: var(--text-light);
 }
 
-/* Accommodation Section */
-.accommodation-section p {
-    text-align: center;
-    font-size: 1.1rem;
-    margin-bottom: 40px;
-}
-
-.hotel-list {
+/* Further Details Section */
+.info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
-.hotel-card {
+.info-card {
     background: var(--background-white);
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.accommodation-section .hotel-card {
+.details-info-section:nth-child(even) .info-card {
     background: var(--background-light);
 }
 
-.hotel-card h3 {
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.12);
+}
+
+.info-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.info-card h3 {
     font-size: 1.8rem;
     color: var(--primary-color);
     margin-bottom: 15px;
+    text-align: center;
 }
 
-.hotel-card p {
-    margin: 15px 0;
+.info-card p {
+    line-height: 1.8;
+    color: var(--text-dark);
     text-align: center;
 }
 
