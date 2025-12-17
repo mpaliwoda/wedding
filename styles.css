@@ -207,6 +207,24 @@ h1, h2, h3 {
     }
 }
 
+@keyframes floatTop {
+    0%, 100% {
+        transform: translateX(-50%) scale(1) rotate(-15deg);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.02) rotate(-18deg);
+    }
+}
+
+@keyframes floatBottom {
+    0%, 100% {
+        transform: translateX(-50%) scale(1) rotate(15deg) scaleX(-1);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.02) rotate(18deg) scaleX(-1);
+    }
+}
+
 .names {
     font-size: clamp(3rem, 8vw, 6rem);
     color: var(--primary-color);
@@ -858,13 +876,21 @@ h1, h2, h3 {
     }
 
     .hero-floral-left {
-        width: 150px;
-        left: -10%;
+        width: 120px;
+        left: 50%;
+        top: 10%;
+        transform: translateX(-50%) rotate(-15deg);
+        animation: fadeInFloralLeft 1.5s ease-out 0.5s forwards, floatTop 8s ease-in-out 2s infinite;
     }
 
     .hero-floral-right {
-        width: 150px;
-        right: -10%;
+        width: 120px;
+        right: auto;
+        left: 50%;
+        top: auto;
+        bottom: 15%;
+        transform: translateX(-50%) rotate(15deg) scaleX(-1);
+        animation: fadeInFloralRight 1.5s ease-out 0.8s forwards, floatBottom 8s ease-in-out 2.3s infinite;
     }
 
     .calendar-btn {
