@@ -916,21 +916,22 @@ h1, h2, h3 {
     }
 
     .hero-floral-left {
-        width: 120px;
-        left: 50%;
-        top: 10%;
-        transform: translateX(-50%) rotate(-15deg);
-        animation: fadeInFloralLeft 1.5s ease-out 0.5s forwards, floatTop 8s ease-in-out 2s infinite;
+        width: 100px;
+        left: -5%;
+        top: auto;
+        bottom: 10%;
+        transform: rotate(-25deg);
+        animation: fadeInFloralLeft 1.5s ease-out 0.5s forwards, floatLeft 8s ease-in-out 2s infinite;
     }
 
     .hero-floral-right {
-        width: 120px;
-        right: auto;
-        left: 50%;
-        top: auto;
-        bottom: 15%;
-        transform: translateX(-50%) rotate(15deg) scaleX(-1);
-        animation: fadeInFloralRight 1.5s ease-out 0.8s forwards, floatBottom 8s ease-in-out 2.3s infinite;
+        width: 100px;
+        right: -5%;
+        left: auto;
+        top: 10%;
+        bottom: auto;
+        transform: rotate(25deg) scaleX(-1);
+        animation: fadeInFloralRight 1.5s ease-out 0.8s forwards, floatRight 8s ease-in-out 2.3s infinite;
     }
 
     .calendar-btn {
