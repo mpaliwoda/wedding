@@ -251,6 +251,48 @@ h3 {
   }
 }
 
+@keyframes floatBottomLeft {
+  0%,
+  100% {
+    transform: scale(1) rotate(-25deg);
+  }
+  50% {
+    transform: scale(1.02) rotate(-28deg);
+  }
+}
+
+@keyframes floatTopRight {
+  0%,
+  100% {
+    transform: scale(1) rotate(-90deg) scaleX(-1);
+  }
+  50% {
+    transform: scale(1.02) rotate(-93deg) scaleX(-1);
+  }
+}
+
+@keyframes fadeInFloralBottomLeft {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) rotate(-25deg);
+  }
+  100% {
+    opacity: 0.65;
+    transform: scale(1) rotate(-25deg);
+  }
+}
+
+@keyframes fadeInFloralTopRight {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) rotate(-90deg) scaleX(-1);
+  }
+  100% {
+    opacity: 0.65;
+    transform: scale(1) rotate(-90deg) scaleX(-1);
+  }
+}
+
 .names {
   font-size: clamp(3rem, 8vw, 6rem);
   color: var(--primary-color);
@@ -962,8 +1004,8 @@ h3 {
     bottom: 10%;
     transform: rotate(-25deg);
     animation:
-      fadeInFloralLeft 1.5s ease-out 0.5s forwards,
-      floatLeft 8s ease-in-out 2s infinite;
+      fadeInFloralBottomLeft 1.5s ease-out 0.5s forwards,
+      floatBottomLeft 8s ease-in-out 2s infinite;
   }
 
   .hero-floral-right {
@@ -972,10 +1014,10 @@ h3 {
     left: auto;
     top: 10%;
     bottom: auto;
-    transform: rotate(25deg) scaleX(-1);
+    transform: rotate(-90deg) scaleX(-1);
     animation:
-      fadeInFloralRight 1.5s ease-out 0.8s forwards,
-      floatRight 8s ease-in-out 2.3s infinite;
+      fadeInFloralTopRight 1.5s ease-out 0.8s forwards,
+      floatTopRight 8s ease-in-out 2.3s infinite;
   }
 
   .calendar-btn {

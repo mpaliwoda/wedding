@@ -1,147 +1,279 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-en="Irena Owsiak & Marcin Paliwoda - Our Wedding" data-pl="Irena Owsiak i Marcin Paliwoda - Nasze Wesele">Irena Owsiak i Marcin Paliwoda - Nasze Wesele</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title
+      data-en="Irena Owsiak & Marcin Paliwoda - Our Wedding"
+      data-pl="Irena Owsiak i Marcin Paliwoda - Nasze Wesele"
+    >
+      Irena Owsiak i Marcin Paliwoda - Nasze Wesele
+    </title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <!-- Language Switcher -->
     <div class="language-switcher">
-        <button class="lang-btn active" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="pl">PL</button>
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="pl">PL</button>
     </div>
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-florals">
-            <img src="assets/watercolor.png" alt="Floral decoration" class="hero-floral hero-floral-left">
-            <img src="assets/watercolor.png" alt="Floral decoration" class="hero-floral hero-floral-right">
-        </div>
-        <div class="hero-content">
-            <h1 class="names" data-en="Irena & Marcin" data-pl="Irena i Marcin">Irena i Marcin</h1>
-            <p class="tagline" data-en="joyfully invite you to celebrate our wedding" data-pl="z radością zapraszają">z radością zapraszają</p>
-            <p class="wedding-date">10.07.2026</p>
+      <div class="hero-florals">
+        <img
+          src="assets/watercolor.png"
+          alt="Floral decoration"
+          class="hero-floral hero-floral-left"
+        />
+        <img
+          src="assets/watercolor.png"
+          alt="Floral decoration"
+          class="hero-floral hero-floral-right"
+        />
+      </div>
+      <div class="hero-content">
+        <h1 class="names" data-en="Irena & Marcin" data-pl="Irena i Marcin">
+          Irena i Marcin
+        </h1>
+        <p
+          class="tagline"
+          data-en="joyfully invite you to celebrate our wedding"
+          data-pl="z radością zapraszają"
+        >
+          z radością zapraszają
+        </p>
+        <p class="wedding-date">10.07.2026</p>
 
-            <div class="countdown" id="countdown">
-                <div class="countdown-item">
-                    <span class="countdown-number" id="days">0</span>
-                    <span class="countdown-label" data-en="days" data-pl="dni">dni</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="hours">0</span>
-                    <span class="countdown-label" data-en="hours" data-pl="godzin">godzin</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="minutes">0</span>
-                    <span class="countdown-label" data-en="minutes" data-pl="minut">minut</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="seconds">0</span>
-                    <span class="countdown-label" data-en="seconds" data-pl="sekund">sekund</span>
-                </div>
-            </div>
+        <div class="countdown" id="countdown">
+          <div class="countdown-item">
+            <span class="countdown-number" id="days">0</span>
+            <span class="countdown-label" data-en="days" data-pl="dni"
+              >dni</span
+            >
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="hours">0</span>
+            <span class="countdown-label" data-en="hours" data-pl="godzin"
+              >godzin</span
+            >
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="minutes">0</span>
+            <span class="countdown-label" data-en="minutes" data-pl="minut"
+              >minut</span
+            >
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="seconds">0</span>
+            <span class="countdown-label" data-en="seconds" data-pl="sekund"
+              >sekund</span
+            >
+          </div>
         </div>
-        <div class="scroll-indicator">↓</div>
+      </div>
+      <div class="scroll-indicator">↓</div>
     </section>
 
     <!-- Event Details Section -->
     <section class="section details-section">
-        <div class="container">
-            <h2 data-en="Wedding & Reception" data-pl="Ślub i Wesele">Wedding & Reception</h2>
+      <div class="container">
+        <h2 data-en="Wedding & Reception" data-pl="Ślub i Wesele">
+          Wedding & Reception
+        </h2>
 
-            <div class="details-grid">
-                <!-- Venue -->
-                <div class="detail-card venue-card">
-                    <div class="icon">🌿</div>
-                    <h3>Gospoda Nad Zimną Rzeczką</h3>
-                    <p class="detail-time" data-en="July 10, 2026" data-pl="10 lipca 2026">10 lipca 2026</p>
-                    <p class="time-tbd" data-en="Exact time will be announced soon" data-pl="Dokładna godzina zostanie podana wkrótce">Dokładna godzina zostanie podana wkrótce</p>
-                    <p class="detail-location">
-                        <span class="address">ul. Zimna Rzeczka 8<br>Kłokoczyn</span>
-                    </p>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Gospoda+Nad+Zimn%C4%85+Rzeczk%C4%85%2C+ul.+Zimna+Rzeczka+8%2C+K%C5%82okoczyn" target="_blank" class="map-link">
-                        <span class="map-icon">📍</span>
-                        <span data-en="Open in Google Maps" data-pl="Otwórz w Google Maps">Otwórz w Google Maps</span>
-                    </a>
-                    <div class="calendar-button-container">
-                        <button class="calendar-btn" id="addToCalendar">
-                            <span class="calendar-icon">📅</span>
-                            <span data-en="Add to Calendar" data-pl="Dodaj do kalendarza">Dodaj do kalendarza</span>
-                        </button>
-                        <div class="calendar-dropdown" id="calendarDropdown">
-                            <a href="#" class="calendar-option" data-service="google" data-en="Google Calendar" data-pl="Google Calendar">Google Calendar</a>
-                            <a href="#" class="calendar-option" data-service="apple" data-en="Apple Calendar" data-pl="Apple Calendar">Apple Calendar</a>
-                            <a href="#" class="calendar-option" data-service="outlook" data-en="Outlook" data-pl="Outlook">Outlook</a>
-                            <a href="#" class="calendar-option" data-service="ics" data-en="Download .ics file" data-pl="Pobierz plik .ics">Pobierz plik .ics</a>
-                        </div>
-                    </div>
-                </div>
+        <div class="details-grid">
+          <!-- Venue -->
+          <div class="detail-card venue-card">
+            <div class="icon">🌿</div>
+            <h3>Gospoda Nad Zimną Rzeczką</h3>
+            <p
+              class="detail-time"
+              data-en="July 10, 2026"
+              data-pl="10 lipca 2026"
+            >
+              10 lipca 2026
+            </p>
+            <p
+              class="time-tbd"
+              data-en="Exact time will be announced soon"
+              data-pl="Dokładna godzina zostanie podana wkrótce"
+            >
+              Dokładna godzina zostanie podana wkrótce
+            </p>
+            <p class="detail-location">
+              <span class="address">ul. Zimna Rzeczka 8<br />Kłokoczyn</span>
+            </p>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Gospoda+Nad+Zimn%C4%85+Rzeczk%C4%85%2C+ul.+Zimna+Rzeczka+8%2C+K%C5%82okoczyn"
+              target="_blank"
+              class="map-link"
+            >
+              <span class="map-icon">📍</span>
+              <span data-en="Open in Google Maps" data-pl="Otwórz w Google Maps"
+                >Otwórz w Google Maps</span
+              >
+            </a>
+            <div class="calendar-button-container">
+              <button class="calendar-btn" id="addToCalendar">
+                <span class="calendar-icon">📅</span>
+                <span data-en="Add to Calendar" data-pl="Dodaj do kalendarza"
+                  >Dodaj do kalendarza</span
+                >
+              </button>
+              <div class="calendar-dropdown" id="calendarDropdown">
+                <a
+                  href="#"
+                  class="calendar-option"
+                  data-service="google"
+                  data-en="Google Calendar"
+                  data-pl="Google Calendar"
+                  >Google Calendar</a
+                >
+                <a
+                  href="#"
+                  class="calendar-option"
+                  data-service="apple"
+                  data-en="Apple Calendar"
+                  data-pl="Apple Calendar"
+                  >Apple Calendar</a
+                >
+                <a
+                  href="#"
+                  class="calendar-option"
+                  data-service="outlook"
+                  data-en="Outlook"
+                  data-pl="Outlook"
+                  >Outlook</a
+                >
+                <a
+                  href="#"
+                  class="calendar-option"
+                  data-service="ics"
+                  data-en="Download .ics file"
+                  data-pl="Pobierz plik .ics"
+                  >Pobierz plik .ics</a
+                >
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- RSVP Section -->
     <section class="section rsvp-section">
-        <div class="container">
-            <h2 data-en="RSVP" data-pl="Potwierdzenie Obecności">RSVP</h2>
-            <p class="rsvp-text" data-en="Kindly RSVP by May 20, 2026" data-pl="Prosimy o potwierdzenie przybycia do 20 maja 2026 roku">Prosimy o potwierdzenie przybycia do 20 maja 2026 roku</p>
+      <div class="container">
+        <h2 data-en="RSVP" data-pl="Potwierdzenie Obecności">RSVP</h2>
+        <p
+          class="rsvp-text"
+          data-en="Kindly RSVP by May 20, 2026"
+          data-pl="Prosimy o potwierdzenie przybycia do 20 maja 2026 roku"
+        >
+          Prosimy o potwierdzenie przybycia do 20 maja 2026 roku
+        </p>
 
-            <div class="rsvp-contact">
-                <p data-en="Please contact us via WhatsApp:" data-pl="Prosimy przez WhatsApp:">Prosimy przez WhatsApp:</p>
-                <a href="https://wa.me/48791860529" class="contact-link">Irena: +48 791 860 529</a>
-                <a href="https://wa.me/48792433041" class="contact-link">Marcin: +48 792 433 041</a>
-            </div>
+        <div class="rsvp-contact">
+          <p
+            data-en="Please contact us via WhatsApp:"
+            data-pl="Prosimy przez WhatsApp:"
+          >
+            Prosimy przez WhatsApp:
+          </p>
+          <a href="https://wa.me/48791860529" class="contact-link"
+            >Irena: +48 791 860 529</a
+          >
+          <a href="https://wa.me/48792433041" class="contact-link"
+            >Marcin: +48 792 433 041</a
+          >
         </div>
+      </div>
     </section>
 
     <!-- Further Details Section -->
     <section class="section details-info-section">
-        <div class="container">
-            <h2 data-en="Further Details" data-pl="Więcej Szczegółów">Więcej Szczegółów</h2>
+      <div class="container">
+        <h2 data-en="Further Details" data-pl="Więcej Szczegółów">
+          Więcej Szczegółów
+        </h2>
 
-            <div class="info-grid">
-                <div class="info-card">
-                    <div class="info-icon">🚗</div>
-                    <h3 data-en="Transportation" data-pl="Transport">Transport</h3>
-                    <p data-en="Coach transportation to the wedding venue will be provided from Kraków and Chrzanów. Please let us know if you would like to use it when confirming your attendance. Return transportation to the Kraków and Chrzanów areas will also be provided, running from 12:30 a.m. to 6:00 a.m., taking you directly to your home or hotel." data-pl="Z Krakowa i Chrzanowa zorganizowane będą busy na miejsce ślubu i wesela. Jeśli chcielibyście z nich skorzystać, prosimy o informację przy potwierdzaniu obecności. Zapewniamy również busiki powrotne w okolice Chrzanowa i Krakowa, kursujące od 00:30 do 6:00 rano, które odwiozą Was bezpośrednio do domu lub hotelu.">Z Krakowa i Chrzanowa zorganizowane będą busy na miejsce ślubu i wesela. Jeśli chcielibyście z nich skorzystać, prosimy o informację przy potwierdzaniu obecności. Zapewniamy również busiki powrotne w okolice Chrzanowa i Krakowa, kursujące od 00:30 do 6:00 rano, które odwiozą Was bezpośrednio do domu lub hotelu.</p>
-                </div>
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-icon">🚗</div>
+            <h3 data-en="Transportation" data-pl="Transport">Transport</h3>
+            <p
+              data-en="Coach transportation to the wedding venue will be provided from Kraków and Chrzanów. Please let us know if you would like to use it when confirming your attendance. Return transportation to the Kraków and Chrzanów areas will also be provided, running from 12:30 a.m. to 6:00 a.m., taking you directly to your home or hotel."
+              data-pl="Z Krakowa i Chrzanowa zorganizowane będą busy na miejsce ślubu i wesela. Jeśli chcielibyście z nich skorzystać, prosimy o informację przy potwierdzaniu obecności. Zapewniamy również busiki powrotne w okolice Chrzanowa i Krakowa, kursujące od 00:30 do 6:00 rano, które odwiozą Was bezpośrednio do domu lub hotelu."
+            >
+              Z Krakowa i Chrzanowa zorganizowane będą busy na miejsce ślubu i
+              wesela. Jeśli chcielibyście z nich skorzystać, prosimy o
+              informację przy potwierdzaniu obecności. Zapewniamy również busiki
+              powrotne w okolice Chrzanowa i Krakowa, kursujące od 00:30 do 6:00
+              rano, które odwiozą Was bezpośrednio do domu lub hotelu.
+            </p>
+          </div>
 
-                <div class="info-card">
-                    <div class="info-icon">🅿️</div>
-                    <h3 data-en="Parking" data-pl="Parking">Parking</h3>
-                    <p data-en="Parking is available at the venue." data-pl="Przy sali dostępny jest parking.">Przy sali dostępny jest parking.</p>
-                </div>
+          <div class="info-card">
+            <div class="info-icon">🅿️</div>
+            <h3 data-en="Parking" data-pl="Parking">Parking</h3>
+            <p
+              data-en="Parking is available at the venue."
+              data-pl="Przy sali dostępny jest parking."
+            >
+              Przy sali dostępny jest parking.
+            </p>
+          </div>
 
-                <div class="info-card">
-                    <div class="info-icon">🌱</div>
-                    <h3 data-en="Menu" data-pl="Menu">Menu</h3>
-                    <p data-en="The reception will be vegan. If you have any additional dietary requirements, please let us know when confirming your attendance." data-pl="Wesele będzie wegańskie. Jeśli posiadacie inne restrykcje żywieniowe, prosimy o informację przy potwierdzaniu obecności.">Wesele będzie wegańskie. Jeśli posiadacie inne restrykcje żywieniowe, prosimy o informację przy potwierdzaniu obecności.</p>
-                </div>
+          <div class="info-card">
+            <div class="info-icon">🌱</div>
+            <h3 data-en="Menu" data-pl="Menu">Menu</h3>
+            <p
+              data-en="The reception will be vegan. If you have any additional dietary requirements, please let us know when confirming your attendance."
+              data-pl="Wesele będzie wegańskie. Jeśli posiadacie inne restrykcje żywieniowe, prosimy o informację przy potwierdzaniu obecności."
+            >
+              Wesele będzie wegańskie. Jeśli posiadacie inne restrykcje
+              żywieniowe, prosimy o informację przy potwierdzaniu obecności.
+            </p>
+          </div>
 
-                <div class="info-card">
-                    <h3 data-en="Gifts" data-pl="Prezenty">Prezenty</h3>
-                    <div class="info-icon">🎁</div>
-                    <p data-en="Your presence is the greatest gift to us. Should you wish to honor us with a gift, cash would be very welcome. We will also be collecting donations to support food aid for those in need through the Polish Humanitarian Action." data-pl="Wasza obecność jest dla nas najpiękniejszym prezentem. Jeśli jednak zechcecie nas dodatkowo obdarować, miłym gestem będzie koperta. Zamiast kwiatów prosimy o drobny datek do puszki, który przekażemy na pomoc żywieniową potrzebującym przez Polską Akcję Humanitarną.">Wasza obecność jest dla nas najpiękniejszym prezentem. Jeśli jednak zechcecie nas dodatkowo obdarować, miłym gestem będzie koperta. Zamiast kwiatów prosimy o drobny datek do puszki, który przekażemy na pomoc żywieniową potrzebującym przez Polską Akcję Humanitarną.</p>
-                </div>
-
-
-            </div>
+          <div class="info-card">
+            <h3 data-en="Gifts" data-pl="Prezenty">Prezenty</h3>
+            <div class="info-icon">🎁</div>
+            <p
+              data-en="Your presence is the greatest gift to us. Should you wish to honor us with a gift, cash would be very welcome. We will also be collecting donations to support food aid for those in need through the Polish Humanitarian Action."
+              data-pl="Wasza obecność jest dla nas najpiękniejszym prezentem. Jeśli jednak zechcecie nas dodatkowo obdarować, miłym gestem będzie koperta. Zamiast kwiatów prosimy o drobny datek do puszki, który przekażemy na pomoc żywieniową potrzebującym przez Polską Akcję Humanitarną."
+            >
+              Wasza obecność jest dla nas najpiękniejszym prezentem. Jeśli
+              jednak zechcecie nas dodatkowo obdarować, miłym gestem będzie
+              koperta. Zamiast kwiatów prosimy o drobny datek do puszki, który
+              przekażemy na pomoc żywieniową potrzebującym przez Polską Akcję
+              Humanitarną.
+            </p>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <p class="footer-text" data-en="We can't wait to celebrate with you!" data-pl="Nie możemy się doczekać świętowania z Wami!">We can't wait to celebrate with you!</p>
-            <p class="hearts">❤️</p>
-        </div>
+      <div class="container">
+        <p
+          class="footer-text"
+          data-en="We can't wait to celebrate with you!"
+          data-pl="Nie możemy się doczekać świętowania z Wami!"
+        >
+          We can't wait to celebrate with you!
+        </p>
+        <p class="hearts">❤️</p>
+      </div>
     </footer>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
