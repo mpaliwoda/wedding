@@ -133,7 +133,7 @@ h1, h2, h3 {
     position: relative;
 }
 
-.hero-animals {
+.hero-florals {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -143,106 +143,68 @@ h1, h2, h3 {
     z-index: 0;
 }
 
-.hero-animal {
+.hero-floral {
     position: absolute;
     opacity: 0;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-@keyframes fadeInAnimalLeft {
-    from {
+@keyframes fadeInFloralLeft {
+    0% {
         opacity: 0;
-        transform: scale(0.8) rotate(-15deg);
+        transform: scale(0.9) translateY(-50%) rotate(-8deg);
     }
-    to {
-        opacity: 0.5;
-        transform: scale(1) rotate(-15deg);
+    100% {
+        opacity: 0.65;
+        transform: scale(1) translateY(-50%) rotate(-8deg);
     }
 }
 
-@keyframes fadeInAnimalRight {
-    from {
+@keyframes fadeInFloralRight {
+    0% {
         opacity: 0;
-        transform: scale(0.8) rotate(12deg);
+        transform: scale(0.9) translateY(-50%) rotate(8deg) scaleX(-1);
     }
-    to {
-        opacity: 0.5;
-        transform: scale(1) rotate(12deg);
-    }
-}
-
-@keyframes fadeInAnimalBottom {
-    from {
-        opacity: 0;
-        transform: translateX(-50%) scale(0.8) rotate(-8deg);
-    }
-    to {
-        opacity: 0.5;
-        transform: translateX(-50%) scale(1) rotate(-8deg);
+    100% {
+        opacity: 0.65;
+        transform: scale(1) translateY(-50%) rotate(8deg) scaleX(-1);
     }
 }
 
-.hero-animal-left {
-    width: 150px;
-    height: 150px;
-    left: 10%;
-    top: 25%;
-    transform: rotate(-15deg);
+.hero-floral-left {
+    width: 280px;
+    height: auto;
+    left: 5%;
+    top: 50%;
+    transform: translateY(-50%) rotate(-8deg);
+    animation: fadeInFloralLeft 1.5s ease-out 0.5s forwards, floatLeft 8s ease-in-out 2s infinite;
 }
 
-.hero-animal-right {
-    width: 140px;
-    height: 140px;
-    right: 12%;
-    top: 30%;
-    transform: rotate(12deg);
+.hero-floral-right {
+    width: 280px;
+    height: auto;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%) rotate(8deg) scaleX(-1);
+    animation: fadeInFloralRight 1.5s ease-out 0.8s forwards, floatRight 8s ease-in-out 2.3s infinite;
 }
 
-.hero-animal-bottom {
-    width: 120px;
-    height: 120px;
-    left: 50%;
-    bottom: 20%;
-    transform: translateX(-50%) rotate(-8deg);
-}
-
-@keyframes float {
+@keyframes floatLeft {
     0%, 100% {
-        transform: scale(1) translateY(0px) rotate(-15deg);
+        transform: translateY(-50%) scale(1) rotate(-8deg);
     }
     50% {
-        transform: scale(1) translateY(-20px) rotate(-15deg);
+        transform: translateY(-50%) scale(1.02) rotate(-10deg);
     }
 }
 
-@keyframes float-right {
+@keyframes floatRight {
     0%, 100% {
-        transform: scale(1) translateY(0px) rotate(12deg);
+        transform: translateY(-50%) scale(1) rotate(8deg) scaleX(-1);
     }
     50% {
-        transform: scale(1) translateY(-15px) rotate(12deg);
+        transform: translateY(-50%) scale(1.02) rotate(10deg) scaleX(-1);
     }
-}
-
-@keyframes float-bottom {
-    0%, 100% {
-        transform: translateX(-50%) scale(1) translateY(0px) rotate(-8deg);
-    }
-    50% {
-        transform: translateX(-50%) scale(1) translateY(-10px) rotate(-8deg);
-    }
-}
-
-.hero-animal-left {
-    animation: fadeInAnimalLeft 1.5s ease-out 0.5s forwards, float 6s ease-in-out 2s infinite;
-}
-
-.hero-animal-right {
-    animation: fadeInAnimalRight 1.5s ease-out 0.8s forwards, float-right 5s ease-in-out 2.3s infinite;
-}
-
-.hero-animal-bottom {
-    animation: fadeInAnimalBottom 1.5s ease-out 1.1s forwards, float-bottom 7s ease-in-out 2.6s infinite;
 }
 
 .names {
@@ -878,24 +840,14 @@ h1, h2, h3 {
         right: 10px;
     }
 
-    .hero-animal-left {
-        width: 100px;
-        height: 100px;
-        left: 5%;
-        top: 20%;
+    .hero-floral-left {
+        width: 200px;
+        left: -5%;
     }
 
-    .hero-animal-right {
-        width: 90px;
-        height: 90px;
-        right: 5%;
-        top: 25%;
-    }
-
-    .hero-animal-bottom {
-        width: 80px;
-        height: 80px;
-        bottom: 15%;
+    .hero-floral-right {
+        width: 200px;
+        right: -5%;
     }
 }
 
@@ -905,27 +857,14 @@ h1, h2, h3 {
         grid-template-columns: 1fr;
     }
 
-    .hero-animal-left {
-        width: 70px;
-        height: 70px;
-        left: 3%;
-        top: 15%;
-        opacity: 0.1;
+    .hero-floral-left {
+        width: 150px;
+        left: -10%;
     }
 
-    .hero-animal-right {
-        width: 65px;
-        height: 65px;
-        right: 3%;
-        top: 20%;
-        opacity: 0.1;
-    }
-
-    .hero-animal-bottom {
-        width: 60px;
-        height: 60px;
-        bottom: 12%;
-        opacity: 0.1;
+    .hero-floral-right {
+        width: 150px;
+        right: -10%;
     }
 
     .calendar-btn {
