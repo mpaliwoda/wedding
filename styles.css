@@ -20,7 +20,7 @@ html {
 }
 
 body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Lora', serif;
     color: var(--text-dark);
     line-height: 1.6;
     overflow-x: hidden;
@@ -29,7 +29,7 @@ body {
 }
 
 h1, h2, h3 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Playfair Display', serif;
     font-weight: 600;
 }
 
@@ -107,7 +107,7 @@ h1, h2, h3 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #f8f3ee 0%, #fdfcfa 50%, #f5f0eb 100%);
+    background: #fdfcfa;
     position: relative;
     text-align: center;
     overflow: hidden;
@@ -147,7 +147,6 @@ h1, h2, h3 {
     position: absolute;
     opacity: 0;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    filter: opacity(0.3) sepia(0.3) saturate(0.8) hue-rotate(320deg);
 }
 
 @keyframes fadeInAnimalLeft {
@@ -156,7 +155,7 @@ h1, h2, h3 {
         transform: scale(0.8) rotate(-15deg);
     }
     to {
-        opacity: 0.25;
+        opacity: 0.5;
         transform: scale(1) rotate(-15deg);
     }
 }
@@ -167,7 +166,7 @@ h1, h2, h3 {
         transform: scale(0.8) rotate(12deg);
     }
     to {
-        opacity: 0.25;
+        opacity: 0.5;
         transform: scale(1) rotate(12deg);
     }
 }
@@ -178,7 +177,7 @@ h1, h2, h3 {
         transform: translateX(-50%) scale(0.8) rotate(-8deg);
     }
     to {
-        opacity: 0.25;
+        opacity: 0.5;
         transform: translateX(-50%) scale(1) rotate(-8deg);
     }
 }
@@ -267,7 +266,7 @@ h1, h2, h3 {
 .wedding-date {
     font-size: clamp(1.5rem, 4vw, 2.5rem);
     color: var(--primary-color);
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Playfair Display', serif;
     font-weight: 600;
     letter-spacing: 2px;
     text-shadow: 0 2px 12px rgba(167, 123, 148, 0.12);
@@ -533,7 +532,7 @@ h1, h2, h3 {
     gap: 8px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 15px rgba(167, 123, 148, 0.2);
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Lora', serif;
 }
 
 .calendar-btn:hover {

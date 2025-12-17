@@ -1,44 +1,31 @@
 <svg width="200" height="250" viewBox="0 0 200 250" xmlns="http://www.w3.org/2000/svg">
-  <!-- Watercolor-style floral design for left side -->
-  <defs>
-    <filter id="watercolor">
-      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="5" seed="2"/>
-      <feColorMatrix type="saturate" values="0.5"/>
-      <feBlend in="SourceGraphic" in2="blurOut" mode="multiply"/>
-    </filter>
-  </defs>
+  <!-- Simple elegant floral corner decoration -->
 
-  <!-- Purple flower -->
-  <ellipse cx="80" cy="60" rx="22" ry="25" fill="#b39cc4" opacity="0.7" filter="url(#watercolor)"/>
-  <ellipse cx="110" cy="55" rx="20" ry="23" fill="#b39cc4" opacity="0.7" filter="url(#watercolor)"/>
-  <ellipse cx="95" cy="40" rx="18" ry="22" fill="#c5b0d5" opacity="0.7" filter="url(#watercolor)"/>
-  <ellipse cx="95" cy="75" rx="19" ry="21" fill="#b39cc4" opacity="0.7" filter="url(#watercolor)"/>
-  <ellipse cx="65" cy="55" rx="17" ry="20" fill="#c5b0d5" opacity="0.7" filter="url(#watercolor)"/>
-  <circle cx="95" cy="55" r="10" fill="#9b7aad" opacity="0.8"/>
+  <!-- Pink flowers -->
+  <circle cx="60" cy="50" r="12" fill="#e8b4c8" opacity="0.7"/>
+  <circle cx="75" cy="45" r="10" fill="#f5cfd9" opacity="0.7"/>
+  <circle cx="52" cy="40" r="9" fill="#e8b4c8" opacity="0.6"/>
+  <circle cx="68" cy="35" r="8" fill="#d48ba6" opacity="0.8"/>
+  <circle cx="60" cy="50" r="5" fill="#d48ba6"/>
 
-  <!-- Pink flower -->
-  <ellipse cx="50" cy="130" rx="18" ry="20" fill="#e8b4c8" opacity="0.7" filter="url(#watercolor)"/>
-  <ellipse cx="70" cy="125" rx="16" ry="19" fill="#e8b4c8" opacity="0.7" filter="url(#watercolor)"/>
-  <ellipse cx="60" cy="112" rx="15" ry="18" fill="#f5cfd9" opacity="0.7" filter="url(#watercolor)"/>
-  <ellipse cx="60" cy="142" rx="16" ry="17" fill="#e8b4c8" opacity="0.7" filter="url(#watercolor)"/>
-  <ellipse cx="40" cy="125" rx="14" ry="17" fill="#f5cfd9" opacity="0.7" filter="url(#watercolor)"/>
-  <circle cx="60" cy="127" r="8" fill="#d48ba6" opacity="0.9"/>
+  <!-- Purple flowers -->
+  <circle cx="90" cy="80" r="14" fill="#c5b0d5" opacity="0.7"/>
+  <circle cx="107" cy="75" r="12" fill="#b39cc4" opacity="0.7"/>
+  <circle cx="82" cy="70" r="10" fill="#c5b0d5" opacity="0.6"/>
+  <circle cx="99" cy="65" r="9" fill="#9b7aad" opacity="0.8"/>
+  <circle cx="95" cy="75" r="6" fill="#9b7aad"/>
 
-  <!-- Small pink accent -->
-  <ellipse cx="120" cy="95" rx="12" ry="14" fill="#f5cfd9" opacity="0.6" filter="url(#watercolor)"/>
-  <ellipse cx="135" cy="92" rx="11" ry="13" fill="#e8b4c8" opacity="0.6" filter="url(#watercolor)"/>
-  <ellipse cx="127" cy="83" rx="10" ry="12" fill="#f5cfd9" opacity="0.6" filter="url(#watercolor)"/>
-  <ellipse cx="127" cy="105" rx="11" ry="12" fill="#e8b4c8" opacity="0.6" filter="url(#watercolor)"/>
-  <circle cx="127" cy="94" r="6" fill="#d48ba6" opacity="0.7"/>
-
-  <!-- Stems and leaves -->
-  <path d="M 95 70 Q 90 100 85 150" stroke="#8b9e7d" stroke-width="2" fill="none" opacity="0.6"/>
-  <path d="M 60 142 Q 58 165 55 190" stroke="#8b9e7d" stroke-width="1.5" fill="none" opacity="0.6"/>
-  <path d="M 127 105 Q 125 125 123 145" stroke="#8b9e7d" stroke-width="1.5" fill="none" opacity="0.6"/>
+  <!-- Small accent flowers -->
+  <circle cx="50" cy="100" r="8" fill="#f5cfd9" opacity="0.6"/>
+  <circle cx="58" cy="95" r="6" fill="#e8b4c8" opacity="0.6"/>
+  <circle cx="54" cy="100" r="3" fill="#d48ba6"/>
 
   <!-- Leaves -->
-  <ellipse cx="80" cy="110" rx="15" ry="8" fill="#a8b99a" opacity="0.5" transform="rotate(-30 80 110)"/>
-  <ellipse cx="90" cy="125" rx="13" ry="7" fill="#8b9e7d" opacity="0.5" transform="rotate(20 90 125)"/>
-  <ellipse cx="58" cy="165" rx="12" ry="6" fill="#a8b99a" opacity="0.5" transform="rotate(-35 58 165)"/>
-  <ellipse cx="125" cy="118" rx="11" ry="5" fill="#8b9e7d" opacity="0.5" transform="rotate(15 125 118)"/>
+  <ellipse cx="70" cy="60" rx="8" ry="3" fill="#8b9e7d" opacity="0.4" transform="rotate(-30 70 60)"/>
+  <ellipse cx="82" cy="90" rx="10" ry="4" fill="#a8b99a" opacity="0.4" transform="rotate(20 82 90)"/>
+  <ellipse cx="60" cy="75" rx="7" ry="3" fill="#8b9e7d" opacity="0.3" transform="rotate(-45 60 75)"/>
+
+  <!-- Stems -->
+  <path d="M 60 62 Q 58 80 56 110" stroke="#8b9e7d" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <path d="M 95 87 Q 92 100 90 125" stroke="#8b9e7d" stroke-width="1.5" fill="none" opacity="0.4"/>
 </svg>
