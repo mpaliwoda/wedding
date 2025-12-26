@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Countdown timer functionality - optimized with requestAnimationFrame
     const weddingDate = new Date("2026-07-10T00:00:00");
-    const startDate = new Date(); // When countdown started (for progress calculation)
+    const startDate = new Date("2024-11-17T00:00:00"); // Fixed start date for progress calculation
     let lastUpdate = 0;
 
     function updateCountdown(timestamp) {
@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (secondsEl.textContent !== String(seconds)) secondsEl.textContent = seconds;
 
             // Update progress bars (in party mode)
-            updateCountdownProgress(days, hours, minutes, seconds);
+            updateCountdownProgress();
 
             requestAnimationFrame(updateCountdown);
         } else {
@@ -180,31 +180,26 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("hours").textContent = "0";
             document.getElementById("minutes").textContent = "0";
             document.getElementById("seconds").textContent = "0";
-            updateCountdownProgress(0, 0, 0, 0);
+            updateCountdownProgress();
         }
     }
 
-    function updateCountdownProgress(days, hours, minutes, seconds) {
-        // Calculate total days from start to wedding
-        const totalDays = Math.floor((weddingDate - startDate) / (1000 * 60 * 60 * 24));
-        const elapsedDays = totalDays - days;
+    function updateCountdownProgress() {
+        const now = new Date();
         
-        // Calculate progress percentages (inverted to show "filling up" as we get closer)
-        const daysProgress = totalDays > 0 ? (elapsedDays / totalDays) * 100 : 100;
-        const hoursProgress = ((23 - hours) / 24) * 100; // Inverted: fewer hours = more progress
-        const minutesProgress = ((59 - minutes) / 60) * 100; // Inverted
-        const secondsProgress = ((59 - seconds) / 60) * 100; // Inverted
+        // Calculate total time from start to wedding (in milliseconds)
+        const totalTime = weddingDate - startDate;
+        const elapsedTime = now - startDate;
+        
+        // Calculate overall progress percentage (0-100%)
+        let overallProgress = (elapsedTime / totalTime) * 100;
+        
+        // Clamp between 0 and 100
+        overallProgress = Math.max(0, Math.min(100, overallProgress));
 
-        // Update progress bar widths
-        const daysProgressEl = document.getElementById("daysProgress");
-        const hoursProgressEl = document.getElementById("hoursProgress");
-        const minutesProgressEl = document.getElementById("minutesProgress");
-        const secondsProgressEl = document.getElementById("secondsProgress");
-
-        if (daysProgressEl) daysProgressEl.style.width = daysProgress + '%';
-        if (hoursProgressEl) hoursProgressEl.style.width = hoursProgress + '%';
-        if (minutesProgressEl) minutesProgressEl.style.width = minutesProgress + '%';
-        if (secondsProgressEl) secondsProgressEl.style.width = secondsProgress + '%';
+        // Update single progress bar
+        const progressEl = document.getElementById("countdownProgress");
+        if (progressEl) progressEl.style.width = overallProgress + '%';
     }
 
     // Start countdown with requestAnimationFrame
