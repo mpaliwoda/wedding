@@ -294,26 +294,61 @@ function initPhotoMap() {
     map.fitBounds(bounds, { padding: [50, 50] });
 }
 
+// Gallery navigation state
+let currentPhotoIndex = 0;
+let allPhotos = [];
+
+// Build array of all photos with their locations
+photoLocations.forEach(location => {
+    location.photos.forEach(photo => {
+        allPhotos.push({
+            src: photo,
+            location: `${location.name}, ${location.country}`
+        });
+    });
+});
+
 // Function to view photos in modal
 window.viewPhotos = function(locationName, photos) {
     const photoViewer = document.getElementById('photoViewer');
     const locationNameEl = document.getElementById('photoLocationName');
     const photoGallery = document.getElementById('photoGallery');
 
-    // Set location name
-    locationNameEl.textContent = locationName;
+    // Find the index of the first photo in the global array
+    if (photos.length > 0) {
+        currentPhotoIndex = allPhotos.findIndex(p => p.src === photos[0]);
+        if (currentPhotoIndex === -1) currentPhotoIndex = 0;
+    }
 
-    // Clear previous photos
-    photoGallery.innerHTML = '';
+    // Check if we're just updating an existing view
+    const existingImg = photoGallery.querySelector('img');
+    const isUpdate = existingImg && photos.length === 1;
 
-    // Add photos to gallery
-    photos.forEach(photoPath => {
-        const img = document.createElement('img');
-        img.src = photoPath;
-        img.alt = locationName;
-        img.loading = 'lazy'; // Lazy load images
-        photoGallery.appendChild(img);
-    });
+    if (isUpdate) {
+        // Just update the existing image smoothly
+        const newImg = new Image();
+        newImg.onload = function() {
+            existingImg.src = photos[0];
+            existingImg.alt = locationName;
+            locationNameEl.textContent = locationName;
+        };
+        newImg.src = photos[0];
+    } else {
+        // Set location name
+        locationNameEl.textContent = locationName;
+
+        // Clear previous photos
+        photoGallery.innerHTML = '';
+
+        // Add photos to gallery
+        photos.forEach(photoPath => {
+            const img = document.createElement('img');
+            img.src = photoPath;
+            img.alt = locationName;
+            img.loading = 'eager'; // Load immediately for navigation
+            photoGallery.appendChild(img);
+        });
+    }
 
     // Show photo viewer
     photoViewer.classList.remove('hidden');
@@ -321,6 +356,22 @@ window.viewPhotos = function(locationName, photos) {
     // Prevent body scroll when modal is open
     document.body.style.overflow = 'hidden';
 };
+
+// Navigate to next photo
+function nextPhoto() {
+    if (allPhotos.length === 0) return;
+    currentPhotoIndex = (currentPhotoIndex + 1) % allPhotos.length;
+    const photo = allPhotos[currentPhotoIndex];
+    viewPhotos(photo.location, [photo.src]);
+}
+
+// Navigate to previous photo
+function prevPhoto() {
+    if (allPhotos.length === 0) return;
+    currentPhotoIndex = (currentPhotoIndex - 1 + allPhotos.length) % allPhotos.length;
+    const photo = allPhotos[currentPhotoIndex];
+    viewPhotos(photo.location, [photo.src]);
+}
 
 // Close photo viewer
 const closePhotoViewer = document.getElementById('closePhotoViewer');
@@ -342,6 +393,30 @@ if (photoViewer) {
         }
     });
 }
+
+// Keyboard navigation for photo viewer
+document.addEventListener('keydown', function(e) {
+    const photoViewer = document.getElementById('photoViewer');
+    if (!photoViewer || photoViewer.classList.contains('hidden')) return;
+
+    switch(e.key) {
+        case 'ArrowLeft':
+        case 'h':
+            e.preventDefault();
+            prevPhoto();
+            break;
+        case 'ArrowRight':
+        case 'l':
+            e.preventDefault();
+            nextPhoto();
+            break;
+        case 'Escape':
+            e.preventDefault();
+            photoViewer.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            break;
+    }
+});
 
 // View switcher functionality
 function initViewSwitcher() {
