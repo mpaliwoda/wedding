@@ -1049,32 +1049,63 @@ h3 {
    PARTY MODE STYLES
    ============================================ */
 
-/* Party Mode Toggle Button - HIDDEN IN PLAIN SIGHT */
-.party-mode-toggle {
+/* Party Mode Container */
+.party-mode-container {
   position: fixed;
   bottom: 30px;
   right: 30px;
   z-index: 10001;
-  background: transparent;
-  /* color: transparent; */
-  border: none;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Party Mode Arrow */
+.party-mode-arrow {
+  font-size: 2.5rem;
+  color: #ffd700;
+  text-shadow:
+    0 0 20px rgba(255, 215, 0, 1),
+    0 0 30px rgba(255, 215, 0, 0.8),
+    0 0 40px rgba(255, 215, 0, 0.6),
+    2px 2px 0 rgba(0, 0, 0, 0.3);
+  animation: arrowBounce 1s ease-in-out infinite;
+  font-weight: bold;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+}
+
+@keyframes arrowBounce {
+  0%, 100% {
+    transform: translateX(0) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(-15px) scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* Party Mode Toggle Button - GENTLE HIGHLIGHT */
+.party-mode-toggle {
+  background: rgba(255, 215, 0, 0.1);
+  border: 2px solid rgba(255, 215, 0, 0.3);
   padding: 0;
   font-size: 24px;
   cursor: pointer;
-  box-shadow: none;
-  text-shadow: none;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.2);
   transition: all 0.3s;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(5px);
 }
 
 .party-mode-toggle::before {
   content: "✨";
-  opacity: 0.7;
+  opacity: 0.9;
   font-size: 28px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   filter: none;
@@ -1084,10 +1115,10 @@ h3 {
 
 @keyframes sparkleGlow {
   0%, 100% {
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.4);
   }
   50% {
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 30px rgba(255, 215, 0, 0.6);
   }
 }
 
@@ -1101,6 +1132,10 @@ h3 {
   opacity: 1;
   transform: scale(1.5) rotate(30deg);
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.party-mode .party-mode-arrow {
+  display: none;
 }
 
 body.party-mode .party-mode-toggle {

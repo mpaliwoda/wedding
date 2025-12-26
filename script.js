@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const elementsWithLang = document.querySelectorAll("[data-en], [data-pl]");
     const htmlElement = document.documentElement;
 
-    // Get saved language or default to English
-    let currentLang = localStorage.getItem("preferredLanguage") || "en";
+    // Get saved language or default to Polish
+    let currentLang = localStorage.getItem("preferredLanguage") || "pl";
 
     // Function to switch language
     function switchLanguage(lang) {

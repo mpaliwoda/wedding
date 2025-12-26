@@ -63,9 +63,11 @@
   </head>
   <body>
     <!-- Party Mode Toggle -->
-    <button class="party-mode-toggle" id="partyModeToggle">
-      <!-- <span data-en="🎉 PARTY MODE" data-pl="🎉 TRYB IMPREZOWY">🎉 TRYB IMPREZOWY</span> -->
-    </button>
+    <div class="party-mode-container">
+      <button class="party-mode-toggle" id="partyModeToggle" title="Tryb Imprezowy / Party Mode">
+      </button>
+      <div class="party-mode-arrow">←</div>
+    </div>
 
     <!-- Party Mode Effects -->
     <canvas id="cursorTrail"></canvas>
@@ -74,8 +76,8 @@
 
     <!-- Language Switcher -->
     <div class="language-switcher">
-      <button class="lang-btn active" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="pl">PL</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn active" data-lang="pl">PL</button>
     </div>
 
     <!-- Hero Section -->
