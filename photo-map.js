@@ -82,7 +82,10 @@ const photoLocations = [
         country: "Polska",
         lat: 50.0510416666667,
         lng: 20.1687416666667,
-        photos: ["assets/photos/krakówpolska.jpeg"]
+        photos: [
+            "assets/photos/krakówpolska.jpeg",
+            "assets/photos/krakówpolska_1.jpeg"
+        ]
     },
     {
         name: "Vancouver",
@@ -125,6 +128,79 @@ const photoLocations = [
         lat: 48.7389944444444,
         lng: -121.840377777778,
         photos: ["assets/photos/whatcomcountyunitedstates.jpeg"]
+    },
+    {
+        name: "Clallam County",
+        country: "United States",
+        lat: 48.2506944444444,
+        lng: -124.691338888889,
+        photos: ["assets/photos/clallamcountyunitedstates.jpeg"]
+    },
+    {
+        name: "San Francisco Mazapa",
+        country: "México",
+        lat: 19.6930611111111,
+        lng: -98.84555,
+        photos: ["assets/photos/sanfranciscomazapaméxico.jpeg"]
+    },
+    {
+        name: "Sevilla",
+        country: "España",
+        lat: 37.377625,
+        lng: -5.98800833333333,
+        photos: ["assets/photos/sevillaespaña.jpeg"]
+    },
+    {
+        name: "Kościelisko",
+        country: "Polska",
+        lat: 49.2435111111111,
+        lng: 19.8641305555556,
+        photos: ["assets/photos/kościeliskopolska.jpeg"]
+    },
+    {
+        name: "Málaga",
+        country: "España",
+        lat: 36.7211222222222,
+        lng: -4.41571666666667,
+        photos: [
+            "assets/photos/málagaespaña.jpeg",
+            "assets/photos/málagaespaña_1.jpeg"
+        ]
+    },
+    {
+        name: "Zalipie",
+        country: "Polska",
+        lat: 50.2371555555556,
+        lng: 20.8603305555556,
+        photos: ["assets/photos/zalipiepolska.jpeg"]
+    },
+    {
+        name: "Starachowice",
+        country: "Polska",
+        lat: 51.0357083333333,
+        lng: 21.0801444444444,
+        photos: ["assets/photos/starachowicepolska.jpeg"]
+    },
+    {
+        name: "Area C Sasquatch Country",
+        country: "Canada",
+        lat: 49.5210388888889,
+        lng: -121.767425,
+        photos: ["assets/photos/areacsasquatchcountrycanada.jpeg"]
+    },
+    {
+        name: "Snohomish County",
+        country: "United States",
+        lat: 48.2677777777778,
+        lng: -121.665475,
+        photos: ["assets/photos/snohomishcountyunitedstates.jpeg"]
+    },
+    {
+        name: "Rabka-Zdrój",
+        country: "Polska",
+        lat: 49.6150138888889,
+        lng: 19.9720833333333,
+        photos: ["assets/photos/rabkazdrójpolska.jpeg"]
     }
 ];
 
