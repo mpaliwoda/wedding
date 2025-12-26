@@ -424,4 +424,88 @@ function initPartyModeEffects() {
     }
 
     setInterval(createRandomSparkle, 1000);
+
+    // EXTRA PHOTO MADNESS IN PARTY MODE
+    function initPhotoMadness() {
+        if (!document.body.classList.contains('party-mode')) return;
+
+        // Photo click explosion
+        document.addEventListener('click', (e) => {
+            if (!document.body.classList.contains('party-mode')) return;
+
+            const target = e.target;
+            if (target.tagName === 'IMG' && target.closest('.masonry-item, .photo-gallery')) {
+                createPhotoExplosion(e.clientX, e.clientY);
+            }
+        });
+
+        // Floating photo emojis (less frequent)
+        setInterval(() => {
+            if (!document.body.classList.contains('party-mode')) return;
+
+            const photoEmojis = ['📸', '🎨', '🌈', '💫'];
+            const emoji = document.createElement('div');
+            emoji.className = 'sparkle';
+            emoji.textContent = photoEmojis[Math.floor(Math.random() * photoEmojis.length)];
+            emoji.style.left = Math.random() * 100 + '%';
+            emoji.style.top = Math.random() * 100 + '%';
+            emoji.style.fontSize = (Math.random() * 15 + 25) + 'px';
+            sparklesContainer.appendChild(emoji);
+
+            setTimeout(() => emoji.remove(), 2000);
+        }, 3000);
+    }
+
+    function createPhotoExplosion(x, y) {
+        const explosionEmojis = ['✨', '🌟', '💫', '💖', '🎉'];
+
+        for (let i = 0; i < 12; i++) {
+            setTimeout(() => {
+                const emoji = document.createElement('div');
+                emoji.className = 'sparkle';
+                emoji.textContent = explosionEmojis[Math.floor(Math.random() * explosionEmojis.length)];
+
+                const angle = (Math.PI * 2 * i) / 12;
+                const distance = Math.random() * 100 + 40;
+                const offsetX = Math.cos(angle) * distance;
+                const offsetY = Math.sin(angle) * distance;
+
+                emoji.style.left = (x + offsetX) + 'px';
+                emoji.style.top = (y + offsetY) + 'px';
+                emoji.style.fontSize = (Math.random() * 12 + 20) + 'px';
+                sparklesContainer.appendChild(emoji);
+
+                setTimeout(() => emoji.remove(), 1500);
+            }, i * 50);
+        }
+    }
+
+    // Initialize photo madness
+    initPhotoMadness();
+
+    // Re-initialize when party mode toggles
+    const partyToggle = document.getElementById('partyModeToggle');
+    if (partyToggle) {
+        partyToggle.addEventListener('click', () => {
+            setTimeout(initPhotoMadness, 100);
+        });
+    }
 }
+
+// Add CSS animation for photo explosion shake
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes photoExplosionShake {
+        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+        10% { transform: translate(-10px, -10px) rotate(-5deg); }
+        20% { transform: translate(10px, 10px) rotate(5deg); }
+        30% { transform: translate(-10px, 10px) rotate(-5deg); }
+        40% { transform: translate(10px, -10px) rotate(5deg); }
+        50% { transform: translate(-5px, -5px) rotate(-2deg); }
+        60% { transform: translate(5px, 5px) rotate(2deg); }
+        70% { transform: translate(-5px, 5px) rotate(-2deg); }
+        80% { transform: translate(5px, -5px) rotate(2deg); }
+        90% { transform: translate(-2px, -2px) rotate(-1deg); }
+    }
+`;
+document.head.appendChild(style);

@@ -1764,6 +1764,276 @@ body.party-mode #sparkles {
   }
 }
 
+/* ============================================
+   PARTY MODE - WONKY PHOTO ANIMATIONS 🎨📸
+   ============================================ */
+
+/* Gallery Photos - FUN BUT SAFE */
+body.party-mode .masonry-item {
+  animation: photoWiggle 4s infinite ease-in-out;
+  border: 6px solid #000;
+  box-shadow: 8px 8px 0 #000;
+}
+
+body.party-mode .masonry-item:nth-child(3n+1) {
+  animation: photoSpinLeft 6s infinite ease-in-out;
+}
+
+body.party-mode .masonry-item:nth-child(3n+2) {
+  animation: photoSpinRight 7s infinite ease-in-out;
+}
+
+body.party-mode .masonry-item:nth-child(3n) {
+  animation: photoJump 5s infinite ease-in-out;
+}
+
+@keyframes photoWiggle {
+  0%, 100% { transform: rotate(-2deg) scale(1); }
+  25% { transform: rotate(2deg) scale(1.02); }
+  50% { transform: rotate(-1deg) scale(0.98); }
+  75% { transform: rotate(3deg) scale(1.01); }
+}
+
+@keyframes photoSpinLeft {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25% { transform: rotate(-5deg) translateY(-5px); }
+  50% { transform: rotate(0deg) translateY(0); }
+  75% { transform: rotate(-3deg) translateY(-3px); }
+}
+
+@keyframes photoSpinRight {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25% { transform: rotate(5deg) translateY(-5px); }
+  50% { transform: rotate(0deg) translateY(0); }
+  75% { transform: rotate(3deg) translateY(-3px); }
+}
+
+@keyframes photoJump {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-20px) rotate(1deg); }
+}
+
+/* Photo Hover Effects - FUN */
+body.party-mode .masonry-item:hover {
+  transform: rotate(8deg) scale(1.15);
+  box-shadow: 15px 15px 0 var(--hot-pink);
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+body.party-mode .masonry-item img {
+  animation: imgWobble 3s infinite;
+  filter: saturate(1.3) contrast(1.1);
+}
+
+@keyframes imgWobble {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.02) rotate(-1deg); }
+}
+
+body.party-mode .masonry-item:hover img {
+  filter: saturate(1.5) contrast(1.2) brightness(1.1);
+  transition: all 0.3s ease;
+}
+
+/* Photo Overlay - COLORFUL */
+body.party-mode .masonry-item-overlay {
+  background: linear-gradient(45deg,
+    rgba(255, 20, 147, 0.9),
+    rgba(0, 255, 255, 0.9),
+    rgba(255, 255, 0, 0.9));
+  background-size: 200% 200%;
+  animation: gradientShift 8s infinite;
+  border: 4px solid #000;
+  transform: translateY(0);
+}
+
+body.party-mode .masonry-item-location {
+  font-family: "Bangers", cursive !important;
+  font-size: 1.5rem;
+  text-shadow: 3px 3px 0 #000;
+}
+
+body.party-mode .masonry-item-country {
+  font-family: "Bangers", cursive !important;
+  text-shadow: 2px 2px 0 #000;
+}
+
+/* Photo Viewer Modal - FUN */
+body.party-mode .photo-viewer {
+  background: linear-gradient(45deg,
+    rgba(255, 0, 255, 0.95),
+    rgba(0, 255, 255, 0.95),
+    rgba(255, 255, 0, 0.95));
+  background-size: 400% 400%;
+  animation: gradientShift 10s infinite;
+  border: 15px solid #000;
+}
+
+body.party-mode .photo-viewer-close {
+  background: var(--hot-pink);
+  border: 5px solid #000;
+  box-shadow: 5px 5px 0 #000;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: pulse 2s infinite;
+  color: white;
+  font-weight: 900;
+  text-shadow: 3px 3px 0 #000;
+}
+
+body.party-mode .photo-viewer-close:hover {
+  background: var(--lime-green);
+  transform: scale(1.1);
+}
+
+body.party-mode .photo-viewer-content h3 {
+  font-family: "Bangers", cursive !important;
+  background: var(--hot-pink);
+  padding: 20px;
+  border: 8px solid #000;
+  box-shadow: 10px 10px 0 #000;
+}
+
+body.party-mode .photo-gallery img {
+  border: 8px solid #000;
+  box-shadow: 12px 12px 0 #000;
+  animation: galleryPhotoFloat 4s infinite ease-in-out;
+}
+
+body.party-mode .photo-gallery img:nth-child(2n) {
+  animation: galleryPhotoSpin 5s infinite ease-in-out;
+}
+
+body.party-mode .photo-gallery img:nth-child(3n) {
+  animation: galleryPhotoFloat 6s infinite ease-in-out;
+}
+
+@keyframes galleryPhotoFloat {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+@keyframes galleryPhotoSpin {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(3deg); }
+}
+
+body.party-mode .photo-gallery img:hover {
+  transform: scale(1.1) rotate(3deg);
+  box-shadow: 20px 20px 0 var(--lime-green);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+/* Map Popup Photos - FUN */
+body.party-mode .popup-photos img {
+  border: 4px solid #000;
+  box-shadow: 6px 6px 0 #000;
+  transition: all 0.3s ease;
+}
+
+body.party-mode .popup-photos img:hover {
+  transform: scale(1.1) rotate(3deg);
+  box-shadow: 10px 10px 0 var(--hot-pink);
+}
+
+body.party-mode .popup-location {
+  font-family: "Bangers", cursive !important;
+  background: var(--bright-yellow);
+  border: 4px solid #000;
+  box-shadow: 4px 4px 0 #000;
+  padding: 5px 10px;
+}
+
+/* View Switcher Buttons - EXTRA PARTY */
+body.party-mode .view-btn {
+  font-family: "Bangers", cursive !important;
+  background: var(--hot-pink) !important;
+  color: white !important;
+  border: 6px solid #000 !important;
+  box-shadow: 8px 8px 0 #000;
+  border-radius: 0;
+  font-size: 1.5rem;
+  animation: btnFloat 2s infinite;
+}
+
+body.party-mode .view-btn * {
+  color: inherit !important;
+}
+
+@keyframes btnFloat {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+body.party-mode .view-btn.active {
+  background: var(--lime-green);
+  color: #000 !important;
+  animation: btnActive 0.5s infinite;
+  box-shadow: 12px 12px 0 #000;
+}
+
+@keyframes btnActive {
+  0%, 100% { transform: scale(1) rotate(-2deg); }
+  50% { transform: scale(1.1) rotate(2deg); }
+}
+
+body.party-mode .view-btn:hover {
+  background: var(--orange);
+  color: white !important;
+  transform: translate(4px, 4px) rotate(5deg);
+  box-shadow: 4px 4px 0 #000;
+  animation: btnHover 0.2s infinite;
+}
+
+@keyframes btnHover {
+  0%, 100% { transform: translate(4px, 4px) rotate(5deg) scale(1); }
+  50% { transform: translate(4px, 4px) rotate(-5deg) scale(1.05); }
+}
+
+body.party-mode .view-icon {
+  animation: iconSpin 2s infinite;
+  display: inline-block;
+}
+
+body.party-mode .view-btn span {
+  color: inherit;
+}
+
+/* Map - PARTY MAP */
+body.party-mode #photoMap {
+  border: 10px solid #000;
+  box-shadow: 15px 15px 0 #000;
+  animation: mapPulse 3s infinite;
+}
+
+@keyframes mapPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* Leaflet Markers - BOUNCY */
+body.party-mode .leaflet-marker-icon {
+  animation: markerBounce 1s infinite;
+}
+
+@keyframes markerBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+body.party-mode .cluster-icon {
+  animation: clusterSpin 3s infinite, pulse 1s infinite;
+  font-family: "Bangers", cursive !important;
+}
+
+@keyframes clusterSpin {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+}
+
 /* Mobile adjustments for party mode */
 @media (max-width: 768px) {
   .party-mode-toggle {
