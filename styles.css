@@ -1041,3 +1041,745 @@ h3 {
     padding: 10px 14px;
   }
 }
+
+/* ============================================
+   PARTY MODE STYLES
+   ============================================ */
+
+/* Party Mode Toggle Button - HIDDEN IN PLAIN SIGHT */
+.party-mode-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 10001;
+  background: transparent;
+  /* color: transparent; */
+  border: none;
+  padding: 0;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: none;
+  text-shadow: none;
+  transition: all 0.3s;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.party-mode-toggle::before {
+  content: "✨";
+  opacity: 0.7;
+  font-size: 28px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: none;
+  animation: sparkleGlow 3s ease-in-out infinite;
+  will-change: transform, opacity, text-shadow;
+}
+
+@keyframes sparkleGlow {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+  }
+}
+
+.party-mode-toggle:hover::before {
+  opacity: 1;
+  transform: scale(1.3) rotate(15deg);
+  text-shadow: 0 0 25px rgba(255, 215, 0, 1), 0 0 35px rgba(255, 215, 0, 0.5);
+}
+
+.party-mode-toggle:active::before {
+  opacity: 1;
+  transform: scale(1.5) rotate(30deg);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.party-mode .party-mode-toggle {
+  background: linear-gradient(135deg, #ff1493, #ff6600);
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0 #000;
+  animation: partyButtonPulse 0.5s infinite, rotate360 3s linear infinite;
+  width: 60px;
+  height: 60px;
+}
+
+body.party-mode .party-mode-toggle::before {
+  content: "🎉";
+  opacity: 1;
+  font-size: 32px;
+  filter: none;
+}
+
+body.party-mode .party-mode-toggle:hover {
+  transform: translate(2px, 2px) scale(1.05);
+  box-shadow: 2px 2px 0 #000;
+}
+
+body.party-mode .party-mode-toggle:hover::before {
+  transform: scale(1.2);
+}
+
+body.party-mode .party-mode-toggle:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 #000;
+}
+
+@keyframes partyButtonPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes rotate360 {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Party Mode Color Variables */
+body.party-mode {
+  --hot-pink: #ff1493;
+  --electric-blue: #00ffff;
+  --lime-green: #39ff14;
+  --bright-yellow: #ffff00;
+  --orange: #ff6600;
+  --purple: #9d00ff;
+  --red: #ff0000;
+}
+
+/* Party Mode Body Styles */
+body.party-mode {
+  background: linear-gradient(45deg, #ff0080 0%, #ff8c00 25%, #40e0d0 50%, #ff0080 75%, #ff8c00 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite !important;
+  font-family: "Comic Neue", "Roboto", sans-serif !important;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Party Mode Language Switcher */
+body.party-mode .language-switcher {
+  animation: bounce 1s infinite;
+  background: rgba(255, 255, 0, 0.9);
+  border: 4px solid #000;
+  box-shadow: 5px 5px 0 #000;
+}
+
+body.party-mode .lang-btn {
+  border: 4px solid #000;
+  background: var(--bright-yellow);
+  color: #000;
+  border-radius: 0;
+  font-weight: 900;
+  font-size: 18px;
+  font-family: "Bangers", cursive;
+  box-shadow: 5px 5px 0 #000;
+}
+
+body.party-mode .lang-btn::before {
+  display: none;
+}
+
+body.party-mode .lang-btn:hover {
+  background: var(--lime-green);
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #000;
+}
+
+body.party-mode .lang-btn.active {
+  background: var(--hot-pink);
+  color: white;
+  animation: pulse 0.5s infinite;
+}
+
+/* Party Mode Hero */
+body.party-mode .hero {
+  background: linear-gradient(135deg, #ff00ff 0%, #00ffff 25%, #ffff00 50%, #ff00ff 75%, #00ffff 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 10s ease infinite;
+  border: 10px solid #000;
+  box-shadow: inset 0 0 100px rgba(0,0,0,0.3);
+}
+
+body.party-mode .hero::before {
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,.2) 10px, rgba(255,255,255,.2) 20px);
+  animation: stripeMove 20s linear infinite;
+}
+
+@keyframes stripeMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100px); }
+}
+
+body.party-mode .hero-content {
+  background: rgba(255,255,255,0.9);
+  border: 8px dashed #000;
+  box-shadow: 0 0 50px rgba(0,0,0,0.8);
+  border-radius: 20px;
+  animation: contentBounce 2s infinite;
+}
+
+@keyframes contentBounce {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.02) rotate(-1deg); }
+  75% { transform: scale(0.98) rotate(1deg); }
+}
+
+body.party-mode .hero-florals {
+  opacity: 0.4;
+  filter: saturate(3) hue-rotate(45deg);
+}
+
+body.party-mode .hero-floral {
+  animation: floralSpin 5s infinite;
+}
+
+@keyframes floralSpin {
+  0%, 100% { transform: translateY(-50%) rotate(0deg); }
+  50% { transform: translateY(-50%) rotate(360deg); }
+}
+
+body.party-mode .names {
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-family: "Bangers", cursive !important;
+  font-weight: 900 !important;
+  letter-spacing: 3px;
+  background: linear-gradient(45deg, var(--hot-pink), var(--orange), var(--lime-green), var(--electric-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: textWave 2s infinite, textGlow 1s infinite;
+  filter: drop-shadow(5px 5px 0 #000);
+  text-shadow: none;
+}
+
+@keyframes textWave {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes textGlow {
+  0%, 100% { filter: drop-shadow(5px 5px 0 #000) brightness(1); }
+  50% { filter: drop-shadow(5px 5px 10px var(--hot-pink)) brightness(1.3); }
+}
+
+body.party-mode .tagline {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: #000;
+  font-weight: 700;
+  background: var(--bright-yellow);
+  padding: 15px 30px;
+  border: 4px solid #000;
+  box-shadow: 5px 5px 0 #000;
+  transform: rotate(-2deg);
+  font-family: "Bangers", cursive !important;
+}
+
+body.party-mode .wedding-date {
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: #000;
+  font-family: "Bangers", cursive !important;
+  font-weight: 900 !important;
+  background: var(--lime-green);
+  padding: 20px 40px;
+  border: 6px solid #000;
+  box-shadow: 8px 8px 0 #000;
+  transform: rotate(1deg);
+  animation: wobble 2s infinite;
+  text-shadow: none;
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(1deg); }
+  25% { transform: rotate(-2deg); }
+  75% { transform: rotate(3deg); }
+}
+
+/* Party Mode Countdown */
+body.party-mode .countdown-item {
+  background: var(--hot-pink);
+  border: 5px solid #000;
+  box-shadow: 8px 8px 0 #000;
+  transform: rotate(-3deg);
+  animation: countdownPulse 1s infinite;
+}
+
+body.party-mode .countdown-item:nth-child(2) {
+  background: var(--orange);
+  transform: rotate(2deg);
+}
+
+body.party-mode .countdown-item:nth-child(3) {
+  background: var(--electric-blue);
+  transform: rotate(-1deg);
+}
+
+body.party-mode .countdown-item:nth-child(4) {
+  background: var(--lime-green);
+  transform: rotate(3deg);
+}
+
+@keyframes countdownPulse {
+  0%, 100% { transform: scale(1) rotate(var(--rotation, 0deg)); }
+  50% { transform: scale(1.1) rotate(calc(var(--rotation, 0deg) + 5deg)); }
+}
+
+body.party-mode .countdown-number {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-family: "Bangers", cursive !important;
+  font-weight: 900 !important;
+  color: white;
+  text-shadow: 4px 4px 0 #000;
+}
+
+body.party-mode .countdown-label {
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  color: white;
+  font-weight: 900;
+  text-shadow: 2px 2px 0 #000;
+  text-transform: uppercase;
+}
+
+/* Party Mode Scroll Indicator */
+body.party-mode .scroll-indicator {
+  font-size: 3rem;
+  animation: bounce 1s infinite, colorCycle 2s infinite;
+  filter: drop-shadow(3px 3px 0 #000);
+}
+
+@keyframes colorCycle {
+  0% { color: var(--red); }
+  25% { color: var(--hot-pink); }
+  50% { color: var(--orange); }
+  75% { color: var(--lime-green); }
+  100% { color: var(--red); }
+}
+
+/* Party Mode Sections */
+body.party-mode .section {
+  border: 8px solid #000;
+  border-left: none;
+  border-right: none;
+}
+
+body.party-mode .section:nth-child(even) {
+  background: linear-gradient(135deg, #ffeb3b 0%, #ff9800 50%, #ffeb3b 100%);
+}
+
+body.party-mode .section:nth-child(odd) {
+  background: linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #00ffff 100%);
+}
+
+body.party-mode .section::before {
+  display: none;
+}
+
+body.party-mode .section h2 {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  color: white;
+  font-family: "Bangers", cursive !important;
+  font-weight: 900 !important;
+  text-shadow: 5px 5px 0 #000;
+  background: var(--hot-pink);
+  padding: 20px;
+  border: 8px solid #000;
+  box-shadow: 10px 10px 0 #000;
+  transform: rotate(-1deg);
+  animation: sectionTitleBounce 3s infinite;
+}
+
+body.party-mode .section h2::after {
+  display: none;
+}
+
+@keyframes sectionTitleBounce {
+  0%, 100% { transform: rotate(-1deg) scale(1); }
+  50% { transform: rotate(1deg) scale(1.05); }
+}
+
+/* Party Mode Detail Cards */
+body.party-mode .detail-card {
+  background: linear-gradient(45deg, #fff 0%, #ffd700 100%);
+  border: 8px solid #000;
+  box-shadow: 12px 12px 0 #000;
+  transform: rotate(-1deg);
+}
+
+body.party-mode .detail-card::before {
+  display: none;
+}
+
+body.party-mode .detail-card:hover {
+  transform: rotate(2deg) scale(1.05);
+  box-shadow: 15px 15px 0 var(--hot-pink);
+}
+
+body.party-mode .detail-card .icon {
+  animation: iconSpin 3s infinite;
+}
+
+@keyframes iconSpin {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(360deg) scale(1.2); }
+}
+
+body.party-mode .detail-card h3 {
+  font-family: "Bangers", cursive !important;
+  font-size: 2rem;
+  background: var(--bright-yellow);
+  padding: 10px;
+  border: 4px solid #000;
+}
+
+/* Party Mode Info Cards */
+body.party-mode .info-card {
+  border: 7px solid #000;
+  box-shadow: 10px 10px 0 #000;
+  transform: rotate(1deg);
+}
+
+body.party-mode .info-card:nth-child(2) {
+  transform: rotate(-2deg);
+  background: linear-gradient(135deg, #fff 0%, #ffc0cb 100%);
+}
+
+body.party-mode .info-card:nth-child(3) {
+  transform: rotate(2deg);
+  background: linear-gradient(135deg, #fff 0%, #98fb98 100%);
+}
+
+body.party-mode .info-card:nth-child(4) {
+  transform: rotate(-1deg);
+  background: linear-gradient(135deg, #fff 0%, #87ceeb 100%);
+}
+
+body.party-mode .info-card:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow: 14px 14px 0 var(--hot-pink);
+}
+
+body.party-mode .info-icon {
+  animation: iconBounce 1s infinite;
+}
+
+@keyframes iconBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3) rotate(10deg); }
+}
+
+body.party-mode .info-card h3 {
+  font-family: "Bangers", cursive !important;
+  background: var(--electric-blue);
+  padding: 10px;
+  border: 4px solid #000;
+  box-shadow: 4px 4px 0 #000;
+}
+
+/* Party Mode RSVP */
+body.party-mode .contact-link {
+  font-family: "Bangers", cursive !important;
+  background: var(--lime-green);
+  color: #000;
+  border: 6px solid #000;
+  box-shadow: 8px 8px 0 #000;
+  animation: contactFloat 2s infinite;
+}
+
+body.party-mode .contact-link::before {
+  display: none;
+}
+
+@keyframes contactFloat {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+body.party-mode .contact-link:hover {
+  background: var(--hot-pink);
+  color: white;
+  transform: translate(4px, 4px);
+  box-shadow: 4px 4px 0 #000;
+}
+
+/* Party Mode Footer */
+body.party-mode .footer {
+  background: linear-gradient(45deg, var(--purple), var(--hot-pink), var(--orange));
+  background-size: 200% 200%;
+  animation: gradientShift 5s ease infinite;
+  border-top: 10px solid #000;
+}
+
+body.party-mode .footer::before {
+  display: none;
+}
+
+body.party-mode .footer-text {
+  font-size: 2rem;
+  font-family: "Bangers", cursive !important;
+  font-weight: 900;
+  text-shadow: 4px 4px 0 #000;
+  animation: textWiggle 2s infinite;
+}
+
+@keyframes textWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-2deg); }
+  75% { transform: rotate(2deg); }
+}
+
+body.party-mode .hearts {
+  font-size: 3rem;
+  animation: heartsPulse 1s infinite;
+}
+
+@keyframes heartsPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+}
+
+/* Party Mode - EXTRA CHAOS */
+body.party-mode .section h2::before {
+  content: "⚡ ";
+  animation: blink 0.5s infinite;
+}
+
+body.party-mode .section h2::after {
+  content: " ⚡";
+  display: inline;
+  animation: blink 0.7s infinite;
+  background: none;
+  line-height: normal;
+  padding: 0;
+  margin: 0;
+  width: auto;
+  max-width: none;
+}
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+
+body.party-mode h1,
+body.party-mode h2,
+body.party-mode h3 {
+  letter-spacing: 5px;
+}
+
+body.party-mode .detail-card,
+body.party-mode .info-card {
+  animation: cardWobble 3s infinite;
+}
+
+@keyframes cardWobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-2deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(2deg); }
+}
+
+body.party-mode .map-link,
+body.party-mode .calendar-btn {
+  font-family: "Bangers", cursive !important;
+  background: var(--orange);
+  border: 4px solid #000;
+  box-shadow: 6px 6px 0 #000;
+  text-shadow: 2px 2px 0 #000;
+  color: white;
+  animation: buttonPulse 1s infinite;
+}
+
+@keyframes buttonPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+body.party-mode .map-link:hover,
+body.party-mode .calendar-btn:hover {
+  background: var(--bright-yellow);
+  color: #000;
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0 #000;
+}
+
+body.party-mode .time-tbd {
+  background: var(--bright-yellow);
+  color: #000;
+  border: 4px solid #000;
+  font-style: normal;
+  font-weight: 900;
+  box-shadow: 5px 5px 0 #000;
+  animation: pulse 1s infinite, shake 2s infinite;
+}
+
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+
+body.party-mode .detail-time {
+  font-family: "Bangers", cursive !important;
+  color: var(--red);
+  font-weight: 900;
+  font-size: 1.8rem;
+  background: var(--bright-yellow);
+  padding: 10px 20px;
+  border: 4px solid #000;
+  box-shadow: 5px 5px 0 #000;
+  animation: pulse 1.5s infinite;
+}
+
+body.party-mode .address {
+  font-weight: 700;
+  color: #000;
+  font-size: 1.1rem;
+}
+
+body.party-mode .rsvp-text {
+  font-family: "Bangers", cursive !important;
+  font-size: 1.5rem;
+  background: var(--bright-yellow);
+  padding: 20px;
+  border: 5px solid #000;
+  box-shadow: 8px 8px 0 #000;
+  transform: rotate(-1deg);
+}
+
+body.party-mode ::selection {
+  background: var(--lime-green);
+  color: #000;
+}
+
+/* Add rotating animation to icons */
+body.party-mode .calendar-icon,
+body.party-mode .map-icon {
+  display: inline-block;
+  animation: iconRotate 2s linear infinite;
+}
+
+@keyframes iconRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Party mode - make everything MORE */
+body.party-mode * {
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+}
+
+/* Party Mode Visual Effects */
+#cursorTrail,
+#confetti,
+#sparkles {
+  display: none;
+  pointer-events: none;
+}
+
+body.party-mode #cursorTrail,
+body.party-mode #confetti,
+body.party-mode #sparkles {
+  display: block;
+}
+
+#cursorTrail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+
+#confetti {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9998;
+  overflow: hidden;
+}
+
+#sparkles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9997;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--hot-pink);
+  top: -10px;
+  opacity: 0;
+  animation: confettiFall 3s linear forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.sparkle {
+  position: absolute;
+  font-size: 20px;
+  animation: sparkleFloat 2s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes sparkleFloat {
+  0% {
+    transform: translateY(0) scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-30px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-60px) scale(0);
+    opacity: 0;
+  }
+}
+
+/* Mobile adjustments for party mode */
+@media (max-width: 768px) {
+  .party-mode-toggle {
+    bottom: 20px;
+    right: 20px;
+    width: 35px;
+    height: 35px;
+  }
+
+  .party-mode-toggle::before {
+    font-size: 20px;
+  }
+
+  body.party-mode .party-mode-toggle {
+    width: 50px;
+    height: 50px;
+  }
+
+  body.party-mode .party-mode-toggle::before {
+    font-size: 28px;
+  }
+}

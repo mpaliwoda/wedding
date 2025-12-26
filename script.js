@@ -1,5 +1,24 @@
 // Language switching functionality
 document.addEventListener("DOMContentLoaded", function() {
+    // Party Mode Toggle
+    const partyModeToggle = document.getElementById('partyModeToggle');
+    const body = document.body;
+
+    // Check if party mode was previously enabled
+    const isPartyMode = localStorage.getItem('partyMode') === 'true';
+    if (isPartyMode) {
+        body.classList.add('party-mode');
+    }
+
+    // Toggle party mode on button click
+    if (partyModeToggle) {
+        partyModeToggle.addEventListener('click', function() {
+            body.classList.toggle('party-mode');
+            const isNowPartyMode = body.classList.contains('party-mode');
+            localStorage.setItem('partyMode', isNowPartyMode);
+        });
+    }
+
     const langButtons = document.querySelectorAll(".lang-btn");
     const elementsWithLang = document.querySelectorAll("[data-en], [data-pl]");
     const htmlElement = document.documentElement;
@@ -242,4 +261,126 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
     }
+
+    // Party Mode Visual Effects
+    initPartyModeEffects();
 });
+
+function initPartyModeEffects() {
+    const cursorCanvas = document.getElementById('cursorTrail');
+    const confettiContainer = document.getElementById('confetti');
+    const sparklesContainer = document.getElementById('sparkles');
+
+    if (!cursorCanvas || !confettiContainer || !sparklesContainer) return;
+
+    const ctx = cursorCanvas.getContext('2d');
+    const trails = [];
+    const colors = ['#ff1493', '#00ffff', '#39ff14', '#ffff00', '#ff6600', '#9d00ff'];
+
+    // Resize canvas
+    function resizeCanvas() {
+        cursorCanvas.width = window.innerWidth;
+        cursorCanvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Cursor Trail
+    document.addEventListener('mousemove', (e) => {
+        if (!document.body.classList.contains('party-mode')) return;
+
+        trails.push({
+            x: e.clientX,
+            y: e.clientY,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            size: Math.random() * 15 + 10,
+            life: 1
+        });
+    });
+
+    function animateTrails() {
+        if (!document.body.classList.contains('party-mode')) {
+            ctx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+            requestAnimationFrame(animateTrails);
+            return;
+        }
+
+        // Clear canvas completely each frame
+        ctx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+
+        for (let i = trails.length - 1; i >= 0; i--) {
+            const trail = trails[i];
+            ctx.globalAlpha = trail.life;
+            ctx.fillStyle = trail.color;
+            ctx.beginPath();
+            ctx.arc(trail.x, trail.y, trail.size, 0, Math.PI * 2);
+            ctx.fill();
+
+            trail.life -= 0.03;
+            trail.size *= 0.95;
+
+            if (trail.life <= 0) {
+                trails.splice(i, 1);
+            }
+        }
+
+        requestAnimationFrame(animateTrails);
+    }
+    animateTrails();
+
+    // Confetti
+    function createConfetti() {
+        if (!document.body.classList.contains('party-mode')) return;
+
+        for (let i = 0; i < 3; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti-piece';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDelay = Math.random() * 2 + 's';
+            confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            confettiContainer.appendChild(confetti);
+
+            setTimeout(() => confetti.remove(), 5000);
+        }
+    }
+
+    setInterval(createConfetti, 300);
+
+    // Sparkles on click
+    document.addEventListener('click', (e) => {
+        if (!document.body.classList.contains('party-mode')) return;
+
+        const sparkleEmojis = ['✨', '💫', '⭐', '🌟', '💖', '💕', '🎉', '🎊'];
+
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+                sparkle.style.left = e.clientX + (Math.random() * 60 - 30) + 'px';
+                sparkle.style.top = e.clientY + (Math.random() * 60 - 30) + 'px';
+                sparklesContainer.appendChild(sparkle);
+
+                setTimeout(() => sparkle.remove(), 2000);
+            }, i * 50);
+        }
+    });
+
+    // Random sparkles
+    function createRandomSparkle() {
+        if (!document.body.classList.contains('party-mode')) return;
+
+        const sparkleEmojis = ['✨', '💫', '⭐'];
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+        sparkle.style.left = Math.random() * 100 + '%';
+        sparkle.style.top = Math.random() * 100 + '%';
+        sparklesContainer.appendChild(sparkle);
+
+        setTimeout(() => sparkle.remove(), 2000);
+    }
+
+    setInterval(createRandomSparkle, 1000);
+}

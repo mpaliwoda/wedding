@@ -13,11 +13,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500;600&family=Bangers&family=Comic+Neue:wght@700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
+    <!-- Party Mode Toggle -->
+    <button class="party-mode-toggle" id="partyModeToggle">
+      <!-- <span data-en="🎉 PARTY MODE" data-pl="🎉 TRYB IMPREZOWY">🎉 TRYB IMPREZOWY</span> -->
+    </button>
+
+    <!-- Party Mode Effects -->
+    <canvas id="cursorTrail"></canvas>
+    <div id="confetti"></div>
+    <div id="sparkles"></div>
+
     <!-- Language Switcher -->
     <div class="language-switcher">
       <button class="lang-btn active" data-lang="en">EN</button>
