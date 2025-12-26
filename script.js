@@ -68,16 +68,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Set initial language
     switchLanguage(currentLang);
 
-    // Update language for dynamically loaded elements
-    function updateLanguage() {
-        const lang = currentLang;
-        document.querySelectorAll("[data-en], [data-pl]").forEach((element) => {
-            const text = element.getAttribute(`data-${lang}`);
-            if (text) {
-                element.textContent = text;
-            }
-        });
-    }
 
     // Smooth scroll for internal links
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -366,7 +356,6 @@ function initPartyModeEffects() {
     // Start/stop confetti based on party mode
     const partyModeToggle = document.getElementById('partyModeToggle');
     if (partyModeToggle) {
-        const originalToggle = partyModeToggle.onclick;
         partyModeToggle.addEventListener('click', function() {
             setTimeout(() => {
                 if (document.body.classList.contains('party-mode')) {

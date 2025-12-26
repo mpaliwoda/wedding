@@ -231,25 +231,6 @@ h3 {
   }
 }
 
-@keyframes floatTop {
-  0%,
-  100% {
-    transform: translateX(-50%) scale(1) rotate(-15deg);
-  }
-  50% {
-    transform: translateX(-50%) scale(1.02) rotate(-18deg);
-  }
-}
-
-@keyframes floatBottom {
-  0%,
-  100% {
-    transform: translateX(-50%) scale(1) rotate(15deg) scaleX(-1);
-  }
-  50% {
-    transform: translateX(-50%) scale(1.02) rotate(18deg) scaleX(-1);
-  }
-}
 
 @keyframes floatBottomLeft {
   0%,
@@ -468,15 +449,6 @@ h3 {
   padding: 0.75rem 0;
 }
 
-/* Story Section */
-.story-text {
-  max-width: 800px;
-  margin: 0 auto;
-  font-size: 1.2rem;
-  text-align: center;
-  line-height: 1.8;
-  color: var(--text-dark);
-}
 
 /* Details Section */
 .details-grid {
@@ -712,67 +684,6 @@ h3 {
   color: var(--primary-color);
 }
 
-/* Timeline Section */
-.timeline {
-  max-width: 800px;
-  margin: 50px auto;
-  position: relative;
-}
-
-.timeline::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 100%;
-  background: var(--accent-color);
-}
-
-.timeline-item {
-  display: flex;
-  margin-bottom: 50px;
-  position: relative;
-}
-
-.timeline-item:nth-child(odd) {
-  flex-direction: row;
-}
-
-.timeline-item:nth-child(even) {
-  flex-direction: row-reverse;
-}
-
-.timeline-time {
-  flex: 1;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--primary-color);
-  text-align: center;
-  padding: 10px;
-}
-
-.timeline-content {
-  flex: 1;
-  background: var(--background-white);
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-}
-
-.schedule-section .timeline-content {
-  background: var(--background-light);
-}
-
-.timeline-content h3 {
-  font-size: 1.5rem;
-  color: var(--primary-color);
-  margin-bottom: 10px;
-}
-
-.timeline-content p {
-  color: #666;
-}
 
 /* RSVP Section */
 .rsvp-text {
@@ -956,24 +867,6 @@ h3 {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .timeline::before {
-    left: 30px;
-  }
-
-  .timeline-item,
-  .timeline-item:nth-child(even) {
-    flex-direction: column;
-  }
-
-  .timeline-time {
-    text-align: left;
-    padding-left: 60px;
-  }
-
-  .timeline-content {
-    margin-left: 60px;
-  }
-
   .section {
     padding: 60px 20px;
   }
@@ -995,8 +888,7 @@ h3 {
 }
 
 @media (max-width: 480px) {
-  .details-grid,
-  .hotel-list {
+  .details-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1445,7 +1337,7 @@ body.party-mode .section h2::after {
 
 /* Party Mode Detail Cards */
 body.party-mode .detail-card {
-  background: linear-gradient(45deg, #fff 0%, #ffd700 100%);
+  background: linear-gradient(45deg, #fff 0%, #9d00ff 100%) !important;  /* Bright purple */
   border: 8px solid #000;
   box-shadow: 12px 12px 0 #000;
   transform: rotate(-1deg);
@@ -1472,31 +1364,45 @@ body.party-mode .detail-card .icon {
 body.party-mode .detail-card h3 {
   font-family: "Bangers", cursive !important;
   font-size: 2rem;
-  background: var(--bright-yellow);
-  padding: 10px;
-  border: 4px solid #000;
+  color: #000 !important;
+  text-shadow:
+    2px 2px 0 #fff,
+    -2px -2px 0 #fff,
+    2px -2px 0 #fff,
+    -2px 2px 0 #fff !important;
 }
 
 /* Party Mode Info Cards */
 body.party-mode .info-card {
-  border: 7px solid #000;
-  box-shadow: 10px 10px 0 #000;
+  border: 7px solid #000 !important;
+  box-shadow: 10px 10px 0 #000 !important;
   transform: rotate(1deg);
+  background: linear-gradient(135deg, #fff 0%, #ffeb3b 100%) !important;  /* Bright yellow for all */
+}
+
+body.party-mode .info-card:nth-child(1) {
+  transform: rotate(1deg);
+  background: linear-gradient(135deg, #fff 0%, #ffeb3b 100%) !important;  /* All bright yellow */
 }
 
 body.party-mode .info-card:nth-child(2) {
   transform: rotate(-2deg);
-  background: linear-gradient(135deg, #fff 0%, #ffc0cb 100%);
+  background: linear-gradient(135deg, #fff 0%, #ffeb3b 100%) !important;  /* All bright yellow */
 }
 
 body.party-mode .info-card:nth-child(3) {
   transform: rotate(2deg);
-  background: linear-gradient(135deg, #fff 0%, #98fb98 100%);
+  background: linear-gradient(135deg, #fff 0%, #ffeb3b 100%) !important;  /* All bright yellow */
 }
 
 body.party-mode .info-card:nth-child(4) {
   transform: rotate(-1deg);
-  background: linear-gradient(135deg, #fff 0%, #87ceeb 100%);
+  background: linear-gradient(135deg, #fff 0%, #ffeb3b 100%) !important;  /* All bright yellow */
+}
+
+body.party-mode .info-card p {
+  color: #000 !important;
+  font-weight: 700 !important;
 }
 
 body.party-mode .info-card:hover {
@@ -1515,10 +1421,12 @@ body.party-mode .info-icon {
 
 body.party-mode .info-card h3 {
   font-family: "Bangers", cursive !important;
-  background: var(--electric-blue);
-  padding: 10px;
-  border: 4px solid #000;
-  box-shadow: 4px 4px 0 #000;
+  color: #000 !important;
+  text-shadow:
+    2px 2px 0 #fff,
+    -2px -2px 0 #fff,
+    2px -2px 0 #fff,
+    -2px 2px 0 #fff !important;
 }
 
 /* Party Mode RSVP */
@@ -1587,6 +1495,7 @@ body.party-mode .hearts {
 body.party-mode .section h2::before {
   content: "⚡ ";
   animation: blink 0.5s infinite;
+  font-size: inherit;
 }
 
 body.party-mode .section h2::after {
@@ -1595,6 +1504,7 @@ body.party-mode .section h2::after {
   animation: blink 0.7s infinite;
   background: none;
   line-height: normal;
+  font-size: inherit;
   padding: 0;
   margin: 0;
   width: auto;
@@ -1710,7 +1620,7 @@ body.party-mode .map-icon {
 }
 
 /* Party mode - make everything MORE */
-body.party-mode * {
+body.party-mode *:not(.leaflet-marker-icon):not(.leaflet-marker-pane):not(.leaflet-pane):not([class*="leaflet"]) {
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
 }
 
@@ -2041,32 +1951,43 @@ body.party-mode .view-btn span {
 body.party-mode #photoMap {
   border: 10px solid #000;
   box-shadow: 15px 15px 0 #000;
-  animation: mapPulse 3s infinite;
+  /* Animation removed - scale breaks Leaflet coordinates */
 }
 
-@keyframes mapPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
-}
-
-/* Leaflet Markers - BOUNCY */
+/* Leaflet Markers - NO ANIMATION (breaks positioning) */
 body.party-mode .leaflet-marker-icon {
-  animation: markerBounce 1s infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.8)) !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
-@keyframes markerBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+body.party-mode .leaflet-marker-pane {
+  z-index: 1000 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+body.party-mode .leaflet-marker-pane * {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+body.party-mode .leaflet-marker-pane img {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+body.party-mode .leaflet-pane {
+  z-index: auto !important;
 }
 
 body.party-mode .cluster-icon {
-  animation: clusterSpin 3s infinite, pulse 1s infinite;
   font-family: "Bangers", cursive !important;
-}
-
-@keyframes clusterSpin {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(180deg); }
+  /* Animations removed - break Leaflet positioning */
 }
 
 /* Mobile adjustments for party mode */
@@ -2090,7 +2011,6 @@ body.party-mode .cluster-icon {
   body.party-mode .party-mode-toggle::before {
     font-size: 28px;
   }
-}
 }
 
 /* Photo Gallery Section */
