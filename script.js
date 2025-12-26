@@ -137,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Countdown timer functionality - optimized with requestAnimationFrame
     const weddingDate = new Date("2026-07-10T00:00:00");
+    const startDate = new Date(); // When countdown started (for progress calculation)
     let lastUpdate = 0;
 
     function updateCountdown(timestamp) {
@@ -169,6 +170,9 @@ document.addEventListener("DOMContentLoaded", function() {
             if (minutesEl.textContent !== String(minutes)) minutesEl.textContent = minutes;
             if (secondsEl.textContent !== String(seconds)) secondsEl.textContent = seconds;
 
+            // Update progress bars (in party mode)
+            updateCountdownProgress(days, hours, minutes, seconds);
+
             requestAnimationFrame(updateCountdown);
         } else {
             // Wedding day has arrived!
@@ -176,7 +180,31 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("hours").textContent = "0";
             document.getElementById("minutes").textContent = "0";
             document.getElementById("seconds").textContent = "0";
+            updateCountdownProgress(0, 0, 0, 0);
         }
+    }
+
+    function updateCountdownProgress(days, hours, minutes, seconds) {
+        // Calculate total days from start to wedding
+        const totalDays = Math.floor((weddingDate - startDate) / (1000 * 60 * 60 * 24));
+        const elapsedDays = totalDays - days;
+        
+        // Calculate progress percentages (inverted to show "filling up" as we get closer)
+        const daysProgress = totalDays > 0 ? (elapsedDays / totalDays) * 100 : 100;
+        const hoursProgress = ((23 - hours) / 24) * 100; // Inverted: fewer hours = more progress
+        const minutesProgress = ((59 - minutes) / 60) * 100; // Inverted
+        const secondsProgress = ((59 - seconds) / 60) * 100; // Inverted
+
+        // Update progress bar widths
+        const daysProgressEl = document.getElementById("daysProgress");
+        const hoursProgressEl = document.getElementById("hoursProgress");
+        const minutesProgressEl = document.getElementById("minutesProgress");
+        const secondsProgressEl = document.getElementById("secondsProgress");
+
+        if (daysProgressEl) daysProgressEl.style.width = daysProgress + '%';
+        if (hoursProgressEl) hoursProgressEl.style.width = hoursProgress + '%';
+        if (minutesProgressEl) minutesProgressEl.style.width = minutesProgress + '%';
+        if (secondsProgressEl) secondsProgressEl.style.width = secondsProgress + '%';
     }
 
     // Start countdown with requestAnimationFrame
@@ -480,123 +508,232 @@ function initPartyModeEffects() {
         });
     }
 
-    // NEON SNAKE - Fresh start!
-    function initNeonSnake() {
-        const canvas = document.createElement('canvas');
-        canvas.id = 'snakeCanvas';
-        canvas.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 50;
-            display: none;
-        `;
-        document.body.appendChild(canvas);
-        const ctx = canvas.getContext('2d');
+    // COMIC BOOK STYLE EFFECTS
+    function createComicEffect(x, y, element) {
+        if (!document.body.classList.contains('party-mode')) return;
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        // Different words for different elements
+        let words;
+        if (element.matches('button, .calendar-btn, .contact-link, .map-link, .view-btn, .lang-btn')) {
+            words = ['CLICK!', 'POW!', 'ZAP!', 'BOOM!'];
+        } else if (element.matches('.detail-card, .info-card')) {
+            words = ['WOW!', 'COOL!', 'YEAH!', 'RAD!'];
+        } else if (element.matches('img, .masonry-item')) {
+            words = ['SNAP!', 'FLASH!', 'SMILE!', 'CHEESE!'];
+        } else {
+            words = ['BAM!', 'WHAM!', 'KAPOW!', 'ZOOM!'];
         }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
 
-        // Snake state
-        const snake = {
-            segments: [],
-            x: canvas.width / 2,
-            y: canvas.height / 2,
-            angle: Math.random() * Math.PI * 2,
-            speed: 5,
-            frameCount: 0,
-            totalSegments: 80,
-            hue: 0
+        const word = words[Math.floor(Math.random() * words.length)];
+        const comic = document.createElement('div');
+        comic.className = 'comic-effect';
+        comic.textContent = word;
+        
+        // Random rotation and offset
+        const offsetX = (Math.random() - 0.5) * 100;
+        const offsetY = (Math.random() - 0.5) * 100;
+        const rotation = (Math.random() - 0.5) * 30;
+        
+        comic.style.left = (x + offsetX) + 'px';
+        comic.style.top = (y + offsetY) + 'px';
+        comic.style.transform = `translate(-50%, -50%) rotate(${rotation}deg) scale(0)`;
+        
+        document.body.appendChild(comic);
+        
+        // Trigger animation
+        setTimeout(() => {
+            comic.style.transform = `translate(-50%, -50%) rotate(${rotation}deg) scale(1)`;
+        }, 10);
+        
+        // Remove after animation
+        setTimeout(() => {
+            comic.style.opacity = '0';
+            setTimeout(() => comic.remove(), 300);
+        }, 600);
+    }
+
+    // Add comic effect listeners to common clickable elements
+    document.addEventListener('click', (e) => {
+        if (!document.body.classList.contains('party-mode')) return;
+        
+        const target = e.target.closest('button, a, .detail-card, .info-card, .masonry-item, img');
+        if (target) {
+            createComicEffect(e.clientX, e.clientY, target);
+        }
+    });
+
+    // FLOATING PHOTO BUBBLES
+    const photoBubblesContainer = document.getElementById('photoBubbles');
+    let bubbleInterval = null;
+    const activeBubbles = [];
+    const maxBubbles = 6;
+
+    function createFloatingBubble() {
+        if (!document.body.classList.contains('party-mode')) return;
+        if (activeBubbles.length >= maxBubbles) return;
+
+        // Sample photos from gallery (we'll use photo paths)
+        const samplePhotos = [
+            'assets/photos/krakówpolska.jpeg',
+            'assets/photos/seattleunitedstates.jpeg',
+            'assets/photos/vancouvercanada.jpeg',
+            'assets/photos/zermattschweizsuissesvizzerasvizra.jpeg',
+            'assets/photos/málagaespaña_1.jpeg',
+            'assets/photos/sevillaespaña.jpeg',
+            'assets/photos/courmayeuritalia.jpeg',
+            'assets/photos/manarolaitalia.jpeg'
+        ];
+
+        const randomPhoto = samplePhotos[Math.floor(Math.random() * samplePhotos.length)];
+        
+        const bubble = document.createElement('div');
+        bubble.className = 'photo-bubble';
+        
+        const img = document.createElement('img');
+        img.src = randomPhoto;
+        img.alt = 'Photo bubble';
+        bubble.appendChild(img);
+
+        // Random starting position (edges of screen)
+        const startSide = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
+        let startX, startY;
+        
+        switch(startSide) {
+            case 0: // top
+                startX = Math.random() * window.innerWidth;
+                startY = -100;
+                break;
+            case 1: // right
+                startX = window.innerWidth + 100;
+                startY = Math.random() * window.innerHeight;
+                break;
+            case 2: // bottom
+                startX = Math.random() * window.innerWidth;
+                startY = window.innerHeight + 100;
+                break;
+            case 3: // left
+                startX = -100;
+                startY = Math.random() * window.innerHeight;
+                break;
+        }
+
+        bubble.style.left = startX + 'px';
+        bubble.style.top = startY + 'px';
+
+        // Random velocity
+        const velocityX = (Math.random() - 0.5) * 3;
+        const velocityY = (Math.random() - 0.5) * 3;
+        const rotationSpeed = (Math.random() - 0.5) * 2;
+
+        const bubbleData = {
+            element: bubble,
+            x: startX,
+            y: startY,
+            vx: velocityX,
+            vy: velocityY,
+            rotation: 0,
+            rotationSpeed: rotationSpeed,
+            size: 80 + Math.random() * 40 // 80-120px
         };
 
-        // Initialize segments with spacing
-        for (let i = 0; i < snake.totalSegments; i++) {
-            snake.segments.push({ x: snake.x, y: snake.y });
+        bubble.style.width = bubbleData.size + 'px';
+        bubble.style.height = bubbleData.size + 'px';
+
+        // Click to remove with comic effect
+        bubble.addEventListener('click', (e) => {
+            createComicEffect(e.clientX, e.clientY, bubble);
+            const index = activeBubbles.indexOf(bubbleData);
+            if (index > -1) {
+                activeBubbles.splice(index, 1);
+            }
+            bubble.style.transform = 'scale(0) rotate(360deg)';
+            setTimeout(() => bubble.remove(), 300);
+        });
+
+        photoBubblesContainer.appendChild(bubble);
+        activeBubbles.push(bubbleData);
+    }
+
+    function animateBubbles() {
+        if (!document.body.classList.contains('party-mode')) {
+            requestAnimationFrame(animateBubbles);
+            return;
         }
 
-        function updateSnake() {
-            if (!document.body.classList.contains('party-mode')) {
-                canvas.style.display = 'none';
-                requestAnimationFrame(updateSnake);
+        activeBubbles.forEach((bubble, index) => {
+            // Update position
+            bubble.x += bubble.vx;
+            bubble.y += bubble.vy;
+            bubble.rotation += bubble.rotationSpeed;
+
+            // Bounce off edges
+            const margin = bubble.size / 2;
+            if (bubble.x < -margin || bubble.x > window.innerWidth + margin ||
+                bubble.y < -margin || bubble.y > window.innerHeight + margin) {
+                // Remove bubbles that go too far off screen
+                bubble.element.style.opacity = '0';
+                setTimeout(() => {
+                    bubble.element.remove();
+                    activeBubbles.splice(index, 1);
+                }, 500);
                 return;
             }
 
-            canvas.style.display = 'block';
-            snake.frameCount++;
+            // Apply transform
+            bubble.element.style.left = bubble.x + 'px';
+            bubble.element.style.top = bubble.y + 'px';
+            bubble.element.style.transform = `translate(-50%, -50%) rotate(${bubble.rotation}deg)`;
+        });
 
-            // Make sharper turns occasionally
-            if (snake.frameCount % 60 === 0) {
-                snake.angle += (Math.random() - 0.5) * Math.PI * 0.5;
-            } else {
-                snake.angle += (Math.random() - 0.5) * 0.08;
-            }
-
-            // Move head
-            snake.x += Math.cos(snake.angle) * snake.speed;
-            snake.y += Math.sin(snake.angle) * snake.speed;
-
-            // Wrap around screen
-            const margin = 50;
-            if (snake.x < -margin) snake.x = canvas.width + margin;
-            if (snake.x > canvas.width + margin) snake.x = -margin;
-            if (snake.y < -margin) snake.y = canvas.height + margin;
-            if (snake.y > canvas.height + margin) snake.y = -margin;
-
-            // Update segments only every few frames for visible spacing
-            if (snake.frameCount % 2 === 0) {
-                snake.segments.unshift({ x: snake.x, y: snake.y });
-                snake.segments.pop();
-            }
-
-            // Draw
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw segments with gaps
-            for (let i = 0; i < snake.segments.length; i++) {
-                if (i % 2 !== 0) continue; // Skip every other segment for gaps
-
-                const segment = snake.segments[i];
-                const progress = i / snake.segments.length;
-                const size = (1 - progress) * 12 + 4;
-                const hue = (snake.hue - i * 4) % 360;
-
-                // Outer glow
-                ctx.shadowBlur = 25;
-                ctx.shadowColor = `hsl(${hue}, 100%, 50%)`;
-
-                // Main segment
-                ctx.fillStyle = `hsl(${hue}, 100%, 60%)`;
-                ctx.globalAlpha = 1 - progress * 0.2;
-
-                ctx.beginPath();
-                ctx.arc(segment.x, segment.y, size, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Inner bright core
-                ctx.shadowBlur = 10;
-                ctx.fillStyle = `hsl(${hue}, 100%, 90%)`;
-                ctx.globalAlpha = 1 - progress * 0.4;
-                ctx.beginPath();
-                ctx.arc(segment.x, segment.y, size * 0.5, 0, Math.PI * 2);
-                ctx.fill();
-            }
-
-            snake.hue = (snake.hue + 1.5) % 360;
-
-            requestAnimationFrame(updateSnake);
-        }
-
-        updateSnake();
+        requestAnimationFrame(animateBubbles);
     }
 
-    initNeonSnake();
+    // Start bubble animation loop
+    animateBubbles();
+
+    // Spawn bubbles every 8 seconds in party mode
+    function startBubbleSpawning() {
+        if (bubbleInterval) return;
+        
+        bubbleInterval = setInterval(() => {
+            if (document.body.classList.contains('party-mode')) {
+                createFloatingBubble();
+            }
+        }, 8000); // Every 8 seconds
+    }
+
+    function stopBubbleSpawning() {
+        if (bubbleInterval) {
+            clearInterval(bubbleInterval);
+            bubbleInterval = null;
+        }
+        // Clear all bubbles
+        activeBubbles.forEach(bubble => {
+            bubble.element.remove();
+        });
+        activeBubbles.length = 0;
+    }
+
+    // Start/stop bubbles with party mode
+    if (partyModeToggle) {
+        partyModeToggle.addEventListener('click', function() {
+            setTimeout(() => {
+                if (document.body.classList.contains('party-mode')) {
+                    startBubbleSpawning();
+                    // Spawn first bubble immediately
+                    createFloatingBubble();
+                } else {
+                    stopBubbleSpawning();
+                }
+            }, 0);
+        });
+    }
+
+    // Start if already in party mode
+    if (document.body.classList.contains('party-mode')) {
+        startBubbleSpawning();
+        createFloatingBubble();
+    }
 
     // OCCASIONAL FIREWORKS
     function createFirework() {

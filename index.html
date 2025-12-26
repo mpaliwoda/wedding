@@ -73,6 +73,7 @@
     <canvas id="cursorTrail"></canvas>
     <div id="confetti"></div>
     <div id="sparkles"></div>
+    <div id="photoBubbles"></div>
 
     <!-- Language Switcher -->
     <div class="language-switcher">
@@ -113,24 +114,36 @@
             <span class="countdown-label" data-en="days" data-pl="dni"
               >dni</span
             >
+            <div class="countdown-progress">
+              <div class="countdown-progress-fill" id="daysProgress"></div>
+            </div>
           </div>
           <div class="countdown-item">
             <span class="countdown-number" id="hours">0</span>
             <span class="countdown-label" data-en="hours" data-pl="godzin"
               >godzin</span
             >
+            <div class="countdown-progress">
+              <div class="countdown-progress-fill" id="hoursProgress"></div>
+            </div>
           </div>
           <div class="countdown-item">
             <span class="countdown-number" id="minutes">0</span>
             <span class="countdown-label" data-en="minutes" data-pl="minut"
               >minut</span
             >
+            <div class="countdown-progress">
+              <div class="countdown-progress-fill" id="minutesProgress"></div>
+            </div>
           </div>
           <div class="countdown-item">
             <span class="countdown-number" id="seconds">0</span>
             <span class="countdown-label" data-en="seconds" data-pl="sekund"
               >sekund</span
             >
+            <div class="countdown-progress">
+              <div class="countdown-progress-fill" id="secondsProgress"></div>
+            </div>
           </div>
         </div>
       </div>

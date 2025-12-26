@@ -1245,6 +1245,38 @@ body.party-mode .wedding-date {
   75% { transform: rotate(3deg); }
 }
 
+/* Countdown Progress Bars (Party Mode Only) */
+.countdown-progress {
+  display: none;
+  width: 100%;
+  height: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+  border: 3px solid #000;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.countdown-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.3) 0%, 
+    rgba(255, 255, 255, 0.1) 50%, 
+    rgba(255, 255, 255, 0.3) 100%);
+  background-size: 200% 100%;
+  animation: progressShimmer 2s linear infinite;
+  transition: width 0.3s ease-out;
+  border-radius: 7px;
+  box-shadow: 0 0 10px currentColor;
+}
+
+@keyframes progressShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 /* Party Mode Countdown */
 body.party-mode .countdown-item {
   background: var(--hot-pink);
@@ -1252,6 +1284,17 @@ body.party-mode .countdown-item {
   box-shadow: 8px 8px 0 #000;
   transform: rotate(-3deg);
   animation: countdownPulse 1s infinite;
+  padding: 15px 20px;
+}
+
+body.party-mode .countdown-item:nth-child(1) {
+  background: var(--hot-pink);
+  transform: rotate(-3deg);
+}
+
+body.party-mode .countdown-item:nth-child(1) .countdown-progress-fill {
+  background-color: var(--hot-pink);
+  color: var(--hot-pink);
 }
 
 body.party-mode .countdown-item:nth-child(2) {
@@ -1259,14 +1302,33 @@ body.party-mode .countdown-item:nth-child(2) {
   transform: rotate(2deg);
 }
 
+body.party-mode .countdown-item:nth-child(2) .countdown-progress-fill {
+  background-color: var(--orange);
+  color: var(--orange);
+}
+
 body.party-mode .countdown-item:nth-child(3) {
   background: var(--electric-blue);
   transform: rotate(-1deg);
 }
 
+body.party-mode .countdown-item:nth-child(3) .countdown-progress-fill {
+  background-color: var(--electric-blue);
+  color: var(--electric-blue);
+}
+
 body.party-mode .countdown-item:nth-child(4) {
   background: var(--lime-green);
   transform: rotate(3deg);
+}
+
+body.party-mode .countdown-item:nth-child(4) .countdown-progress-fill {
+  background-color: var(--lime-green);
+  color: var(--lime-green);
+}
+
+body.party-mode .countdown-progress {
+  display: block;
 }
 
 @keyframes countdownPulse {
@@ -1681,6 +1743,46 @@ body.party-mode #sparkles {
   pointer-events: none !important;
 }
 
+#photoBubbles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 97;
+  pointer-events: none !important;
+}
+
+.photo-bubble {
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 6px solid #000;
+  box-shadow: 8px 8px 0 #000;
+  cursor: pointer;
+  pointer-events: auto !important;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  display: none;
+}
+
+body.party-mode .photo-bubble {
+  display: block;
+}
+
+.photo-bubble img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-bubble:hover {
+  transform: translate(-50%, -50%) scale(1.2) !important;
+  box-shadow: 12px 12px 0 var(--hot-pink) !important;
+  z-index: 1000;
+  border-color: var(--lime-green);
+}
+
 .confetti-piece {
   position: absolute;
   width: 10px;
@@ -1722,6 +1824,42 @@ body.party-mode #sparkles {
     transform: translateY(-60px) scale(0);
     opacity: 0;
   }
+}
+
+/* ============================================
+   PARTY MODE - COMIC BOOK EFFECTS 💥
+   ============================================ */
+
+.comic-effect {
+  position: fixed;
+  font-family: "Bangers", cursive;
+  font-size: 3rem;
+  font-weight: 900;
+  color: #000;
+  background: #ffff00;
+  padding: 15px 30px;
+  border: 6px solid #000;
+  border-radius: 20px;
+  box-shadow: 8px 8px 0 #000;
+  pointer-events: none;
+  z-index: 10000;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  white-space: nowrap;
+  letter-spacing: 3px;
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5);
+}
+
+.comic-effect::before {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 30%;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid #ffff00;
+  filter: drop-shadow(3px 3px 0 #000);
 }
 
 /* ============================================
