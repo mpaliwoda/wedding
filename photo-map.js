@@ -189,13 +189,6 @@ const photoLocations = [
         photos: ["assets/photos/areacsasquatchcountrycanada.jpeg"]
     },
     {
-        name: "Snohomish County",
-        country: "United States",
-        lat: 48.2677777777778,
-        lng: -121.665475,
-        photos: ["assets/photos/snohomishcountyunitedstates.jpeg"]
-    },
-    {
         name: "Rabka-Zdrój",
         country: "Polska",
         lat: 49.6150138888889,
