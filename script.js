@@ -145,9 +145,18 @@ document.addEventListener("DOMContentLoaded", function() {
         observer.observe(card);
     });
 
-    // Countdown timer functionality
-    function updateCountdown() {
-        const weddingDate = new Date("2026-07-10T00:00:00");
+    // Countdown timer functionality - optimized with requestAnimationFrame
+    const weddingDate = new Date("2026-07-10T00:00:00");
+    let lastUpdate = 0;
+
+    function updateCountdown(timestamp) {
+        // Only update once per second to reduce reflows
+        if (timestamp - lastUpdate < 1000) {
+            requestAnimationFrame(updateCountdown);
+            return;
+        }
+        lastUpdate = timestamp;
+
         const now = new Date();
         const difference = weddingDate - now;
 
@@ -159,10 +168,18 @@ document.addEventListener("DOMContentLoaded", function() {
             const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-            document.getElementById("days").textContent = days;
-            document.getElementById("hours").textContent = hours;
-            document.getElementById("minutes").textContent = minutes;
-            document.getElementById("seconds").textContent = seconds;
+            const daysEl = document.getElementById("days");
+            const hoursEl = document.getElementById("hours");
+            const minutesEl = document.getElementById("minutes");
+            const secondsEl = document.getElementById("seconds");
+
+            // Batch DOM updates
+            if (daysEl.textContent !== String(days)) daysEl.textContent = days;
+            if (hoursEl.textContent !== String(hours)) hoursEl.textContent = hours;
+            if (minutesEl.textContent !== String(minutes)) minutesEl.textContent = minutes;
+            if (secondsEl.textContent !== String(seconds)) secondsEl.textContent = seconds;
+
+            requestAnimationFrame(updateCountdown);
         } else {
             // Wedding day has arrived!
             document.getElementById("days").textContent = "0";
@@ -172,9 +189,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Update countdown immediately and then every second
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+    // Start countdown with requestAnimationFrame
+    requestAnimationFrame(updateCountdown);
 
     // Calendar functionality
     const calendarBtn = document.getElementById("addToCalendar");
@@ -285,7 +301,7 @@ function initPartyModeEffects() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Cursor Trail
+    // Cursor Trail - optimized with passive listener
     document.addEventListener('mousemove', (e) => {
         if (!document.body.classList.contains('party-mode')) return;
 
@@ -296,7 +312,7 @@ function initPartyModeEffects() {
             size: Math.random() * 15 + 10,
             life: 1
         });
-    });
+    }, { passive: true });
 
     function animateTrails() {
         if (!document.body.classList.contains('party-mode')) {
@@ -328,7 +344,9 @@ function initPartyModeEffects() {
     }
     animateTrails();
 
-    // Confetti
+    // Confetti - optimized to only run when party mode is active
+    let confettiInterval = null;
+
     function createConfetti() {
         if (!document.body.classList.contains('party-mode')) return;
 
@@ -345,7 +363,30 @@ function initPartyModeEffects() {
         }
     }
 
-    setInterval(createConfetti, 300);
+    // Start/stop confetti based on party mode
+    const partyModeToggle = document.getElementById('partyModeToggle');
+    if (partyModeToggle) {
+        const originalToggle = partyModeToggle.onclick;
+        partyModeToggle.addEventListener('click', function() {
+            setTimeout(() => {
+                if (document.body.classList.contains('party-mode')) {
+                    if (!confettiInterval) {
+                        confettiInterval = setInterval(createConfetti, 300);
+                    }
+                } else {
+                    if (confettiInterval) {
+                        clearInterval(confettiInterval);
+                        confettiInterval = null;
+                    }
+                }
+            }, 0);
+        });
+    }
+
+    // Start if already in party mode
+    if (document.body.classList.contains('party-mode')) {
+        confettiInterval = setInterval(createConfetti, 300);
+    }
 
     // Sparkles on click
     document.addEventListener('click', (e) => {

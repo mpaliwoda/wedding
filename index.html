@@ -3,18 +3,62 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Irena Owsiak and Marcin Paliwoda wedding celebration - July 10, 2026" />
+    <meta name="theme-color" content="#a77b94" />
     <title
       data-en="Irena Owsiak & Marcin Paliwoda - Our Wedding"
       data-pl="Irena Owsiak i Marcin Paliwoda - Nasze Wesele"
     >
       Irena Owsiak i Marcin Paliwoda - Nasze Wesele
     </title>
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://unpkg.com" />
+    <link rel="dns-prefetch" href="https://tile.openstreetmap.org" />
     <link rel="stylesheet" href="styles.css" />
+    <!-- Preload critical resources -->
+    <link rel="preload" href="assets/watercolor.png" as="image" />
+    <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://unpkg.com" crossorigin />
+    <!-- Load fonts with font-display swap for better performance -->
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500;600&family=Bangers&family=Comic+Neue:wght@700&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500;600&family=Bangers&family=Comic+Neue:wght@700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+    <!-- Leaflet CSS - lazy loaded only when map view is accessed -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+      media="print"
+      onload="this.media='all'"
+      id="leaflet-css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
+      media="print"
+      onload="this.media='all'"
+      id="leaflet-cluster-css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"
+      media="print"
+      onload="this.media='all'"
+      id="leaflet-cluster-default-css"
     />
   </head>
   <body>
@@ -270,6 +314,42 @@
       </div>
     </section>
 
+    <!-- Photo Gallery Section -->
+    <section class="section photo-gallery-section">
+      <div class="container">
+        <!-- View Switcher -->
+        <div class="view-switcher">
+          <button class="view-btn active" data-view="gallery">
+            <span class="view-icon">📸</span>
+            <span data-en="Gallery" data-pl="Galeria">Galeria</span>
+          </button>
+          <button class="view-btn" data-view="map">
+            <span class="view-icon">🗺️</span>
+            <span data-en="Map" data-pl="Mapa">Mapa</span>
+          </button>
+        </div>
+
+        <!-- Gallery View (Default) -->
+        <div id="galleryView" class="gallery-view active">
+          <div class="masonry-grid" id="masonryGrid"></div>
+        </div>
+
+        <!-- Map View (Hidden by default) -->
+        <div id="mapView" class="map-view">
+          <div id="photoMap"></div>
+        </div>
+
+        <!-- Photo Viewer Modal -->
+        <div id="photoViewer" class="photo-viewer hidden">
+          <button class="photo-viewer-close" id="closePhotoViewer">&times;</button>
+          <div class="photo-viewer-content">
+            <h3 id="photoLocationName"></h3>
+            <div id="photoGallery" class="photo-gallery"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
       <div class="container">
@@ -284,6 +364,39 @@
       </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Main scripts - deferred for performance -->
+    <script src="script.js" defer></script>
+    <script src="photo-map.js" defer></script>
+    <!-- Leaflet JS - loaded dynamically only when map view is accessed -->
+    <script>
+      // Lazy load Leaflet libraries only when needed
+      window.leafletLoaded = false;
+      window.loadLeaflet = function() {
+        if (window.leafletLoaded) return Promise.resolve();
+
+        return new Promise((resolve) => {
+          // Load Leaflet core
+          const leafletScript = document.createElement('script');
+          leafletScript.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+          leafletScript.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
+          leafletScript.crossOrigin = '';
+
+          leafletScript.onload = function() {
+            // Load MarkerCluster plugin
+            const clusterScript = document.createElement('script');
+            clusterScript.src = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js';
+
+            clusterScript.onload = function() {
+              window.leafletLoaded = true;
+              resolve();
+            };
+
+            document.head.appendChild(clusterScript);
+          };
+
+          document.head.appendChild(leafletScript);
+        });
+      };
+    </script>
   </body>
 </html>
