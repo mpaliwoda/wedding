@@ -618,6 +618,138 @@ function initPartyModeEffects() {
     }
 
     initNeonSnake();
+
+    // OCCASIONAL FIREWORKS
+    function createFirework() {
+        if (!document.body.classList.contains('party-mode')) return;
+
+        // Random launch position
+        const launchX = Math.random() * window.innerWidth;
+        const targetY = 100 + Math.random() * 300; // Explode in upper portion
+        const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+
+        // Create launch particle
+        const launcher = document.createElement('div');
+        launcher.style.cssText = `
+            position: fixed;
+            left: ${launchX}px;
+            bottom: 0;
+            width: 4px;
+            height: 4px;
+            background: ${color};
+            border-radius: 50%;
+            box-shadow: 0 0 10px ${color};
+            pointer-events: none;
+            z-index: 9999;
+        `;
+        document.body.appendChild(launcher);
+
+        // Animate launch
+        let currentY = window.innerHeight;
+        const launchSpeed = 8;
+
+        const launchInterval = setInterval(() => {
+            currentY -= launchSpeed;
+            launcher.style.bottom = (window.innerHeight - currentY) + 'px';
+
+            // Explode when reaching target height
+            if (currentY <= targetY) {
+                clearInterval(launchInterval);
+                launcher.remove();
+                explode(launchX, currentY, color);
+            }
+        }, 16);
+    }
+
+    function explode(x, y, baseColor) {
+        const particleCount = 50;
+        const particles = [];
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            const size = 3 + Math.random() * 4;
+            const hue = (parseInt(baseColor.match(/\d+/)[0]) + (Math.random() - 0.5) * 60) % 360;
+            const color = `hsl(${hue}, 100%, 60%)`;
+
+            particle.style.cssText = `
+                position: fixed;
+                left: ${x}px;
+                top: ${y}px;
+                width: ${size}px;
+                height: ${size}px;
+                background: ${color};
+                border-radius: 50%;
+                box-shadow: 0 0 8px ${color};
+                pointer-events: none;
+                z-index: 9999;
+            `;
+            document.body.appendChild(particle);
+
+            // Random direction and speed
+            const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.3;
+            const speed = 3 + Math.random() * 5;
+            const vx = Math.cos(angle) * speed;
+            const vy = Math.sin(angle) * speed;
+
+            particles.push({
+                element: particle,
+                x: x,
+                y: y,
+                vx: vx,
+                vy: vy,
+                life: 1
+            });
+        }
+
+        // Animate particles
+        function animateParticles() {
+            let allDead = true;
+
+            particles.forEach(p => {
+                if (p.life <= 0) return;
+
+                allDead = false;
+
+                // Update position
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.15; // Gravity
+                p.vx *= 0.98; // Air resistance
+                p.life -= 0.015;
+
+                // Update element
+                p.element.style.left = p.x + 'px';
+                p.element.style.top = p.y + 'px';
+                p.element.style.opacity = p.life;
+
+                if (p.life <= 0) {
+                    p.element.remove();
+                }
+            });
+
+            if (!allDead) {
+                requestAnimationFrame(animateParticles);
+            }
+        }
+
+        animateParticles();
+    }
+
+    // Launch fireworks occasionally
+    function scheduleFireworks() {
+        if (!document.body.classList.contains('party-mode')) {
+            setTimeout(scheduleFireworks, 1000);
+            return;
+        }
+
+        createFirework();
+
+        // Random delay between 2-6 seconds
+        const delay = 2000 + Math.random() * 4000;
+        setTimeout(scheduleFireworks, delay);
+    }
+
+    scheduleFireworks();
 }
 
 // Add CSS animation for photo explosion shake
