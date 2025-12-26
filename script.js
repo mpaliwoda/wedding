@@ -480,141 +480,120 @@ function initPartyModeEffects() {
         });
     }
 
-    // NEON SNAKE THAT ZOOMS AROUND
+    // NEON SNAKE - Fresh start!
     function initNeonSnake() {
-        const snake = document.createElement('div');
-        snake.id = 'neonSnake';
-        snake.style.cssText = `
+        const canvas = document.createElement('canvas');
+        canvas.id = 'snakeCanvas';
+        canvas.style.cssText = `
             position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 50;
-            filter: blur(2px);
             display: none;
         `;
-        document.body.appendChild(snake);
+        document.body.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
 
-        const trail = [];
-        const trailLength = 100; // MEGA LONG SNAKE!
-        let x = 400;
-        let y = 400;
-        let direction = Math.random() * Math.PI * 2; // Random initial direction
-        const speed = 6; // Constant speed
-        let colorHue = 0;
-        let turnTimer = 0;
-        let nextTurn = 60 + Math.random() * 60; // Turn every 60-120 frames
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
-        // Create trail segments
-        for (let i = 0; i < trailLength; i++) {
-            const segment = document.createElement('div');
-            segment.className = 'snake-segment';
-            const size = Math.max(3, 30 - i * 0.27); // Gradual taper from 30px to 3px
-            segment.style.cssText = `
-                position: fixed;
-                width: ${size}px;
-                height: ${size}px;
-                border-radius: 50%;
-                pointer-events: none;
-                z-index: ${50 - Math.floor(i / 3)};
-                filter: blur(${1 + i * 0.05}px);
-                display: none;
-            `;
-            document.body.appendChild(segment);
-            trail.push({ element: segment, x: x, y: y });
+        // Snake state
+        const snake = {
+            segments: [],
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            angle: Math.random() * Math.PI * 2,
+            speed: 5,
+            frameCount: 0,
+            totalSegments: 80,
+            hue: 0
+        };
+
+        // Initialize segments with spacing
+        for (let i = 0; i < snake.totalSegments; i++) {
+            snake.segments.push({ x: snake.x, y: snake.y });
         }
 
-        function animateSnake() {
+        function updateSnake() {
             if (!document.body.classList.contains('party-mode')) {
-                snake.style.display = 'none';
-                trail.forEach(seg => seg.element.style.display = 'none');
-                requestAnimationFrame(animateSnake);
+                canvas.style.display = 'none';
+                requestAnimationFrame(updateSnake);
                 return;
             }
 
-            snake.style.display = 'block';
-            trail.forEach(seg => seg.element.style.display = 'block');
+            canvas.style.display = 'block';
+            snake.frameCount++;
 
-            // Get current window dimensions
-            const maxX = window.innerWidth;
-            const maxY = window.innerHeight;
-            const margin = 100;
-
-            // Sharp turns for snake-like movement
-            turnTimer++;
-            if (turnTimer >= nextTurn) {
-                // Make a sharp turn (30-90 degrees)
-                const turnAmount = (Math.random() - 0.5) * Math.PI * 0.8;
-                direction += turnAmount;
-                turnTimer = 0;
-                nextTurn = 40 + Math.random() * 80;
+            // Make sharper turns occasionally
+            if (snake.frameCount % 60 === 0) {
+                snake.angle += (Math.random() - 0.5) * Math.PI * 0.5;
+            } else {
+                snake.angle += (Math.random() - 0.5) * 0.08;
             }
 
-            // Move in current direction at constant speed
-            const dx = Math.cos(direction) * speed;
-            const dy = Math.sin(direction) * speed;
-            x += dx;
-            y += dy;
+            // Move head
+            snake.x += Math.cos(snake.angle) * snake.speed;
+            snake.y += Math.sin(snake.angle) * snake.speed;
 
-            // Bounce off walls by reversing direction
-            let bounced = false;
-            if (x < margin || x > maxX - margin) {
-                direction = Math.PI - direction; // Reflect horizontally
-                x = Math.max(margin, Math.min(maxX - margin, x));
-                bounced = true;
-            }
-            if (y < margin || y > maxY - margin) {
-                direction = -direction; // Reflect vertically
-                y = Math.max(margin, Math.min(maxY - margin, y));
-                bounced = true;
+            // Wrap around screen
+            const margin = 50;
+            if (snake.x < -margin) snake.x = canvas.width + margin;
+            if (snake.x > canvas.width + margin) snake.x = -margin;
+            if (snake.y < -margin) snake.y = canvas.height + margin;
+            if (snake.y > canvas.height + margin) snake.y = -margin;
+
+            // Update segments only every few frames for visible spacing
+            if (snake.frameCount % 2 === 0) {
+                snake.segments.unshift({ x: snake.x, y: snake.y });
+                snake.segments.pop();
             }
 
-            // If bounced, add small random variation
-            if (bounced) {
-                direction += (Math.random() - 0.5) * 0.5;
-                turnTimer = 0;
-                nextTurn = 30 + Math.random() * 40; // Turn sooner after bounce
+            // Draw
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw segments with gaps
+            for (let i = 0; i < snake.segments.length; i++) {
+                if (i % 2 !== 0) continue; // Skip every other segment for gaps
+
+                const segment = snake.segments[i];
+                const progress = i / snake.segments.length;
+                const size = (1 - progress) * 12 + 4;
+                const hue = (snake.hue - i * 4) % 360;
+
+                // Outer glow
+                ctx.shadowBlur = 25;
+                ctx.shadowColor = `hsl(${hue}, 100%, 50%)`;
+
+                // Main segment
+                ctx.fillStyle = `hsl(${hue}, 100%, 60%)`;
+                ctx.globalAlpha = 1 - progress * 0.2;
+
+                ctx.beginPath();
+                ctx.arc(segment.x, segment.y, size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Inner bright core
+                ctx.shadowBlur = 10;
+                ctx.fillStyle = `hsl(${hue}, 100%, 90%)`;
+                ctx.globalAlpha = 1 - progress * 0.4;
+                ctx.beginPath();
+                ctx.arc(segment.x, segment.y, size * 0.5, 0, Math.PI * 2);
+                ctx.fill();
             }
 
-            // Update color
-            colorHue = (colorHue + 2) % 360;
-            const color = `hsl(${colorHue}, 100%, 50%)`;
+            snake.hue = (snake.hue + 1.5) % 360;
 
-            snake.style.left = x + 'px';
-            snake.style.top = y + 'px';
-            snake.style.background = color;
-            snake.style.boxShadow = `
-                0 0 20px ${color},
-                0 0 40px ${color},
-                0 0 60px ${color}
-            `;
-
-            // Update trail - shift positions back
-            for (let i = trail.length - 1; i > 0; i--) {
-                trail[i].x = trail[i - 1].x;
-                trail[i].y = trail[i - 1].y;
-            }
-            trail[0].x = x;
-            trail[0].y = y;
-
-            // Render trail
-            trail.forEach((seg, i) => {
-                const trailColor = `hsl(${(colorHue - i * 10) % 360}, 100%, 50%)`;
-                seg.element.style.left = seg.x + 'px';
-                seg.element.style.top = seg.y + 'px';
-                seg.element.style.background = trailColor;
-                seg.element.style.boxShadow = `
-                    0 0 ${20 - i}px ${trailColor},
-                    0 0 ${40 - i * 2}px ${trailColor}
-                `;
-                seg.element.style.opacity = (trailLength - i) / trailLength * 0.8;
-            });
-
-            requestAnimationFrame(animateSnake);
+            requestAnimationFrame(updateSnake);
         }
 
-        animateSnake();
+        updateSnake();
     }
 
     initNeonSnake();
