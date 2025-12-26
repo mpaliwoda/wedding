@@ -869,6 +869,9 @@ h3 {
   position: relative;
   flex: 0 1 calc(50% - 15px);
   min-width: 280px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .details-info-section:nth-child(even) .info-card {
@@ -2243,4 +2246,28 @@ body.party-mode #cursorTrail {
 
 .sparkle {
   will-change: transform, opacity;
+}
+
+/* Mobile Party Mode Fixes */
+@media (max-width: 768px) {
+  body.party-mode .info-card {
+    padding: 25px;
+    border-width: 5px;
+    box-shadow: 6px 6px 0 #000;
+  }
+
+  body.party-mode .info-card h3 {
+    font-size: 1.3rem;
+    padding: 8px;
+    border-width: 3px;
+    box-shadow: 3px 3px 0 #000;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+
+  body.party-mode .info-card p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
 }
