@@ -2,9 +2,33 @@ document.addEventListener("DOMContentLoaded", function() {
     const partyModeToggle = document.getElementById('partyModeToggle');
     const body = document.body;
 
+    function updatePartyModeButton(isPartyMode) {
+        const icon = partyModeToggle.querySelector('.party-mode-icon');
+        const text = partyModeToggle.querySelector('.party-mode-text');
+
+        if (isPartyMode) {
+            icon.textContent = '🎉';
+            text.setAttribute('data-en', 'Disable Party Mode');
+            text.setAttribute('data-pl', 'Wyłącz Tryb Imprezowy');
+            // Update text based on current language
+            const currentLang = localStorage.getItem("preferredLanguage") || "pl";
+            text.textContent = text.getAttribute(`data-${currentLang}`);
+        } else {
+            icon.textContent = '✨';
+            text.setAttribute('data-en', 'Enable Party Mode');
+            text.setAttribute('data-pl', 'Włącz Tryb Imprezowy');
+            // Update text based on current language
+            const currentLang = localStorage.getItem("preferredLanguage") || "pl";
+            text.textContent = text.getAttribute(`data-${currentLang}`);
+        }
+    }
+
     const isPartyMode = localStorage.getItem('partyMode') === 'true';
     if (isPartyMode) {
         body.classList.add('party-mode');
+        if (partyModeToggle) {
+            updatePartyModeButton(true);
+        }
     }
 
     if (partyModeToggle) {
@@ -12,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
             body.classList.toggle('party-mode');
             const isNowPartyMode = body.classList.contains('party-mode');
             localStorage.setItem('partyMode', isNowPartyMode);
+            updatePartyModeButton(isNowPartyMode);
         });
     }
 

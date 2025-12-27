@@ -329,8 +329,10 @@ window.viewPhotos = function(locationName, photos) {
     }
 
     photoViewer.classList.remove('hidden');
-
     document.body.style.overflow = 'hidden';
+
+    // Push history state so back button works
+    history.pushState({ photoViewerOpen: true }, '', window.location.href);
 };
 
 function nextPhoto() {
@@ -347,12 +349,23 @@ function prevPhoto() {
     viewPhotos(photo.location, [photo.src]);
 }
 
+function closePhotoViewerModal(skipHistoryPop = false) {
+    const photoViewer = document.getElementById('photoViewer');
+    if (!photoViewer || photoViewer.classList.contains('hidden')) return;
+
+    photoViewer.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+
+    // If we're closing manually (not via back button), go back in history
+    if (!skipHistoryPop && window.history.state?.photoViewerOpen) {
+        window.history.back();
+    }
+}
+
 const closePhotoViewer = document.getElementById('closePhotoViewer');
 if (closePhotoViewer) {
     closePhotoViewer.addEventListener('click', function() {
-        const photoViewer = document.getElementById('photoViewer');
-        photoViewer.classList.add('hidden');
-        document.body.style.overflow = 'auto';
+        closePhotoViewerModal();
     });
 }
 
@@ -360,11 +373,19 @@ const photoViewer = document.getElementById('photoViewer');
 if (photoViewer) {
     photoViewer.addEventListener('click', function(e) {
         if (e.target === photoViewer) {
-            photoViewer.classList.add('hidden');
-            document.body.style.overflow = 'auto';
+            closePhotoViewerModal();
         }
     });
 }
+
+// Handle back button to close photo viewer
+window.addEventListener('popstate', function(e) {
+    const photoViewer = document.getElementById('photoViewer');
+    if (photoViewer && !photoViewer.classList.contains('hidden')) {
+        // Close without going back again (skipHistoryPop = true)
+        closePhotoViewerModal(true);
+    }
+});
 
 document.addEventListener('keydown', function(e) {
     const photoViewer = document.getElementById('photoViewer');
@@ -383,8 +404,7 @@ document.addEventListener('keydown', function(e) {
             break;
         case 'Escape':
             e.preventDefault();
-            photoViewer.classList.add('hidden');
-            document.body.style.overflow = 'auto';
+            closePhotoViewerModal();
             break;
     }
 });
