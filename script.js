@@ -1,16 +1,12 @@
-// Language switching functionality
 document.addEventListener("DOMContentLoaded", function() {
-    // Party Mode Toggle
     const partyModeToggle = document.getElementById('partyModeToggle');
     const body = document.body;
 
-    // Check if party mode was previously enabled
     const isPartyMode = localStorage.getItem('partyMode') === 'true';
     if (isPartyMode) {
         body.classList.add('party-mode');
     }
 
-    // Toggle party mode on button click
     if (partyModeToggle) {
         partyModeToggle.addEventListener('click', function() {
             body.classList.toggle('party-mode');
@@ -23,19 +19,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const elementsWithLang = document.querySelectorAll("[data-en], [data-pl]");
     const htmlElement = document.documentElement;
 
-    // Get saved language or default to Polish
     let currentLang = localStorage.getItem("preferredLanguage") || "pl";
 
-    // Function to switch language
     function switchLanguage(lang) {
         currentLang = lang;
         htmlElement.setAttribute("lang", lang);
 
-        // Update all elements with language data attributes
         elementsWithLang.forEach((element) => {
             const text = element.getAttribute(`data-${lang}`);
             if (text) {
-                // For title tag
                 if (element.tagName === "TITLE") {
                     element.textContent = text;
                 } else {
@@ -44,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        // Update active button
         langButtons.forEach((btn) => {
             if (btn.getAttribute("data-lang") === lang) {
                 btn.classList.add("active");
@@ -53,11 +44,9 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        // Save preference
         localStorage.setItem("preferredLanguage", lang);
     }
 
-    // Add click event listeners to language buttons
     langButtons.forEach((button) => {
         button.addEventListener("click", function() {
             const lang = this.getAttribute("data-lang");
@@ -65,11 +54,9 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Set initial language
     switchLanguage(currentLang);
 
 
-    // Smooth scroll for internal links
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function(e) {
             e.preventDefault();
@@ -83,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Add scroll animation for timeline items
     const observerOptions = {
         threshold: 0.1,
         rootMargin: "0px 0px -100px 0px",
@@ -98,7 +84,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }, observerOptions);
 
-    // Observe timeline items for animation
     document.querySelectorAll(".timeline-item").forEach((item) => {
         item.style.opacity = "0";
         item.style.transform = "translateY(30px)";
@@ -106,7 +91,6 @@ document.addEventListener("DOMContentLoaded", function() {
         observer.observe(item);
     });
 
-    // Observe detail cards for animation
     document.querySelectorAll(".detail-card").forEach((card) => {
         card.style.opacity = "0";
         card.style.transform = "translateY(30px)";
@@ -114,7 +98,6 @@ document.addEventListener("DOMContentLoaded", function() {
         observer.observe(card);
     });
 
-    // Scroll indicator click
     const scrollIndicator = document.querySelector(".scroll-indicator");
     if (scrollIndicator) {
         scrollIndicator.addEventListener("click", function() {
@@ -127,7 +110,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Observe info cards for animation
     document.querySelectorAll(".info-card").forEach((card) => {
         card.style.opacity = "0";
         card.style.transform = "translateY(30px)";
@@ -135,13 +117,11 @@ document.addEventListener("DOMContentLoaded", function() {
         observer.observe(card);
     });
 
-    // Countdown timer functionality - optimized with requestAnimationFrame
     const weddingDate = new Date("2026-07-10T00:00:00");
     const startDate = new Date("2024-11-17T00:00:00"); // Fixed start date for progress calculation
     let lastUpdate = 0;
 
     function updateCountdown(timestamp) {
-        // Only update once per second to reduce reflows
         if (timestamp - lastUpdate < 1000) {
             requestAnimationFrame(updateCountdown);
             return;
@@ -164,18 +144,15 @@ document.addEventListener("DOMContentLoaded", function() {
             const minutesEl = document.getElementById("minutes");
             const secondsEl = document.getElementById("seconds");
 
-            // Batch DOM updates
             if (daysEl.textContent !== String(days)) daysEl.textContent = days;
             if (hoursEl.textContent !== String(hours)) hoursEl.textContent = hours;
             if (minutesEl.textContent !== String(minutes)) minutesEl.textContent = minutes;
             if (secondsEl.textContent !== String(seconds)) secondsEl.textContent = seconds;
 
-            // Update progress bars (in party mode)
             updateCountdownProgress();
 
             requestAnimationFrame(updateCountdown);
         } else {
-            // Wedding day has arrived!
             document.getElementById("days").textContent = "0";
             document.getElementById("hours").textContent = "0";
             document.getElementById("minutes").textContent = "0";
@@ -187,36 +164,28 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateCountdownProgress() {
         const now = new Date();
         
-        // Calculate total time from start to wedding (in milliseconds)
         const totalTime = weddingDate - startDate;
         const elapsedTime = now - startDate;
         
-        // Calculate overall progress percentage (0-100%)
         let overallProgress = (elapsedTime / totalTime) * 100;
         
-        // Clamp between 0 and 100
         overallProgress = Math.max(0, Math.min(100, overallProgress));
 
-        // Update single progress bar
         const progressEl = document.getElementById("countdownProgress");
         if (progressEl) progressEl.style.width = overallProgress + '%';
     }
 
-    // Start countdown with requestAnimationFrame
     requestAnimationFrame(updateCountdown);
 
-    // Calendar functionality
     const calendarBtn = document.getElementById("addToCalendar");
     const calendarDropdown = document.getElementById("calendarDropdown");
 
     if (calendarBtn && calendarDropdown) {
-        // Toggle dropdown
         calendarBtn.addEventListener("click", function(e) {
             e.stopPropagation();
             calendarDropdown.classList.toggle("show");
         });
 
-        // Close dropdown when clicking outside
         document.addEventListener("click", function(e) {
             if (
                 !calendarBtn.contains(e.target) &&
@@ -226,13 +195,11 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        // Handle calendar service clicks
         document.querySelectorAll(".calendar-option").forEach((option) => {
             option.addEventListener("click", function(e) {
                 e.preventDefault();
                 const service = this.getAttribute("data-service");
 
-                // Event details
                 const eventDetails = {
                     title: "Irena & Marcin Wedding / Wesele Irena i Marcin",
                     description:
@@ -257,7 +224,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     case "apple":
                     case "ics":
-                        // Generate .ics file
                         const icsContent = [
                             "BEGIN:VCALENDAR",
                             "VERSION:2.0",
@@ -291,7 +257,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Party Mode Visual Effects
     initPartyModeEffects();
 });
 
@@ -307,11 +272,9 @@ function initPartyModeEffects() {
     const colors = ['#ff1493', '#00ffff', '#39ff14', '#ffff00', '#ff6600', '#9d00ff'];
     const maxTrails = 50; // Limit max trail particles
     
-    // Detect mobile/low-end devices
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     const isLowEnd = isMobile || navigator.hardwareConcurrency <= 4;
 
-    // Resize canvas
     function resizeCanvas() {
         cursorCanvas.width = window.innerWidth;
         cursorCanvas.height = window.innerHeight;
@@ -319,11 +282,9 @@ function initPartyModeEffects() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Throttle cursor trail creation
     let lastTrailTime = 0;
     const trailThrottle = isLowEnd ? 50 : 16; // 20fps on low-end, 60fps on high-end
 
-    // Cursor Trail - optimized with throttling
     document.addEventListener('mousemove', (e) => {
         if (!document.body.classList.contains('party-mode')) return;
 
@@ -331,7 +292,6 @@ function initPartyModeEffects() {
         if (now - lastTrailTime < trailThrottle) return;
         lastTrailTime = now;
 
-        // Limit max trails for performance
         if (trails.length >= maxTrails) {
             trails.shift(); // Remove oldest trail
         }
@@ -345,7 +305,6 @@ function initPartyModeEffects() {
         });
     }, { passive: true });
 
-    // Optimized trail animation with batching
     let animationFrameId = null;
     function animateTrails() {
         if (!document.body.classList.contains('party-mode')) {
@@ -354,14 +313,11 @@ function initPartyModeEffects() {
             return;
         }
 
-        // Clear canvas completely each frame
         ctx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
 
-        // Batch draw operations for better performance
         for (let i = trails.length - 1; i >= 0; i--) {
             const trail = trails[i];
             
-            // Update trail properties
             trail.life -= isLowEnd ? 0.04 : 0.03; // Faster decay on low-end
             trail.size *= 0.95;
 
@@ -370,7 +326,6 @@ function initPartyModeEffects() {
                 continue;
             }
 
-            // Draw trail
             ctx.globalAlpha = trail.life;
             ctx.fillStyle = trail.color;
             ctx.beginPath();
@@ -382,7 +337,6 @@ function initPartyModeEffects() {
     }
     animateTrails();
 
-    // Confetti - optimized frequency and reduced count
     let confettiInterval = null;
     const confettiCount = isLowEnd ? 2 : 3; // Fewer on low-end devices
     const confettiFrequency = isLowEnd ? 500 : 300; // Less frequent on low-end
@@ -390,7 +344,6 @@ function initPartyModeEffects() {
     function createConfetti() {
         if (!document.body.classList.contains('party-mode')) return;
 
-        // Use DocumentFragment for better DOM performance
         const fragment = document.createDocumentFragment();
         
         for (let i = 0; i < confettiCount; i++) {
@@ -409,7 +362,6 @@ function initPartyModeEffects() {
         confettiContainer.appendChild(fragment);
     }
 
-    // Start/stop confetti based on party mode
     const partyModeToggle = document.getElementById('partyModeToggle');
     if (partyModeToggle) {
         partyModeToggle.addEventListener('click', function() {
@@ -423,19 +375,16 @@ function initPartyModeEffects() {
                         clearInterval(confettiInterval);
                         confettiInterval = null;
                     }
-                    // Clean up trails when exiting party mode
                     trails.length = 0;
                 }
             }, 0);
         });
     }
 
-    // Start if already in party mode
     if (document.body.classList.contains('party-mode')) {
         confettiInterval = setInterval(createConfetti, confettiFrequency);
     }
 
-    // Optimized sparkles on click - throttled
     let lastClickTime = 0;
     const clickThrottle = 300; // Limit to one sparkle burst per 300ms
     const sparkleCount = isLowEnd ? 3 : 5;
@@ -465,7 +414,6 @@ function initPartyModeEffects() {
         sparklesContainer.appendChild(fragment);
     }, { passive: true });
 
-    // Random sparkles - less frequent on low-end
     const randomSparkleInterval = isLowEnd ? 2000 : 1000;
     
     function createRandomSparkle() {
@@ -485,11 +433,9 @@ function initPartyModeEffects() {
 
     setInterval(createRandomSparkle, randomSparkleInterval);
 
-    // EXTRA PHOTO MADNESS IN PARTY MODE
     function initPhotoMadness() {
         if (!document.body.classList.contains('party-mode')) return;
 
-        // Photo click explosion
         document.addEventListener('click', (e) => {
             if (!document.body.classList.contains('party-mode')) return;
 
@@ -499,7 +445,6 @@ function initPartyModeEffects() {
             }
         });
 
-        // Floating photo emojis (less frequent)
         setInterval(() => {
             if (!document.body.classList.contains('party-mode')) return;
 
@@ -540,10 +485,8 @@ function initPartyModeEffects() {
         }
     }
 
-    // Initialize photo madness
     initPhotoMadness();
 
-    // Re-initialize when party mode toggles
     const partyToggle = document.getElementById('partyModeToggle');
     if (partyToggle) {
         partyToggle.addEventListener('click', () => {
@@ -551,11 +494,9 @@ function initPartyModeEffects() {
         });
     }
 
-    // COMIC BOOK STYLE EFFECTS
     function createComicEffect(x, y, element) {
         if (!document.body.classList.contains('party-mode')) return;
 
-        // Different words for different elements
         let words;
         if (element.matches('button, .calendar-btn, .contact-link, .map-link, .view-btn, .lang-btn')) {
             words = ['CLICK!', 'POW!', 'ZAP!', 'BOOM!'];
@@ -572,7 +513,6 @@ function initPartyModeEffects() {
         comic.className = 'comic-effect';
         comic.textContent = word;
         
-        // Random rotation and offset
         const offsetX = (Math.random() - 0.5) * 100;
         const offsetY = (Math.random() - 0.5) * 100;
         const rotation = (Math.random() - 0.5) * 30;
@@ -583,19 +523,16 @@ function initPartyModeEffects() {
         
         document.body.appendChild(comic);
         
-        // Trigger animation
         setTimeout(() => {
             comic.style.transform = `translate(-50%, -50%) rotate(${rotation}deg) scale(1)`;
         }, 10);
         
-        // Remove after animation
         setTimeout(() => {
             comic.style.opacity = '0';
             setTimeout(() => comic.remove(), 300);
         }, 600);
     }
 
-    // Add comic effect listeners to common clickable elements
     document.addEventListener('click', (e) => {
         if (!document.body.classList.contains('party-mode')) return;
         
@@ -605,7 +542,6 @@ function initPartyModeEffects() {
         }
     });
 
-    // FLOATING PHOTO BUBBLES - optimized
     const photoBubblesContainer = document.getElementById('photoBubbles');
     let bubbleInterval = null;
     const activeBubbles = [];
@@ -615,7 +551,6 @@ function initPartyModeEffects() {
         if (!document.body.classList.contains('party-mode')) return;
         if (activeBubbles.length >= maxBubbles) return;
 
-        // Sample photos from gallery (we'll use photo paths)
         const samplePhotos = [
             'assets/photos/krakówpolska.jpeg',
             'assets/photos/seattleunitedstates.jpeg',
@@ -637,12 +572,9 @@ function initPartyModeEffects() {
         img.alt = 'Photo bubble';
         bubble.appendChild(img);
 
-        // Random starting position (edges of screen) - use actual visible viewport
-        // Use visualViewport for most accurate dimensions (accounts for all browser UI)
         const viewportWidth = (window.visualViewport?.width || document.documentElement.clientWidth || window.innerWidth);
         const viewportHeight = (window.visualViewport?.height || document.documentElement.clientHeight || window.innerHeight);
         
-        // Inset from edges to avoid spawning in sidebars/hidden areas
         const insetMargin = 50; // Start 50px inside the viewport edge
         
         const startSide = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
@@ -667,12 +599,11 @@ function initPartyModeEffects() {
                 break;
         }
 
-        // Velocity should move bubble toward center of viewport
         const centerX = viewportWidth / 2;
         const centerY = viewportHeight / 2;
-        const speed = 0.5 + Math.random() * 1.5; // 0.5 to 2.0 pixels per frame
+        const baseSpeed = isLowEnd ? 0.3 : 0.5; // Slower on mobile
+        const speed = baseSpeed + Math.random() * (isLowEnd ? 0.8 : 1.5); // 0.3-1.1 on mobile, 0.5-2.0 on desktop
         
-        // Calculate direction toward center (with some randomness)
         let velocityX, velocityY;
         switch(startSide) {
             case 0: // top - move down (and slightly left/right)
@@ -707,7 +638,6 @@ function initPartyModeEffects() {
             size: size
         };
 
-        // Set initial position and size
         bubble.style.width = size + 'px';
         bubble.style.height = size + 'px';
         bubble.style.left = '0';
@@ -720,7 +650,6 @@ function initPartyModeEffects() {
         bubble.style.zIndex = '1000'; // Ensure on top
 
 
-        // Click to remove with comic effect
         bubble.addEventListener('click', (e) => {
             e.stopPropagation(); // Prevent general click handler from firing
             createComicEffect(e.clientX, e.clientY, bubble);
@@ -736,7 +665,6 @@ function initPartyModeEffects() {
         activeBubbles.push(bubbleData);
     }
 
-    // Optimized bubble animation with transform caching
     let lastBubbleUpdate = 0;
     const bubbleUpdateInterval = isLowEnd ? 33 : 16; // 30fps on low-end, 60fps on high-end
     
@@ -746,30 +674,27 @@ function initPartyModeEffects() {
             return;
         }
 
-        // Throttle updates on low-end devices
         if (timestamp && lastBubbleUpdate && (timestamp - lastBubbleUpdate < bubbleUpdateInterval)) {
             requestAnimationFrame(animateBubbles);
             return;
         }
         lastBubbleUpdate = timestamp || Date.now();
 
-        // Use reverse iteration for safe removal
         for (let i = activeBubbles.length - 1; i >= 0; i--) {
             const bubble = activeBubbles[i];
             
-            // Update position
             bubble.x += bubble.vx;
             bubble.y += bubble.vy;
             bubble.rotation += bubble.rotationSpeed;
 
-            // Remove bubbles that go too far off screen (use actual visible viewport)
             const margin = bubble.size / 2;
-            const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
-            const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
+            const viewportWidth = (window.visualViewport?.width || document.documentElement.clientWidth || window.innerWidth);
+            const viewportHeight = (window.visualViewport?.height || document.documentElement.clientHeight || window.innerHeight);
             
-            if (bubble.x < -margin * 2 || bubble.x > viewportWidth + margin * 2 ||
-                bubble.y < -margin * 2 || bubble.y > viewportHeight + margin * 2) {
-                // Remove bubbles that go too far off screen
+            const maxOffscreen = isLowEnd ? margin : margin * 2;
+            
+            if (bubble.x < -maxOffscreen || bubble.x > viewportWidth + maxOffscreen ||
+                bubble.y < -maxOffscreen || bubble.y > viewportHeight + maxOffscreen) {
                 bubble.element.style.opacity = '0';
                 setTimeout(() => {
                     bubble.element.remove();
@@ -778,17 +703,14 @@ function initPartyModeEffects() {
                 continue;
             }
 
-            // Apply transform using composite property for better performance
             bubble.element.style.transform = `translate(${bubble.x - bubble.size/2}px, ${bubble.y - bubble.size/2}px) rotate(${bubble.rotation}deg)`;
         }
 
         requestAnimationFrame(animateBubbles);
     }
 
-    // Start bubble animation loop
     animateBubbles();
 
-    // Spawn bubbles - less frequently on low-end devices
     const bubbleSpawnInterval = isLowEnd ? 12000 : 8000; // 12s on low-end, 8s on high-end
     
     function startBubbleSpawning() {
@@ -806,20 +728,17 @@ function initPartyModeEffects() {
             clearInterval(bubbleInterval);
             bubbleInterval = null;
         }
-        // Clear all bubbles
         activeBubbles.forEach(bubble => {
             bubble.element.remove();
         });
         activeBubbles.length = 0;
     }
 
-    // Start/stop bubbles with party mode
     if (partyModeToggle) {
         partyModeToggle.addEventListener('click', function() {
             setTimeout(() => {
                 if (document.body.classList.contains('party-mode')) {
                     startBubbleSpawning();
-                    // Spawn first bubble immediately
                     createFloatingBubble();
                 } else {
                     stopBubbleSpawning();
@@ -828,23 +747,19 @@ function initPartyModeEffects() {
         });
     }
 
-    // Start if already in party mode
     if (document.body.classList.contains('party-mode')) {
         startBubbleSpawning();
         createFloatingBubble();
     }
 
-    // OCCASIONAL FIREWORKS - optimized
     function createFirework() {
         if (!document.body.classList.contains('party-mode')) return;
         if (isLowEnd) return; // Skip fireworks on low-end devices
 
-        // Random launch position
         const launchX = Math.random() * window.innerWidth;
         const targetY = 100 + Math.random() * 300; // Explode in upper portion
         const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
 
-        // Create launch particle
         const launcher = document.createElement('div');
         launcher.style.cssText = `
             position: fixed;
@@ -861,7 +776,6 @@ function initPartyModeEffects() {
         `;
         document.body.appendChild(launcher);
 
-        // Animate launch with RAF instead of setInterval
         let currentY = window.innerHeight;
         const launchSpeed = 8;
 
@@ -869,7 +783,6 @@ function initPartyModeEffects() {
             currentY -= launchSpeed;
             launcher.style.bottom = (window.innerHeight - currentY) + 'px';
 
-            // Explode when reaching target height
             if (currentY <= targetY) {
                 launcher.remove();
                 explode(launchX, currentY, color);
@@ -905,7 +818,6 @@ function initPartyModeEffects() {
             `;
             document.body.appendChild(particle);
 
-            // Random direction and speed
             const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.3;
             const speed = 3 + Math.random() * 5;
             const vx = Math.cos(angle) * speed;
@@ -921,7 +833,6 @@ function initPartyModeEffects() {
             });
         }
 
-        // Animate particles
         function animateParticles() {
             let allDead = true;
 
@@ -930,14 +841,12 @@ function initPartyModeEffects() {
 
                 allDead = false;
 
-                // Update position
                 p.x += p.vx;
                 p.y += p.vy;
                 p.vy += 0.15; // Gravity
                 p.vx *= 0.98; // Air resistance
                 p.life -= 0.015;
 
-                // Update element
                 p.element.style.left = p.x + 'px';
                 p.element.style.top = p.y + 'px';
                 p.element.style.opacity = p.life;
@@ -955,7 +864,6 @@ function initPartyModeEffects() {
         animateParticles();
     }
 
-    // Launch fireworks occasionally - disabled on low-end devices
     function scheduleFireworks() {
         if (!document.body.classList.contains('party-mode') || isLowEnd) {
             setTimeout(scheduleFireworks, 1000);
@@ -964,7 +872,6 @@ function initPartyModeEffects() {
 
         createFirework();
 
-        // Random delay between 3-8 seconds (increased for better performance)
         const delay = 3000 + Math.random() * 5000;
         setTimeout(scheduleFireworks, delay);
     }
@@ -974,7 +881,6 @@ function initPartyModeEffects() {
     }
 }
 
-// Add CSS animation for photo explosion shake
 const style = document.createElement('style');
 style.textContent = `
     @keyframes photoExplosionShake {

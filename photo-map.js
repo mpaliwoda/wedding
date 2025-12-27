@@ -1,5 +1,4 @@
 
-// Photo locations data with GPS coordinates (shared between gallery and map)
 const photoLocations = [
     {
         name: "Pieve Ligure",
@@ -197,12 +196,10 @@ const photoLocations = [
     }
 ];
 
-// Gallery functionality
 function initGallery() {
     const masonryGrid = document.getElementById('masonryGrid');
     if (!masonryGrid) return;
 
-    // Create gallery items from all photos
     let itemIndex = 0;
     photoLocations.forEach(location => {
         location.photos.forEach(photo => {
@@ -218,7 +215,6 @@ function initGallery() {
                 </div>
             `;
 
-            // Click to view full size
             item.addEventListener('click', () => {
                 viewPhotos(`${location.name}, ${location.country}`, [photo]);
             });
@@ -228,25 +224,20 @@ function initGallery() {
     });
 }
 
-// Photo Map functionality
 function initPhotoMap() {
     const photoMapElement = document.getElementById('photoMap');
     if (!photoMapElement) return;
 
-    // Only initialize if not already initialized
     if (photoMapElement.dataset.initialized) return;
     photoMapElement.dataset.initialized = 'true';
 
-    // Initialize map centered on Europe (roughly between all locations)
     const map = L.map('photoMap').setView([48.0, 10.0], 4);
 
-    // Add tile layer (OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 18,
     }).addTo(map);
 
-    // Create marker cluster group
     const markers = L.markerClusterGroup({
         maxClusterRadius: 80,
         spiderfyOnMaxZoom: true,
@@ -262,11 +253,9 @@ function initPhotoMap() {
         }
     });
 
-    // Add markers for each location
     photoLocations.forEach(location => {
         const marker = L.marker([location.lat, location.lng]);
 
-        // Create popup content with photo thumbnails
         const photosHtml = location.photos.map(photo =>
             `<img src="${photo}" alt="${location.name}" onclick="viewPhotos('${location.name}', ${JSON.stringify(location.photos).replace(/"/g, '&quot;')})" />`
         ).join('');
@@ -286,19 +275,15 @@ function initPhotoMap() {
         markers.addLayer(marker);
     });
 
-    // Add marker cluster group to map
     map.addLayer(markers);
 
-    // Adjust map bounds to show all markers
     const bounds = L.latLngBounds(photoLocations.map(loc => [loc.lat, loc.lng]));
     map.fitBounds(bounds, { padding: [50, 50] });
 }
 
-// Gallery navigation state
 let currentPhotoIndex = 0;
 let allPhotos = [];
 
-// Build array of all photos with their locations
 photoLocations.forEach(location => {
     location.photos.forEach(photo => {
         allPhotos.push({
@@ -308,24 +293,20 @@ photoLocations.forEach(location => {
     });
 });
 
-// Function to view photos in modal
 window.viewPhotos = function(locationName, photos) {
     const photoViewer = document.getElementById('photoViewer');
     const locationNameEl = document.getElementById('photoLocationName');
     const photoGallery = document.getElementById('photoGallery');
 
-    // Find the index of the first photo in the global array
     if (photos.length > 0) {
         currentPhotoIndex = allPhotos.findIndex(p => p.src === photos[0]);
         if (currentPhotoIndex === -1) currentPhotoIndex = 0;
     }
 
-    // Check if we're just updating an existing view
     const existingImg = photoGallery.querySelector('img');
     const isUpdate = existingImg && photos.length === 1;
 
     if (isUpdate) {
-        // Just update the existing image smoothly
         const newImg = new Image();
         newImg.onload = function() {
             existingImg.src = photos[0];
@@ -334,13 +315,10 @@ window.viewPhotos = function(locationName, photos) {
         };
         newImg.src = photos[0];
     } else {
-        // Set location name
         locationNameEl.textContent = locationName;
 
-        // Clear previous photos
         photoGallery.innerHTML = '';
 
-        // Add photos to gallery
         photos.forEach(photoPath => {
             const img = document.createElement('img');
             img.src = photoPath;
@@ -350,14 +328,11 @@ window.viewPhotos = function(locationName, photos) {
         });
     }
 
-    // Show photo viewer
     photoViewer.classList.remove('hidden');
 
-    // Prevent body scroll when modal is open
     document.body.style.overflow = 'hidden';
 };
 
-// Navigate to next photo
 function nextPhoto() {
     if (allPhotos.length === 0) return;
     currentPhotoIndex = (currentPhotoIndex + 1) % allPhotos.length;
@@ -365,7 +340,6 @@ function nextPhoto() {
     viewPhotos(photo.location, [photo.src]);
 }
 
-// Navigate to previous photo
 function prevPhoto() {
     if (allPhotos.length === 0) return;
     currentPhotoIndex = (currentPhotoIndex - 1 + allPhotos.length) % allPhotos.length;
@@ -373,7 +347,6 @@ function prevPhoto() {
     viewPhotos(photo.location, [photo.src]);
 }
 
-// Close photo viewer
 const closePhotoViewer = document.getElementById('closePhotoViewer');
 if (closePhotoViewer) {
     closePhotoViewer.addEventListener('click', function() {
@@ -383,7 +356,6 @@ if (closePhotoViewer) {
     });
 }
 
-// Close photo viewer when clicking outside
 const photoViewer = document.getElementById('photoViewer');
 if (photoViewer) {
     photoViewer.addEventListener('click', function(e) {
@@ -394,7 +366,6 @@ if (photoViewer) {
     });
 }
 
-// Keyboard navigation for photo viewer
 document.addEventListener('keydown', function(e) {
     const photoViewer = document.getElementById('photoViewer');
     if (!photoViewer || photoViewer.classList.contains('hidden')) return;
@@ -418,7 +389,6 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// View switcher functionality
 function initViewSwitcher() {
     const viewButtons = document.querySelectorAll('.view-btn');
     const galleryView = document.getElementById('galleryView');
@@ -428,11 +398,9 @@ function initViewSwitcher() {
         button.addEventListener('click', () => {
             const view = button.getAttribute('data-view');
 
-            // Update active button
             viewButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
-            // Switch views
             if (view === 'gallery') {
                 galleryView.classList.add('active');
                 mapView.classList.remove('active');
@@ -440,7 +408,6 @@ function initViewSwitcher() {
                 galleryView.classList.remove('active');
                 mapView.classList.add('active');
 
-                // Load Leaflet libraries and initialize map
                 if (window.loadLeaflet) {
                     window.loadLeaflet().then(() => {
                         setTimeout(() => {
@@ -448,7 +415,6 @@ function initViewSwitcher() {
                         }, 100);
                     });
                 } else {
-                    // Fallback if Leaflet is already loaded
                     setTimeout(() => {
                         initPhotoMap();
                     }, 100);
@@ -458,7 +424,6 @@ function initViewSwitcher() {
     });
 }
 
-// Initialize everything when DOM is loaded
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         initGallery();
