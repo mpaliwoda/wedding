@@ -599,30 +599,11 @@ function initPartyModeEffects() {
                 break;
         }
 
-        const centerX = viewportWidth / 2;
-        const centerY = viewportHeight / 2;
-        const baseSpeed = isLowEnd ? 0.3 : 0.5; // Slower on mobile
-        const speed = baseSpeed + Math.random() * (isLowEnd ? 0.8 : 1.5); // 0.3-1.1 on mobile, 0.5-2.0 on desktop
+        const baseSpeed = isLowEnd ? 0.5 : 1.0;
+        const maxSpeed = isLowEnd ? 1.5 : 2.5;
         
-        let velocityX, velocityY;
-        switch(startSide) {
-            case 0: // top - move down (and slightly left/right)
-                velocityX = (Math.random() - 0.5) * 2;
-                velocityY = speed + Math.random();
-                break;
-            case 1: // right - move left (and slightly up/down)
-                velocityX = -(speed + Math.random());
-                velocityY = (Math.random() - 0.5) * 2;
-                break;
-            case 2: // bottom - move up (and slightly left/right)
-                velocityX = (Math.random() - 0.5) * 2;
-                velocityY = -(speed + Math.random());
-                break;
-            case 3: // left - move right (and slightly up/down)
-                velocityX = speed + Math.random();
-                velocityY = (Math.random() - 0.5) * 2;
-                break;
-        }
+        const velocityX = (Math.random() - 0.5) * (baseSpeed + Math.random() * maxSpeed);
+        const velocityY = (Math.random() - 0.5) * (baseSpeed + Math.random() * maxSpeed);
         
         const rotationSpeed = (Math.random() - 0.5) * 2;
         const size = 80 + Math.random() * 40; // 80-120px
@@ -683,27 +664,32 @@ function initPartyModeEffects() {
         for (let i = activeBubbles.length - 1; i >= 0; i--) {
             const bubble = activeBubbles[i];
             
+            const viewportWidth = (window.visualViewport?.width || document.documentElement.clientWidth || window.innerWidth);
+            const viewportHeight = (window.visualViewport?.height || document.documentElement.clientHeight || window.innerHeight);
+            
             bubble.x += bubble.vx;
             bubble.y += bubble.vy;
             bubble.rotation += bubble.rotationSpeed;
 
-            const margin = bubble.size / 2;
-            const viewportWidth = (window.visualViewport?.width || document.documentElement.clientWidth || window.innerWidth);
-            const viewportHeight = (window.visualViewport?.height || document.documentElement.clientHeight || window.innerHeight);
+            const radius = bubble.size / 2;
             
-            const maxOffscreen = isLowEnd ? margin : margin * 2;
+            if (bubble.x - radius < 0) {
+                bubble.x = radius;
+                bubble.vx = Math.abs(bubble.vx) * 0.8;
+            } else if (bubble.x + radius > viewportWidth) {
+                bubble.x = viewportWidth - radius;
+                bubble.vx = -Math.abs(bubble.vx) * 0.8;
+            }
             
-            if (bubble.x < -maxOffscreen || bubble.x > viewportWidth + maxOffscreen ||
-                bubble.y < -maxOffscreen || bubble.y > viewportHeight + maxOffscreen) {
-                bubble.element.style.opacity = '0';
-                setTimeout(() => {
-                    bubble.element.remove();
-                }, 500);
-                activeBubbles.splice(i, 1);
-                continue;
+            if (bubble.y - radius < 0) {
+                bubble.y = radius;
+                bubble.vy = Math.abs(bubble.vy) * 0.8;
+            } else if (bubble.y + radius > viewportHeight) {
+                bubble.y = viewportHeight - radius;
+                bubble.vy = -Math.abs(bubble.vy) * 0.8;
             }
 
-            bubble.element.style.transform = `translate(${bubble.x - bubble.size/2}px, ${bubble.y - bubble.size/2}px) rotate(${bubble.rotation}deg)`;
+            bubble.element.style.transform = `translate(${bubble.x - radius}px, ${bubble.y - radius}px) rotate(${bubble.rotation}deg)`;
         }
 
         requestAnimationFrame(animateBubbles);
