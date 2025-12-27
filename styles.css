@@ -311,6 +311,7 @@ h3 {
   align-items: center;
   margin-top: 20px;
   animation: fadeInUp 1s ease-out 0.9s both;
+  flex-wrap: wrap; /* Allow wrapping on very small screens */
 }
 
 .countdown-item {
@@ -935,6 +936,238 @@ h3 {
     font-size: 0.9rem;
     padding: 10px 14px;
   }
+
+  /* Countdown adjustments for mobile */
+  .countdown {
+    gap: 15px; /* Reduce gap on mobile */
+  }
+
+  .countdown-number {
+    min-width: 50px; /* Reduce min-width on mobile */
+  }
+
+  /* Party mode countdown mobile fixes */
+  body.party-mode .countdown {
+    gap: clamp(8px, 2vw, 15px); /* Fluid gap sizing */
+    padding: 0 5px; /* Minimal padding to prevent overflow */
+    flex-wrap: wrap; /* Allow wrapping if needed */
+    justify-content: center;
+  }
+
+  body.party-mode .countdown-item {
+    padding: 8px 10px; /* Reduced padding on mobile */
+    border: 3px solid #000; /* Thinner border */
+    box-shadow: 3px 3px 0 #000; /* Smaller shadow */
+    flex: 0 1 auto; /* Allow flexible sizing */
+    min-width: 60px; /* Ensure minimum size */
+  }
+
+  body.party-mode .countdown-number {
+    font-size: clamp(2rem, 8vw, 3.5rem); /* Fluid font sizing */
+    min-width: 35px; /* Smaller min-width in party mode mobile */
+  }
+
+  body.party-mode .countdown-label {
+    font-size: clamp(0.7rem, 1.8vw, 1rem); /* Fluid font sizing */
+  }
+
+  body.party-mode .hero-content {
+    padding: 2rem 1rem 4rem 1rem; /* CRITICAL: Keep bottom padding! */
+    max-width: 98%; /* Use even more screen width */
+    margin: 0 auto 2rem auto; /* Add bottom margin for extra safety */
+  }
+
+  /* Fix Names visibility on mobile */
+  body.party-mode .names {
+    font-size: clamp(2.5rem, 12vw, 5rem); /* Fluid sizing */
+    -webkit-text-stroke: 3px #000; /* Thicker stroke for visibility */
+    line-height: 1.2;
+    margin-bottom: 15px;
+  }
+
+  /* Fix tagline on mobile */
+  body.party-mode .tagline {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    padding: 10px 20px;
+  }
+
+  /* Fix wedding date on mobile */
+  body.party-mode .wedding-date {
+    font-size: clamp(1.5rem, 6vw, 3rem);
+    padding: 15px 25px;
+  }
+
+  /* Ensure hero doesn't cut off content */
+  body.party-mode .hero {
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+    padding-bottom: 2rem;
+  }
+
+  /* Fix progress bar on mobile */
+  .countdown-progress-wrapper {
+    margin: 20px auto 30px;
+    padding: 0 10px;
+    max-width: 100%;
+  }
+
+  body.party-mode .countdown-progress-wrapper {
+    margin: 20px 10px 30px 10px;
+  }
+
+  /* Fix party mode button & arrow on mobile */
+  .party-mode-container {
+    bottom: 15px;
+    right: 15px;
+    gap: 10px;
+  }
+
+  .party-mode-toggle {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .party-mode-toggle::before {
+    font-size: 24px;
+  }
+
+  .party-mode-arrow {
+    font-size: 2rem;
+  }
+}
+
+/* Tablet breakpoint for party mode (481px-768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  body.party-mode .hero-content {
+    padding: 2.5rem 2rem 5rem 2rem; /* More padding than mobile, less than desktop */
+    max-width: 92%;
+  }
+
+  body.party-mode .countdown {
+    gap: 20px; /* Comfortable spacing on tablets */
+  }
+
+  body.party-mode .countdown-item {
+    padding: 12px 16px; /* Medium padding */
+    border: 4px solid #000;
+    box-shadow: 6px 6px 0 #000;
+  }
+
+  body.party-mode .countdown-number {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  body.party-mode .countdown-label {
+    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+  }
+
+  body.party-mode .names {
+    font-size: clamp(3.5rem, 10vw, 6rem);
+    -webkit-text-stroke: 2.5px #000;
+  }
+
+  body.party-mode .tagline {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    padding: 12px 25px;
+  }
+
+  body.party-mode .wedding-date {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    padding: 18px 30px;
+  }
+
+  .party-mode-container {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .party-mode-toggle {
+    width: 55px;
+    height: 55px;
+  }
+}
+
+/* Extra small screens (360px and below) */
+@media (max-width: 360px) {
+  body.party-mode .countdown {
+    gap: 6px;
+  }
+
+  body.party-mode .countdown-item {
+    padding: 6px 8px;
+    min-width: 55px;
+  }
+
+  body.party-mode .countdown-number {
+    font-size: clamp(1.8rem, 9vw, 3rem);
+  }
+
+  body.party-mode .names {
+    font-size: clamp(2rem, 13vw, 4.5rem);
+  }
+
+  .party-mode-toggle {
+    width: 45px;
+    height: 45px;
+  }
+
+  .party-mode-toggle::before {
+    font-size: 20px;
+  }
+
+  .party-mode-arrow {
+    font-size: 1.8rem;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  body.party-mode .hero {
+    min-height: auto;
+    padding: 1rem 0 2rem 0;
+  }
+
+  body.party-mode .hero-content {
+    padding: 1.5rem 1rem 3rem 1rem;
+  }
+
+  body.party-mode .names {
+    font-size: clamp(2rem, 8vh, 4rem);
+    margin-bottom: 10px;
+  }
+
+  body.party-mode .tagline {
+    font-size: clamp(0.9rem, 3vh, 1.3rem);
+    padding: 8px 15px;
+  }
+
+  body.party-mode .wedding-date {
+    font-size: clamp(1.2rem, 5vh, 2.5rem);
+    padding: 10px 20px;
+    margin-bottom: 20px;
+  }
+
+  body.party-mode .countdown {
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  body.party-mode .countdown-item {
+    padding: 6px 10px;
+  }
+
+  body.party-mode .countdown-number {
+    font-size: clamp(1.5rem, 6vh, 2.5rem);
+  }
+
+  body.party-mode .countdown-label {
+    font-size: clamp(0.6rem, 1.5vh, 0.85rem);
+  }
+
+  .countdown-progress-wrapper {
+    margin: 15px auto 20px;
+  }
 }
 
 /* ============================================
@@ -950,6 +1183,7 @@ h3 {
   display: flex;
   align-items: center;
   gap: 15px;
+  flex-direction: row-reverse; /* Arrow on left, button on right */
 }
 
 /* Party Mode Arrow */
@@ -964,15 +1198,17 @@ h3 {
   animation: arrowBounce 1s ease-in-out infinite;
   font-weight: bold;
   filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+  transform: rotate(165deg); /* Rotated to point at button, slightly angled */
+  margin-bottom: -15px; /* Move down to better align with button */
 }
 
 @keyframes arrowBounce {
   0%, 100% {
-    transform: translateX(0) scale(1);
+    transform: translateX(0) scale(1) rotate(165deg);
     opacity: 0.8;
   }
   50% {
-    transform: translateX(-15px) scale(1.15);
+    transform: translateX(10px) scale(1.15) rotate(165deg);
     opacity: 1;
   }
 }
@@ -1081,12 +1317,13 @@ body.party-mode {
   --red: #ff0000;
 }
 
-/* Party Mode Body Styles */
+/* Party Mode Body Styles - optimized */
 body.party-mode {
   background: linear-gradient(45deg, #ff0080 0%, #ff8c00 25%, #40e0d0 50%, #ff0080 75%, #ff8c00 100%);
   background-size: 400% 400%;
   animation: gradientShift 15s ease infinite !important;
   font-family: "Comic Neue", "Roboto", sans-serif !important;
+  will-change: background-position; /* Optimize gradient animation */
 }
 
 @keyframes gradientShift {
@@ -1157,10 +1394,12 @@ body.party-mode .hero-content {
     0 0 60px rgba(0,255,255,0.4),
     inset 0 0 30px rgba(255,255,255,0.8);
   border-radius: 30px;
-  padding: 3rem;
+  padding: 3rem 3rem 6rem 3rem;
   max-width: 90%;
   margin: 0 auto;
   animation: contentBounce 2s infinite, borderColorShift 3s infinite;
+  will-change: transform, border-color; /* Optimize animations */
+  transform: translateZ(0); /* Force GPU layer */
 }
 
 @keyframes borderColorShift {
@@ -1201,6 +1440,8 @@ body.party-mode .names {
   animation: textWave 2s infinite, textGlow 1s infinite;
   filter: drop-shadow(5px 5px 0 #000);
   text-shadow: none;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 2px #000;
 }
 
 @keyframes textWave {
@@ -1249,7 +1490,7 @@ body.party-mode .wedding-date {
 .countdown-progress-wrapper {
   display: none;
   max-width: 600px;
-  margin: 30px auto 0;
+  margin: 30px auto 40px;
   padding: 0 20px;
 }
 
@@ -1315,6 +1556,8 @@ body.party-mode .countdown-item {
   transform: rotate(-3deg);
   animation: countdownPulse 1s infinite;
   padding: 15px 20px;
+  flex-shrink: 1; /* Allow countdown items to shrink on mobile */
+  min-width: 0; /* Allow items to shrink below their content size */
 }
 
 body.party-mode .countdown-item:nth-child(1) {
@@ -1704,12 +1947,14 @@ body.party-mode .map-icon {
   100% { transform: rotate(360deg); }
 }
 
-/* Party mode - make everything MORE */
+/* Party mode - make everything MORE - optimized transitions */
 body.party-mode *:not(.leaflet-marker-icon):not(.leaflet-marker-pane):not(.leaflet-pane):not([class*="leaflet"]) {
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+  /* Only transition transform and opacity for better performance */
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), 
+              opacity 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
 }
 
-/* Party Mode Visual Effects */
+/* Party Mode Visual Effects - optimized with will-change */
 #cursorTrail,
 #confetti,
 #sparkles {
@@ -1731,6 +1976,7 @@ body.party-mode #sparkles {
   height: 100%;
   z-index: 100;
   pointer-events: none !important;
+  will-change: contents; /* Optimize canvas rendering */
 }
 
 #confetti {
@@ -1742,6 +1988,7 @@ body.party-mode #sparkles {
   z-index: 99;
   overflow: hidden;
   pointer-events: none !important;
+  contain: layout style paint; /* CSS containment for performance */
 }
 
 #sparkles {
@@ -1752,6 +1999,7 @@ body.party-mode #sparkles {
   height: 100%;
   z-index: 98;
   pointer-events: none !important;
+  contain: layout style paint; /* CSS containment for performance */
 }
 
 #photoBubbles {
@@ -1760,8 +2008,9 @@ body.party-mode #sparkles {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 97;
+  z-index: 101; /* Above all other party mode effects */
   pointer-events: none !important;
+  /* contain: layout style paint; Removed - might be hiding content */
 }
 
 .photo-bubble {
@@ -1772,8 +2021,10 @@ body.party-mode #sparkles {
   box-shadow: 8px 8px 0 #000;
   cursor: pointer;
   pointer-events: auto !important;
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: none; /* Disable transition that might interfere with JS animation */
   display: none;
+  will-change: transform; /* GPU acceleration hint */
+  backface-visibility: hidden; /* Reduce flicker */
 }
 
 body.party-mode .photo-bubble {
@@ -1787,11 +2038,11 @@ body.party-mode .photo-bubble {
   display: block;
 }
 
-.photo-bubble:hover {
-  transform: translate(-50%, -50%) scale(1.2) !important;
-  box-shadow: 12px 12px 0 var(--hot-pink) !important;
+body.party-mode .photo-bubble:hover {
+  box-shadow: 15px 15px 0 var(--hot-pink) !important;
   z-index: 1000;
   border-color: var(--lime-green);
+  border-width: 8px;
 }
 
 .confetti-piece {
@@ -1802,15 +2053,17 @@ body.party-mode .photo-bubble {
   top: -10px;
   opacity: 0;
   animation: confettiFall 3s linear forwards;
+  will-change: transform, opacity; /* GPU acceleration */
+  transform: translateZ(0); /* Force GPU layer */
 }
 
 @keyframes confettiFall {
   0% {
-    transform: translateY(0) rotate(0deg);
+    transform: translate3d(0, 0, 0) rotate(0deg); /* Use translate3d for GPU */
     opacity: 1;
   }
   100% {
-    transform: translateY(100vh) rotate(720deg);
+    transform: translate3d(0, 100vh, 0) rotate(720deg); /* Use translate3d for GPU */
     opacity: 0;
   }
 }
@@ -1820,19 +2073,21 @@ body.party-mode .photo-bubble {
   font-size: 20px;
   animation: sparkleFloat 2s ease-out forwards;
   pointer-events: none;
+  will-change: transform, opacity; /* GPU acceleration */
+  transform: translateZ(0); /* Force GPU layer */
 }
 
 @keyframes sparkleFloat {
   0% {
-    transform: translateY(0) scale(0);
+    transform: translate3d(0, 0, 0) scale(0); /* Use translate3d for GPU */
     opacity: 1;
   }
   50% {
-    transform: translateY(-30px) scale(1);
+    transform: translate3d(0, -30px, 0) scale(1); /* Use translate3d for GPU */
     opacity: 1;
   }
   100% {
-    transform: translateY(-60px) scale(0);
+    transform: translate3d(0, -60px, 0) scale(0); /* Use translate3d for GPU */
     opacity: 0;
   }
 }
