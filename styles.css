@@ -2309,14 +2309,6 @@ body.party-mode .cluster-icon {
   /* Animations removed - break Leaflet positioning */
 }
 
-/* Mobile adjustments for party mode */
-@media (max-width: 768px) {
-  .party-mode-toggle {
-    bottom: 20px;
-    right: 20px;
-  }
-}
-
 /* Photo Gallery Section */
 .photo-gallery-section {
   background: var(--background-white);
