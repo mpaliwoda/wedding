@@ -605,38 +605,48 @@ function initPartyModeEffects() {
 
         const viewportWidth = (window.visualViewport?.width || document.documentElement.clientWidth || window.innerWidth);
         const viewportHeight = (window.visualViewport?.height || document.documentElement.clientHeight || window.innerHeight);
-        
+
+        // Disable movement on mobile devices
+        const isMobile = window.innerWidth <= 768;
+
         const insetMargin = 50; // Start 50px inside the viewport edge
-        
-        const startSide = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
         let startX, startY;
-        
-        switch(startSide) {
-            case 0: // top - spawn just inside top edge
-                startX = insetMargin + Math.random() * (viewportWidth - insetMargin * 2);
-                startY = -50; // Less far off-screen
-                break;
-            case 1: // right - spawn just inside right edge
-                startX = viewportWidth - insetMargin;
-                startY = insetMargin + Math.random() * (viewportHeight - insetMargin * 2);
-                break;
-            case 2: // bottom - spawn just inside bottom edge
-                startX = insetMargin + Math.random() * (viewportWidth - insetMargin * 2);
-                startY = viewportHeight - insetMargin;
-                break;
-            case 3: // left - spawn just inside left edge
-                startX = insetMargin;
-                startY = insetMargin + Math.random() * (viewportHeight - insetMargin * 2);
-                break;
+
+        if (isMobile) {
+            // On mobile, spawn at random static positions within the viewport
+            startX = insetMargin + Math.random() * (viewportWidth - insetMargin * 2);
+            startY = insetMargin + Math.random() * (viewportHeight - insetMargin * 2);
+        } else {
+            // On desktop, spawn at edges to float in
+            const startSide = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
+
+            switch(startSide) {
+                case 0: // top - spawn just inside top edge
+                    startX = insetMargin + Math.random() * (viewportWidth - insetMargin * 2);
+                    startY = -50; // Less far off-screen
+                    break;
+                case 1: // right - spawn just inside right edge
+                    startX = viewportWidth - insetMargin;
+                    startY = insetMargin + Math.random() * (viewportHeight - insetMargin * 2);
+                    break;
+                case 2: // bottom - spawn just inside bottom edge
+                    startX = insetMargin + Math.random() * (viewportWidth - insetMargin * 2);
+                    startY = viewportHeight - insetMargin;
+                    break;
+                case 3: // left - spawn just inside left edge
+                    startX = insetMargin;
+                    startY = insetMargin + Math.random() * (viewportHeight - insetMargin * 2);
+                    break;
+            }
         }
 
         const baseSpeed = isLowEnd ? 0.5 : 1.0;
         const maxSpeed = isLowEnd ? 1.5 : 2.5;
-        
-        const velocityX = (Math.random() - 0.5) * (baseSpeed + Math.random() * maxSpeed);
-        const velocityY = (Math.random() - 0.5) * (baseSpeed + Math.random() * maxSpeed);
-        
-        const rotationSpeed = (Math.random() - 0.5) * 2;
+
+        const velocityX = isMobile ? 0 : (Math.random() - 0.5) * (baseSpeed + Math.random() * maxSpeed);
+        const velocityY = isMobile ? 0 : (Math.random() - 0.5) * (baseSpeed + Math.random() * maxSpeed);
+
+        const rotationSpeed = isMobile ? 0 : (Math.random() - 0.5) * 2;
         const size = 80 + Math.random() * 40; // 80-120px
 
         const bubbleData = {
@@ -686,6 +696,13 @@ function initPartyModeEffects() {
             return;
         }
 
+        // Skip animation on mobile to save CPU
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+            requestAnimationFrame(animateBubbles);
+            return;
+        }
+
         if (timestamp && lastBubbleUpdate && (timestamp - lastBubbleUpdate < bubbleUpdateInterval)) {
             requestAnimationFrame(animateBubbles);
             return;
@@ -694,16 +711,16 @@ function initPartyModeEffects() {
 
         for (let i = activeBubbles.length - 1; i >= 0; i--) {
             const bubble = activeBubbles[i];
-            
+
             const viewportWidth = (window.visualViewport?.width || document.documentElement.clientWidth || window.innerWidth);
             const viewportHeight = (window.visualViewport?.height || document.documentElement.clientHeight || window.innerHeight);
-            
+
             bubble.x += bubble.vx;
             bubble.y += bubble.vy;
             bubble.rotation += bubble.rotationSpeed;
 
             const radius = bubble.size / 2;
-            
+
             if (bubble.x - radius < 0) {
                 bubble.x = radius;
                 bubble.vx = Math.abs(bubble.vx) * 0.8;
@@ -711,7 +728,7 @@ function initPartyModeEffects() {
                 bubble.x = viewportWidth - radius;
                 bubble.vx = -Math.abs(bubble.vx) * 0.8;
             }
-            
+
             if (bubble.y - radius < 0) {
                 bubble.y = radius;
                 bubble.vy = Math.abs(bubble.vy) * 0.8;
