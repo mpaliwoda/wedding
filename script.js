@@ -70,6 +70,12 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         localStorage.setItem("preferredLanguage", lang);
+
+        // Update party mode button text when language changes
+        if (partyModeToggle) {
+            const isNowPartyMode = body.classList.contains('party-mode');
+            updatePartyModeButton(isNowPartyMode);
+        }
     }
 
     langButtons.forEach((button) => {
