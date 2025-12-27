@@ -1,10 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Irena Owsiak and Marcin Paliwoda wedding celebration - July 10, 2026" />
+    <meta name="description" content="Irena Owsiak i Marcin Paliwoda - Wesele 10 lipca 2026" />
     <meta name="theme-color" content="#a77b94" />
+    <!-- Prevent auto-translation -->
+    <meta name="google" content="notranslate" />
+    <meta http-equiv="content-language" content="pl" />
     <title
       data-en="Irena Owsiak & Marcin Paliwoda - Our Wedding"
       data-pl="Irena Owsiak i Marcin Paliwoda - Nasze Wesele"
@@ -64,7 +67,9 @@
   <body>
     <!-- Party Mode Toggle -->
     <div class="party-mode-container">
-      <button class="party-mode-toggle" id="partyModeToggle" title="Tryb Imprezowy / Party Mode">
+      <button class="party-mode-toggle" id="partyModeToggle">
+        <span class="party-mode-icon">✨</span>
+        <span class="party-mode-text" data-en="Enable Party Mode" data-pl="Włącz Tryb Imprezowy">Włącz Tryb Imprezowy</span>
       </button>
       <div class="party-mode-arrow">←</div>
     </div>
@@ -351,6 +356,12 @@
         <!-- Photo Viewer Modal -->
         <div id="photoViewer" class="photo-viewer hidden">
           <button class="photo-viewer-close" id="closePhotoViewer">&times;</button>
+          <button class="photo-viewer-nav photo-viewer-prev" id="prevPhotoBtn">
+            <span>‹</span>
+          </button>
+          <button class="photo-viewer-nav photo-viewer-next" id="nextPhotoBtn">
+            <span>›</span>
+          </button>
           <div class="photo-viewer-content">
             <h3 id="photoLocationName"></h3>
             <div id="photoGallery" class="photo-gallery"></div>

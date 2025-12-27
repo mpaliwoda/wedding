@@ -1006,13 +1006,13 @@ h3 {
 
   /* Fix progress bar on mobile */
   .countdown-progress-wrapper {
-    margin: 20px auto 30px;
+    margin: 20px auto 50px;
     padding: 0 10px;
     max-width: 100%;
   }
 
   body.party-mode .countdown-progress-wrapper {
-    margin: 20px 10px 30px 10px;
+    margin: 20px 10px 50px 10px;
   }
 
   /* Fix party mode button & arrow on mobile */
@@ -1023,13 +1023,16 @@ h3 {
   }
 
   .party-mode-toggle {
-    width: 50px;
-    height: 50px;
-    font-size: 20px;
+    padding: 10px 16px;
+    font-size: 14px;
   }
 
-  .party-mode-toggle::before {
-    font-size: 24px;
+  .party-mode-icon {
+    font-size: 18px;
+  }
+
+  .party-mode-text {
+    font-size: 12px;
   }
 
   .party-mode-arrow {
@@ -1083,8 +1086,15 @@ h3 {
   }
 
   .party-mode-toggle {
-    width: 55px;
-    height: 55px;
+    padding: 10px 18px;
+  }
+
+  .party-mode-icon {
+    font-size: 18px;
+  }
+
+  .party-mode-text {
+    font-size: 13px;
   }
 }
 
@@ -1108,12 +1118,15 @@ h3 {
   }
 
   .party-mode-toggle {
-    width: 45px;
-    height: 45px;
+    padding: 8px 14px;
   }
 
-  .party-mode-toggle::before {
-    font-size: 20px;
+  .party-mode-icon {
+    font-size: 16px;
+  }
+
+  .party-mode-text {
+    font-size: 11px;
   }
 
   .party-mode-arrow {
@@ -1166,7 +1179,7 @@ h3 {
   }
 
   .countdown-progress-wrapper {
-    margin: 15px auto 20px;
+    margin: 15px auto 40px;
   }
 }
 
@@ -1215,30 +1228,36 @@ h3 {
 
 /* Party Mode Toggle Button - GENTLE HIGHLIGHT */
 .party-mode-toggle {
-  background: rgba(255, 215, 0, 0.1);
-  border: 2px solid rgba(255, 215, 0, 0.3);
-  padding: 0;
-  font-size: 24px;
+  background: rgba(255, 215, 0, 0.15);
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
   box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 215, 0, 0.2);
   transition: all 0.3s;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  border-radius: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(5px);
+  gap: 8px;
+  backdrop-filter: blur(10px);
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
 }
 
-.party-mode-toggle::before {
-  content: "✨";
-  opacity: 0.9;
-  font-size: 28px;
+.party-mode-icon {
+  font-size: 20px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  filter: none;
   animation: sparkleGlow 3s ease-in-out infinite;
-  will-change: transform, opacity, text-shadow;
+  display: inline-block;
+}
+
+.party-mode-text {
+  font-family: "Lora", serif;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 @keyframes sparkleGlow {
@@ -1250,16 +1269,18 @@ h3 {
   }
 }
 
-.party-mode-toggle:hover::before {
-  opacity: 1;
-  transform: scale(1.3) rotate(15deg);
-  text-shadow: 0 0 25px rgba(255, 215, 0, 1), 0 0 35px rgba(255, 215, 0, 0.5);
+.party-mode-toggle:hover {
+  background: rgba(255, 215, 0, 0.25);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 50px rgba(255, 215, 0, 0.3);
+  transform: scale(1.05);
 }
 
-.party-mode-toggle:active::before {
-  opacity: 1;
-  transform: scale(1.5) rotate(30deg);
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+.party-mode-toggle:hover .party-mode-icon {
+  transform: scale(1.3) rotate(15deg);
+}
+
+.party-mode-toggle:active {
+  transform: scale(0.98);
 }
 
 body.party-mode .party-mode-arrow {
@@ -1270,16 +1291,12 @@ body.party-mode .party-mode-toggle {
   background: linear-gradient(135deg, #ff1493, #ff6600);
   border: 3px solid #000;
   box-shadow: 4px 4px 0 #000;
-  animation: partyButtonPulse 0.5s infinite, rotate360 3s linear infinite;
-  width: 60px;
-  height: 60px;
+  animation: partyButtonPulse 0.5s infinite;
+  padding: 12px 20px;
 }
 
-body.party-mode .party-mode-toggle::before {
-  content: "🎉";
-  opacity: 1;
-  font-size: 32px;
-  filter: none;
+body.party-mode .party-mode-icon {
+  animation: none;
 }
 
 body.party-mode .party-mode-toggle:hover {
@@ -1287,13 +1304,18 @@ body.party-mode .party-mode-toggle:hover {
   box-shadow: 2px 2px 0 #000;
 }
 
-body.party-mode .party-mode-toggle:hover::before {
+body.party-mode .party-mode-toggle:hover .party-mode-icon {
   transform: scale(1.2);
 }
 
 body.party-mode .party-mode-toggle:active {
   transform: translate(4px, 4px);
   box-shadow: 0 0 0 #000;
+}
+
+body.party-mode .party-mode-text {
+  font-family: "Bangers", cursive;
+  text-shadow: 2px 2px 0 #000;
 }
 
 @keyframes partyButtonPulse {
@@ -1490,7 +1512,7 @@ body.party-mode .wedding-date {
 .countdown-progress-wrapper {
   display: none;
   max-width: 600px;
-  margin: 30px auto 40px;
+  margin: 30px auto 60px;
   padding: 0 20px;
 }
 
@@ -1562,22 +1584,22 @@ body.party-mode .countdown-item {
 
 body.party-mode .countdown-item:nth-child(1) {
   background: var(--hot-pink);
-  transform: rotate(-3deg);
+  --rotation: -3deg;
 }
 
 body.party-mode .countdown-item:nth-child(2) {
   background: var(--orange);
-  transform: rotate(2deg);
+  --rotation: 2deg;
 }
 
 body.party-mode .countdown-item:nth-child(3) {
   background: var(--electric-blue);
-  transform: rotate(-1deg);
+  --rotation: -1deg;
 }
 
 body.party-mode .countdown-item:nth-child(4) {
   background: var(--lime-green);
-  transform: rotate(3deg);
+  --rotation: 3deg;
 }
 
 /* Show progress bar wrapper in party mode */
@@ -2203,24 +2225,34 @@ body.party-mode .masonry-item:hover img {
 /* Photo Overlay - COLORFUL */
 body.party-mode .masonry-item-overlay {
   background: linear-gradient(45deg,
-    rgba(255, 20, 147, 0.9),
-    rgba(0, 255, 255, 0.9),
-    rgba(255, 255, 0, 0.9));
+    rgba(255, 20, 147, 0.95),
+    rgba(0, 255, 255, 0.95),
+    rgba(255, 255, 0, 0.95));
   background-size: 200% 200%;
   animation: gradientShift 8s infinite;
-  border: 4px solid #000;
+  border: 3px solid #000;
+  border-bottom: none;
   transform: translateY(0);
+  padding: 15px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 body.party-mode .masonry-item-location {
   font-family: "Bangers", cursive !important;
-  font-size: 1.5rem;
-  text-shadow: 3px 3px 0 #000;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  text-shadow: 2px 2px 0 #000;
+  line-height: 1.2;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 body.party-mode .masonry-item-country {
   font-family: "Bangers", cursive !important;
-  text-shadow: 2px 2px 0 #000;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  text-shadow: 1px 1px 0 #000;
+  line-height: 1.2;
+  word-break: break-word;
 }
 
 /* Photo Viewer Modal - FUN */
@@ -2252,12 +2284,41 @@ body.party-mode .photo-viewer-close:hover {
   transform: scale(1.1);
 }
 
+body.party-mode .photo-viewer-nav {
+  background: linear-gradient(135deg, var(--hot-pink), var(--orange));
+  border: 4px solid #000;
+  box-shadow: 5px 5px 0 #000;
+  color: white;
+  font-size: 35px;
+  width: 55px;
+  height: 55px;
+}
+
+body.party-mode .photo-viewer-nav:hover {
+  background: linear-gradient(135deg, var(--lime-green), var(--electric-blue));
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 6px 6px 0 #000;
+}
+
+body.party-mode .photo-viewer-nav:active {
+  transform: translateY(-50%) scale(0.9);
+  box-shadow: 2px 2px 0 #000;
+}
+
+body.party-mode .photo-viewer-nav span {
+  text-shadow: 2px 2px 0 #000;
+}
+
 body.party-mode .photo-viewer-content h3 {
   font-family: "Bangers", cursive !important;
   background: var(--hot-pink);
   padding: 20px;
   border: 8px solid #000;
   box-shadow: 10px 10px 0 #000;
+  color: #fff;
+  text-shadow: 3px 3px 0 #000;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 body.party-mode .photo-gallery img {
@@ -2409,21 +2470,6 @@ body.party-mode .cluster-icon {
   .party-mode-toggle {
     bottom: 20px;
     right: 20px;
-    width: 35px;
-    height: 35px;
-  }
-
-  .party-mode-toggle::before {
-    font-size: 20px;
-  }
-
-  body.party-mode .party-mode-toggle {
-    width: 50px;
-    height: 50px;
-  }
-
-  body.party-mode .party-mode-toggle::before {
-    font-size: 28px;
   }
 }
 
@@ -2597,6 +2643,50 @@ body.party-mode .cluster-icon {
 
 .photo-viewer-close:hover {
   transform: scale(1.2);
+}
+
+/* Photo Viewer Navigation Arrows */
+.photo-viewer-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 30px;
+  color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.photo-viewer-nav:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.photo-viewer-nav:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.photo-viewer-prev {
+  left: 20px;
+}
+
+.photo-viewer-next {
+  right: 20px;
+}
+
+.photo-viewer-nav span {
+  display: block;
+  line-height: 1;
+  font-weight: bold;
 }
 
 .photo-viewer-content {
@@ -2785,6 +2875,26 @@ body.party-mode .cluster-icon {
     font-size: 30px;
   }
 
+  .photo-viewer-nav {
+    width: 45px;
+    height: 45px;
+    font-size: 25px;
+  }
+
+  .photo-viewer-prev {
+    left: 10px;
+  }
+
+  .photo-viewer-next {
+    right: 10px;
+  }
+
+  body.party-mode .photo-viewer-nav {
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+  }
+
   .popup-photos {
     max-width: 250px;
   }
@@ -2819,16 +2929,7 @@ body.party-mode .view-btn.active {
   border-color: var(--lime-green);
 }
 
-body.party-mode .masonry-item {
-  animation: wiggle 1s ease infinite;
-  animation-delay: calc(var(--item-index) * 0.1s);
-}
-
-@keyframes wiggle {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-2deg); }
-  75% { transform: rotate(2deg); }
-}
+/* Removed duplicate masonry-item animation - already defined above with nth-child variations */
 
 body.party-mode #photoMap {
   border: 5px solid var(--hot-pink);
@@ -2839,12 +2940,7 @@ body.party-mode .photo-viewer {
   background: rgba(0, 0, 0, 0.98);
 }
 
-body.party-mode .photo-viewer-content h3 {
-  background: linear-gradient(45deg, var(--hot-pink), var(--electric-blue), var(--lime-green));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: textWave 2s infinite;
-}
+/* Removed conflicting gradient text style - now using solid color with text-shadow from above */
 
 body.party-mode .photo-gallery img:hover {
   transform: scale(1.1) rotate(5deg);
