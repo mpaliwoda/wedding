@@ -8,15 +8,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (isPartyMode) {
             icon.textContent = '🎉';
-            text.setAttribute('data-en', 'Disable Party Mode');
-            text.setAttribute('data-pl', 'Wyłącz Tryb Imprezowy');
+            text.setAttribute('data-en', 'Party');
+            text.setAttribute('data-pl', 'Impreza');
             // Update text based on current language
             const currentLang = localStorage.getItem("preferredLanguage") || "pl";
             text.textContent = text.getAttribute(`data-${currentLang}`);
         } else {
             icon.textContent = '✨';
-            text.setAttribute('data-en', 'Enable Party Mode');
-            text.setAttribute('data-pl', 'Włącz Tryb Imprezowy');
+            text.setAttribute('data-en', 'Party');
+            text.setAttribute('data-pl', 'Impreza');
             // Update text based on current language
             const currentLang = localStorage.getItem("preferredLanguage") || "pl";
             text.textContent = text.getAttribute(`data-${currentLang}`);
