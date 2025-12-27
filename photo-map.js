@@ -387,6 +387,55 @@ window.addEventListener('popstate', function(e) {
     }
 });
 
+// Wire up navigation arrows
+const prevPhotoBtn = document.getElementById('prevPhotoBtn');
+const nextPhotoBtn = document.getElementById('nextPhotoBtn');
+
+if (prevPhotoBtn) {
+    prevPhotoBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        prevPhoto();
+    });
+}
+
+if (nextPhotoBtn) {
+    nextPhotoBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        nextPhoto();
+    });
+}
+
+// Add swipe gesture support for mobile
+let touchStartX = 0;
+let touchEndX = 0;
+
+const photoViewerElement = document.getElementById('photoViewer');
+if (photoViewerElement) {
+    photoViewerElement.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    photoViewerElement.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+}
+
+function handleSwipe() {
+    const swipeThreshold = 50; // minimum distance for a swipe
+    const diff = touchStartX - touchEndX;
+
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+            // Swiped left - go to next photo
+            nextPhoto();
+        } else {
+            // Swiped right - go to previous photo
+            prevPhoto();
+        }
+    }
+}
+
 document.addEventListener('keydown', function(e) {
     const photoViewer = document.getElementById('photoViewer');
     if (!photoViewer || photoViewer.classList.contains('hidden')) return;

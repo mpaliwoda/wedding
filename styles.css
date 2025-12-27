@@ -2284,6 +2284,31 @@ body.party-mode .photo-viewer-close:hover {
   transform: scale(1.1);
 }
 
+body.party-mode .photo-viewer-nav {
+  background: linear-gradient(135deg, var(--hot-pink), var(--orange));
+  border: 4px solid #000;
+  box-shadow: 5px 5px 0 #000;
+  color: white;
+  font-size: 35px;
+  width: 55px;
+  height: 55px;
+}
+
+body.party-mode .photo-viewer-nav:hover {
+  background: linear-gradient(135deg, var(--lime-green), var(--electric-blue));
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 6px 6px 0 #000;
+}
+
+body.party-mode .photo-viewer-nav:active {
+  transform: translateY(-50%) scale(0.9);
+  box-shadow: 2px 2px 0 #000;
+}
+
+body.party-mode .photo-viewer-nav span {
+  text-shadow: 2px 2px 0 #000;
+}
+
 body.party-mode .photo-viewer-content h3 {
   font-family: "Bangers", cursive !important;
   background: var(--hot-pink);
@@ -2620,6 +2645,50 @@ body.party-mode .cluster-icon {
   transform: scale(1.2);
 }
 
+/* Photo Viewer Navigation Arrows */
+.photo-viewer-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 30px;
+  color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.photo-viewer-nav:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.photo-viewer-nav:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.photo-viewer-prev {
+  left: 20px;
+}
+
+.photo-viewer-next {
+  right: 20px;
+}
+
+.photo-viewer-nav span {
+  display: block;
+  line-height: 1;
+  font-weight: bold;
+}
+
 .photo-viewer-content {
   max-width: 1200px;
   width: 100%;
@@ -2803,6 +2872,26 @@ body.party-mode .cluster-icon {
   .photo-viewer-close {
     top: 10px;
     right: 15px;
+    font-size: 30px;
+  }
+
+  .photo-viewer-nav {
+    width: 45px;
+    height: 45px;
+    font-size: 25px;
+  }
+
+  .photo-viewer-prev {
+    left: 10px;
+  }
+
+  .photo-viewer-next {
+    right: 10px;
+  }
+
+  body.party-mode .photo-viewer-nav {
+    width: 50px;
+    height: 50px;
     font-size: 30px;
   }
 
