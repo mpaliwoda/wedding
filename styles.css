@@ -2873,13 +2873,13 @@ body.party-mode #cursorTrail {
 
 .announcement-content {
   position: relative;
-  background: linear-gradient(135deg, #fff 0%, #f8f4f0 100%);
+  background: linear-gradient(135deg, var(--background-white) 0%, var(--background-light) 100%);
   padding: 3rem 2.5rem;
   border-radius: 20px;
   text-align: center;
   max-width: 400px;
   margin: 1rem;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 25px 50px rgba(167, 123, 148, 0.25);
   animation: slideUp 0.4s ease-out;
 }
 
@@ -2908,7 +2908,7 @@ body.party-mode #cursorTrail {
 .announcement-content h2 {
   font-family: "Cormorant Garamond", serif;
   font-size: 1.8rem;
-  color: #2c3e50;
+  color: var(--primary-color);
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
@@ -2917,20 +2917,20 @@ body.party-mode #cursorTrail {
   font-family: "Cormorant Garamond", serif;
   font-size: 3.5rem;
   font-weight: 700;
-  color: #c9a87c;
+  color: var(--secondary-color);
   margin: 0.5rem 0;
   letter-spacing: 0.1em;
 }
 
 .announcement-subtitle {
   font-size: 1.1rem;
-  color: #666;
+  color: var(--text-dark);
   margin-bottom: 1.5rem;
 }
 
 .announcement-btn {
-  background: linear-gradient(135deg, #c9a87c 0%, #b8956e 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: var(--text-light);
   border: none;
   padding: 0.9rem 2.5rem;
   font-size: 1.1rem;
@@ -2943,7 +2943,7 @@ body.party-mode #cursorTrail {
 
 .announcement-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(201, 168, 124, 0.4);
+  box-shadow: 0 8px 20px rgba(167, 123, 148, 0.4);
 }
 
 .announcement-checkbox {
@@ -2952,14 +2952,14 @@ body.party-mode #cursorTrail {
   justify-content: center;
   gap: 0.5rem;
   font-size: 0.9rem;
-  color: #888;
+  color: var(--text-dark);
   cursor: pointer;
 }
 
 .announcement-checkbox input {
   width: 16px;
   height: 16px;
-  accent-color: #c9a87c;
+  accent-color: var(--primary-color);
 }
 
 /* Party Mode Announcement */
