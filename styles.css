@@ -2842,3 +2842,207 @@ body.party-mode #cursorTrail {
     line-height: 1.5;
   }
 }
+
+/* Announcement Modal */
+.announcement-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.announcement-modal.hidden {
+  display: none;
+}
+
+.announcement-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.announcement-content {
+  position: relative;
+  background: linear-gradient(135deg, #fff 0%, #f8f4f0 100%);
+  padding: 3rem 2.5rem;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 400px;
+  margin: 1rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.announcement-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.announcement-content h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.announcement-time {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #c9a87c;
+  margin: 0.5rem 0;
+  letter-spacing: 0.1em;
+}
+
+.announcement-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.announcement-btn {
+  background: linear-gradient(135deg, #c9a87c 0%, #b8956e 100%);
+  color: white;
+  border: none;
+  padding: 0.9rem 2.5rem;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  margin-bottom: 1rem;
+}
+
+.announcement-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(201, 168, 124, 0.4);
+}
+
+.announcement-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #888;
+  cursor: pointer;
+}
+
+.announcement-checkbox input {
+  width: 16px;
+  height: 16px;
+  accent-color: #c9a87c;
+}
+
+/* Party Mode Announcement */
+body.party-mode .announcement-backdrop {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+body.party-mode .announcement-content {
+  background: linear-gradient(135deg, #ff00ff 0%, #00ffff 50%, #ffff00 100%);
+  border: 6px solid #000;
+  box-shadow: 10px 10px 0 #000;
+  border-radius: 0;
+  animation: slideUp 0.4s ease-out, partyPulse 0.5s ease-in-out infinite;
+}
+
+@keyframes partyPulse {
+  0%, 100% { box-shadow: 10px 10px 0 #000; }
+  50% { box-shadow: 12px 12px 0 #000, 0 0 30px rgba(255, 0, 255, 0.5); }
+}
+
+body.party-mode .announcement-icon {
+  font-size: 4rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+body.party-mode .announcement-content h2 {
+  font-family: "Bangers", cursive;
+  font-size: 2rem;
+  color: #000;
+  text-shadow: 3px 3px 0 #fff;
+  text-transform: uppercase;
+}
+
+body.party-mode .announcement-time {
+  font-family: "Bangers", cursive;
+  font-size: 4rem;
+  color: #000;
+  text-shadow: 4px 4px 0 #fff, -2px -2px 0 #ff00ff;
+  animation: rainbow 1s linear infinite;
+}
+
+@keyframes rainbow {
+  0% { text-shadow: 4px 4px 0 #ff0000, -2px -2px 0 #ff00ff; }
+  33% { text-shadow: 4px 4px 0 #00ff00, -2px -2px 0 #ffff00; }
+  66% { text-shadow: 4px 4px 0 #0000ff, -2px -2px 0 #00ffff; }
+  100% { text-shadow: 4px 4px 0 #ff0000, -2px -2px 0 #ff00ff; }
+}
+
+body.party-mode .announcement-subtitle {
+  font-family: "Bangers", cursive;
+  font-size: 1.3rem;
+  color: #000;
+}
+
+body.party-mode .announcement-btn {
+  background: #ff1493;
+  color: #000;
+  font-family: "Bangers", cursive;
+  font-size: 1.3rem;
+  border: 4px solid #000;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 #000;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+body.party-mode .announcement-btn:hover {
+  background: #00ff00;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000;
+}
+
+body.party-mode .announcement-checkbox {
+  font-family: "Bangers", cursive;
+  color: #000;
+  font-size: 1rem;
+}
+
+body.party-mode .announcement-checkbox input {
+  accent-color: #ff1493;
+}

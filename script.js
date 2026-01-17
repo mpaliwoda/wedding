@@ -31,6 +31,35 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    const timeAnnouncement = document.getElementById('timeAnnouncement');
+    const dismissBtn = document.getElementById('dismissAnnouncement');
+    const dontShowAgain = document.getElementById('dontShowAgain');
+
+    if (timeAnnouncement && !localStorage.getItem('timeAnnouncementDismissed')) {
+        timeAnnouncement.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    if (dismissBtn) {
+        dismissBtn.addEventListener('click', function() {
+            if (dontShowAgain && dontShowAgain.checked) {
+                localStorage.setItem('timeAnnouncementDismissed', 'true');
+            }
+            timeAnnouncement.classList.add('hidden');
+            document.body.style.overflow = '';
+        });
+    }
+
+    if (timeAnnouncement) {
+        timeAnnouncement.querySelector('.announcement-backdrop').addEventListener('click', function() {
+            if (dontShowAgain && dontShowAgain.checked) {
+                localStorage.setItem('timeAnnouncementDismissed', 'true');
+            }
+            timeAnnouncement.classList.add('hidden');
+            document.body.style.overflow = '';
+        });
+    }
+
     if (partyModeToggle) {
         partyModeToggle.addEventListener('click', function() {
             body.classList.toggle('party-mode');
