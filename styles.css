@@ -538,34 +538,6 @@ h3 {
   margin-bottom: 10px;
 }
 
-.time-tbd {
-  font-size: 0.95rem;
-  color: var(--accent-color);
-  font-style: italic;
-  margin-bottom: 15px;
-  padding: 10px 20px;
-  background: rgba(139, 158, 125, 0.08);
-  border-radius: 20px;
-  display: inline-block;
-  border: 1px solid rgba(139, 158, 125, 0.2);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  box-shadow: 0 2px 10px rgba(139, 158, 125, 0.1);
-  animation: gentlePulse 3s ease-in-out infinite;
-}
-
-@keyframes gentlePulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.02);
-    opacity: 0.95;
-  }
-}
-
 .detail-location {
   font-size: 1.1rem;
   line-height: 1.6;
@@ -1752,22 +1724,6 @@ body.party-mode .calendar-btn:hover {
   box-shadow: 3px 3px 0 #000;
 }
 
-body.party-mode .time-tbd {
-  background: var(--bright-yellow);
-  color: #000;
-  border: 4px solid #000;
-  font-style: normal;
-  font-weight: 900;
-  box-shadow: 5px 5px 0 #000;
-  animation: pulse 1s infinite, shake 2s infinite;
-}
-
-@keyframes shake {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-3deg); }
-  75% { transform: rotate(3deg); }
-}
-
 body.party-mode .detail-time {
   font-family: "Bangers", cursive !important;
   color: var(--red);
@@ -2645,32 +2601,6 @@ body.party-mode .cluster-icon {
   font-weight: 600;
   margin-bottom: 8px;
   color: var(--text-dark);
-}
-
-.popup-photo-count {
-  color: var(--primary-color);
-  font-size: 0.9rem;
-  margin-bottom: 10px;
-}
-
-.popup-view-btn {
-  display: inline-block;
-  background: var(--primary-color);
-  color: white;
-  padding: 8px 20px;
-  border-radius: 20px;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
-  font-family: "Lora", serif;
-}
-
-.popup-view-btn:hover {
-  background: var(--secondary-color);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Mobile responsive */

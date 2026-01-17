@@ -82,11 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
         elementsWithLang.forEach((element) => {
             const text = element.getAttribute(`data-${lang}`);
             if (text) {
-                if (element.tagName === "TITLE") {
-                    element.textContent = text;
-                } else {
-                    element.textContent = text;
-                }
+                element.textContent = text;
             }
         });
 
@@ -143,13 +139,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }, observerOptions);
-
-    document.querySelectorAll(".timeline-item").forEach((item) => {
-        item.style.opacity = "0";
-        item.style.transform = "translateY(30px)";
-        item.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-        observer.observe(item);
-    });
 
     document.querySelectorAll(".detail-card").forEach((card) => {
         card.style.opacity = "0";
@@ -483,7 +472,7 @@ function initPartyModeEffects() {
     window.addEventListener('resize', debounce(resizeCanvas, 150));
 
     let lastTrailTime = 0;
-    const trailThrottle = isLowEnd ? 50 : 16; // 20fps on low-end, 60fps on high-end
+    const trailThrottle = isLowEnd ? 50 : 16;
 
     document.addEventListener('mousemove', (e) => {
         if (!document.body.classList.contains('party-mode')) return;
