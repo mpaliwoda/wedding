@@ -328,17 +328,159 @@ function initPartyModeEffects() {
     const ctx = cursorCanvas.getContext('2d', { alpha: true, willReadFrequently: false });
     const trails = [];
     const colors = ['#ff1493', '#00ffff', '#39ff14', '#ffff00', '#ff6600', '#9d00ff'];
-    const maxTrails = 50; // Limit max trail particles
-    
+    const maxTrails = 50;
+
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    const isLowEnd = isMobile || navigator.hardwareConcurrency <= 4;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isLowEnd = isMobile || navigator.hardwareConcurrency <= 4 || prefersReducedMotion;
+
+    function debounce(fn, delay) {
+        let timeoutId;
+        return function(...args) {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => fn.apply(this, args), delay);
+        };
+    }
+
+    const ViewportCache = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        update() {
+            this.width = window.visualViewport?.width || document.documentElement.clientWidth || window.innerWidth;
+            this.height = window.visualViewport?.height || document.documentElement.clientHeight || window.innerHeight;
+        }
+    };
+
+    const AnimationController = {
+        trailsRunning: false,
+        bubblesRunning: false,
+        trailsFrameId: null,
+        bubblesFrameId: null,
+
+        startTrails() {
+            if (this.trailsRunning) return;
+            this.trailsRunning = true;
+            this.animateTrailsLoop();
+        },
+
+        stopTrails() {
+            this.trailsRunning = false;
+            if (this.trailsFrameId) {
+                cancelAnimationFrame(this.trailsFrameId);
+                this.trailsFrameId = null;
+            }
+            ctx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+            trails.length = 0;
+        },
+
+        animateTrailsLoop() {
+            if (!this.trailsRunning) return;
+
+            ctx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+
+            for (let i = trails.length - 1; i >= 0; i--) {
+                const trail = trails[i];
+                trail.life -= isLowEnd ? 0.04 : 0.03;
+                trail.size *= 0.95;
+
+                if (trail.life <= 0) {
+                    trails.splice(i, 1);
+                    continue;
+                }
+
+                ctx.globalAlpha = trail.life;
+                ctx.fillStyle = trail.color;
+                ctx.beginPath();
+                ctx.arc(trail.x, trail.y, trail.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            this.trailsFrameId = requestAnimationFrame(() => this.animateTrailsLoop());
+        },
+
+        startBubbles() {
+            if (this.bubblesRunning) return;
+            this.bubblesRunning = true;
+            this.animateBubblesLoop();
+        },
+
+        stopBubbles() {
+            this.bubblesRunning = false;
+            if (this.bubblesFrameId) {
+                cancelAnimationFrame(this.bubblesFrameId);
+                this.bubblesFrameId = null;
+            }
+        },
+
+        lastBubbleUpdate: 0,
+        animateBubblesLoop(timestamp = 0) {
+            if (!this.bubblesRunning) return;
+
+            const isMobileView = window.innerWidth <= 768;
+            if (isMobileView) {
+                this.bubblesFrameId = requestAnimationFrame((ts) => this.animateBubblesLoop(ts));
+                return;
+            }
+
+            const bubbleUpdateInterval = isLowEnd ? 33 : 16;
+            if (timestamp && this.lastBubbleUpdate && (timestamp - this.lastBubbleUpdate < bubbleUpdateInterval)) {
+                this.bubblesFrameId = requestAnimationFrame((ts) => this.animateBubblesLoop(ts));
+                return;
+            }
+            this.lastBubbleUpdate = timestamp || Date.now();
+
+            const vw = ViewportCache.width;
+            const vh = ViewportCache.height;
+
+            for (let i = activeBubbles.length - 1; i >= 0; i--) {
+                const bubble = activeBubbles[i];
+
+                bubble.x += bubble.vx;
+                bubble.y += bubble.vy;
+                bubble.rotation += bubble.rotationSpeed;
+
+                const radius = bubble.size / 2;
+
+                if (bubble.x - radius < 0) {
+                    bubble.x = radius;
+                    bubble.vx = Math.abs(bubble.vx) * 0.8;
+                } else if (bubble.x + radius > vw) {
+                    bubble.x = vw - radius;
+                    bubble.vx = -Math.abs(bubble.vx) * 0.8;
+                }
+
+                if (bubble.y - radius < 0) {
+                    bubble.y = radius;
+                    bubble.vy = Math.abs(bubble.vy) * 0.8;
+                } else if (bubble.y + radius > vh) {
+                    bubble.y = vh - radius;
+                    bubble.vy = -Math.abs(bubble.vy) * 0.8;
+                }
+
+                bubble.element.style.transform = `translate(${bubble.x - radius}px, ${bubble.y - radius}px) rotate(${bubble.rotation}deg)`;
+            }
+
+            this.bubblesFrameId = requestAnimationFrame((ts) => this.animateBubblesLoop(ts));
+        },
+
+        onPartyModeChange(isPartyMode) {
+            if (isPartyMode) {
+                this.startTrails();
+                this.startBubbles();
+            } else {
+                this.stopTrails();
+                this.stopBubbles();
+            }
+        }
+    };
 
     function resizeCanvas() {
         cursorCanvas.width = window.innerWidth;
         cursorCanvas.height = window.innerHeight;
+        ViewportCache.update();
     }
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', debounce(resizeCanvas, 150));
 
     let lastTrailTime = 0;
     const trailThrottle = isLowEnd ? 50 : 16; // 20fps on low-end, 60fps on high-end
@@ -363,37 +505,9 @@ function initPartyModeEffects() {
         });
     }, { passive: true });
 
-    let animationFrameId = null;
-    function animateTrails() {
-        if (!document.body.classList.contains('party-mode')) {
-            ctx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
-            animationFrameId = requestAnimationFrame(animateTrails);
-            return;
-        }
-
-        ctx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
-
-        for (let i = trails.length - 1; i >= 0; i--) {
-            const trail = trails[i];
-            
-            trail.life -= isLowEnd ? 0.04 : 0.03; // Faster decay on low-end
-            trail.size *= 0.95;
-
-            if (trail.life <= 0) {
-                trails.splice(i, 1);
-                continue;
-            }
-
-            ctx.globalAlpha = trail.life;
-            ctx.fillStyle = trail.color;
-            ctx.beginPath();
-            ctx.arc(trail.x, trail.y, trail.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-
-        animationFrameId = requestAnimationFrame(animateTrails);
+    if (document.body.classList.contains('party-mode')) {
+        AnimationController.startTrails();
     }
-    animateTrails();
 
     let confettiInterval = null;
     const confettiCount = isLowEnd ? 2 : 3; // Fewer on low-end devices
@@ -424,7 +538,9 @@ function initPartyModeEffects() {
     if (partyModeToggle) {
         partyModeToggle.addEventListener('click', function() {
             setTimeout(() => {
-                if (document.body.classList.contains('party-mode')) {
+                const isPartyMode = document.body.classList.contains('party-mode');
+                AnimationController.onPartyModeChange(isPartyMode);
+                if (isPartyMode) {
                     if (!confettiInterval) {
                         confettiInterval = setInterval(createConfetti, confettiFrequency);
                     }
@@ -433,7 +549,6 @@ function initPartyModeEffects() {
                         clearInterval(confettiInterval);
                         confettiInterval = null;
                     }
-                    trails.length = 0;
                 }
             }, 0);
         });
@@ -714,63 +829,9 @@ function initPartyModeEffects() {
         activeBubbles.push(bubbleData);
     }
 
-    let lastBubbleUpdate = 0;
-    const bubbleUpdateInterval = isLowEnd ? 33 : 16; // 30fps on low-end, 60fps on high-end
-    
-    function animateBubbles(timestamp = 0) {
-        if (!document.body.classList.contains('party-mode')) {
-            requestAnimationFrame(animateBubbles);
-            return;
-        }
-
-        // Skip animation on mobile to save CPU
-        const isMobile = window.innerWidth <= 768;
-        if (isMobile) {
-            requestAnimationFrame(animateBubbles);
-            return;
-        }
-
-        if (timestamp && lastBubbleUpdate && (timestamp - lastBubbleUpdate < bubbleUpdateInterval)) {
-            requestAnimationFrame(animateBubbles);
-            return;
-        }
-        lastBubbleUpdate = timestamp || Date.now();
-
-        for (let i = activeBubbles.length - 1; i >= 0; i--) {
-            const bubble = activeBubbles[i];
-
-            const viewportWidth = (window.visualViewport?.width || document.documentElement.clientWidth || window.innerWidth);
-            const viewportHeight = (window.visualViewport?.height || document.documentElement.clientHeight || window.innerHeight);
-
-            bubble.x += bubble.vx;
-            bubble.y += bubble.vy;
-            bubble.rotation += bubble.rotationSpeed;
-
-            const radius = bubble.size / 2;
-
-            if (bubble.x - radius < 0) {
-                bubble.x = radius;
-                bubble.vx = Math.abs(bubble.vx) * 0.8;
-            } else if (bubble.x + radius > viewportWidth) {
-                bubble.x = viewportWidth - radius;
-                bubble.vx = -Math.abs(bubble.vx) * 0.8;
-            }
-
-            if (bubble.y - radius < 0) {
-                bubble.y = radius;
-                bubble.vy = Math.abs(bubble.vy) * 0.8;
-            } else if (bubble.y + radius > viewportHeight) {
-                bubble.y = viewportHeight - radius;
-                bubble.vy = -Math.abs(bubble.vy) * 0.8;
-            }
-
-            bubble.element.style.transform = `translate(${bubble.x - radius}px, ${bubble.y - radius}px) rotate(${bubble.rotation}deg)`;
-        }
-
-        requestAnimationFrame(animateBubbles);
+    if (document.body.classList.contains('party-mode')) {
+        AnimationController.startBubbles();
     }
-
-    animateBubbles();
 
     const bubbleSpawnInterval = isLowEnd ? 12000 : 8000; // 12s on low-end, 8s on high-end
     
@@ -958,3 +1019,320 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+const EasterEggs = {
+    konamiCode: ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'],
+    konamiIndex: 0,
+    konamiActivated: false,
+    namesClickCount: 0,
+    namesClickTimer: null,
+    rainbowClickCount: 0,
+    rainbowClickTimer: null,
+    rainbowMode: false,
+
+    init() {
+        this.initPartyButtonHint();
+        this.initNamesSecret();
+        this.initFooterHearts();
+        this.initRainbowMode();
+        this.initKonami();
+        this.initSpecialDates();
+        this.initCountdownMilestones();
+    },
+
+    getLang() {
+        return document.documentElement.lang || localStorage.getItem('preferredLanguage') || 'pl';
+    },
+
+    showNotification(text) {
+        const existing = document.querySelector('.easter-egg-notification');
+        if (existing) existing.remove();
+
+        const notification = document.createElement('div');
+        notification.className = 'easter-egg-notification';
+        notification.textContent = text;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.classList.add('fade-out');
+            setTimeout(() => notification.remove(), 500);
+        }, 2500);
+    },
+
+    initPartyButtonHint() {
+        if (localStorage.getItem('partyModeDiscovered')) return;
+
+        const partyToggle = document.getElementById('partyModeToggle');
+        if (!partyToggle) return;
+
+        const showHint = () => {
+            if (document.body.classList.contains('party-mode')) {
+                localStorage.setItem('partyModeDiscovered', 'true');
+                return;
+            }
+            partyToggle.classList.add('hint-active');
+            setTimeout(() => partyToggle.classList.remove('hint-active'), 1000);
+        };
+
+        setTimeout(showHint, 30000);
+        setInterval(() => {
+            if (!localStorage.getItem('partyModeDiscovered')) {
+                showHint();
+            }
+        }, 60000);
+
+        partyToggle.addEventListener('click', () => {
+            localStorage.setItem('partyModeDiscovered', 'true');
+        }, { once: true });
+    },
+
+    initNamesSecret() {
+        const namesElement = document.querySelector('.names');
+        if (!namesElement) return;
+
+        namesElement.addEventListener('click', (e) => {
+            this.namesClickCount++;
+            clearTimeout(this.namesClickTimer);
+            this.namesClickTimer = setTimeout(() => this.namesClickCount = 0, 2000);
+
+            this.createClickHeart(e.clientX, e.clientY, this.namesClickCount);
+
+            if (this.namesClickCount >= 3) {
+                this.triggerNamesSecret(namesElement);
+                this.namesClickCount = 0;
+            }
+        });
+    },
+
+    createClickHeart(x, y, count) {
+        const hearts = ['💕'];
+        if (count >= 2) hearts.push('💕');
+
+        hearts.forEach((h, i) => {
+            const heart = document.createElement('div');
+            heart.className = 'click-heart';
+            heart.textContent = h;
+            heart.style.left = (x + (i * 20) - 10) + 'px';
+            heart.style.top = y + 'px';
+            heart.style.fontSize = (1.2 + count * 0.3) + 'rem';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1000);
+        });
+    },
+
+    triggerNamesSecret(element) {
+        element.classList.add('celebrating');
+        setTimeout(() => element.classList.remove('celebrating'), 1500);
+
+        const rect = element.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const hearts = ['💖', '💕', '💗', '💓', '💘', '💝', '❤️', '🩷'];
+
+        for (let i = 0; i < 16; i++) {
+            setTimeout(() => {
+                const heart = document.createElement('div');
+                heart.className = 'celebration-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+
+                const angle = (Math.PI * 2 * i) / 16;
+                const distance = 60 + Math.random() * 80;
+                const offsetX = Math.cos(angle) * distance;
+                const offsetY = Math.sin(angle) * distance;
+
+                heart.style.left = centerX + 'px';
+                heart.style.top = centerY + 'px';
+                heart.style.setProperty('--tx', (offsetX * 1.5) + 'px');
+                heart.style.setProperty('--ty', (offsetY * 1.5 - 30) + 'px');
+
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1500);
+            }, i * 30);
+        }
+    },
+
+    initFooterHearts() {
+        const footerHearts = document.querySelector('.footer .hearts');
+        if (!footerHearts) return;
+
+        footerHearts.addEventListener('click', () => this.triggerHeartRain());
+    },
+
+    triggerHeartRain() {
+        const hearts = ['💖', '💕', '💗', '💓', '💘', '💝', '❤️', '🩷', '💜', '💙'];
+
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => {
+                const heart = document.createElement('div');
+                heart.className = 'rain-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (2.5 + Math.random() * 1.5) + 's';
+                heart.style.fontSize = (18 + Math.random() * 16) + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 4500);
+            }, i * 80);
+        }
+    },
+
+    initRainbowMode() {
+        const partyToggle = document.getElementById('partyModeToggle');
+        if (!partyToggle) return;
+
+        partyToggle.addEventListener('click', () => {
+            this.rainbowClickCount++;
+            clearTimeout(this.rainbowClickTimer);
+            this.rainbowClickTimer = setTimeout(() => {
+                this.rainbowClickCount = 0;
+                partyToggle.classList.remove('rainbow-hint');
+            }, 1000);
+
+            if (this.rainbowClickCount === 2) {
+                partyToggle.classList.add('rainbow-hint');
+                setTimeout(() => partyToggle.classList.remove('rainbow-hint'), 500);
+            }
+
+            if (this.rainbowClickCount >= 3) {
+                this.toggleRainbowMode();
+                this.rainbowClickCount = 0;
+                partyToggle.classList.remove('rainbow-hint');
+            }
+        });
+    },
+
+    toggleRainbowMode() {
+        this.rainbowMode = !this.rainbowMode;
+        document.body.classList.toggle('rainbow-mode', this.rainbowMode);
+
+        if (this.rainbowMode) {
+            if (!document.body.classList.contains('party-mode')) {
+                document.getElementById('partyModeToggle')?.click();
+            }
+            this.showNotification(this.getLang() === 'en' ? '🌈 Rainbow mode!' : '🌈 Tryb tęczowy!');
+        } else {
+            this.showNotification(this.getLang() === 'en' ? '🌈 Rainbow off' : '🌈 Tęcza wyłączona');
+        }
+    },
+
+    initKonami() {
+        document.addEventListener('keydown', (e) => {
+            const expected = this.konamiCode[this.konamiIndex];
+
+            if (e.code === expected) {
+                this.konamiIndex++;
+                this.createKonamiSparkle();
+
+                if (this.konamiIndex === this.konamiCode.length) {
+                    this.triggerKonami();
+                    this.konamiIndex = 0;
+                }
+            } else {
+                this.konamiIndex = 0;
+            }
+        });
+    },
+
+    createKonamiSparkle() {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'konami-sparkle';
+        sparkle.textContent = '✨';
+        sparkle.style.right = (20 + (this.konamiIndex * 15)) + 'px';
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 500);
+    },
+
+    triggerKonami() {
+        if (this.konamiActivated) return;
+        this.konamiActivated = true;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'konami-overlay';
+        const isEn = this.getLang() === 'en';
+        overlay.innerHTML = `
+            <div class="konami-content">
+                <div class="konami-hearts">💖💖💖</div>
+                <h2>${isEn ? 'Secret unlocked!' : 'Sekret odblokowany!'}</h2>
+                <p style="color: #ccc; margin: 0.5rem 0;">${isEn ? 'You found the Konami code!' : 'Znalazłeś kod Konami!'}</p>
+                <div class="konami-emojis">🎮🕹️👾🎉</div>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+
+        if (!document.body.classList.contains('party-mode')) {
+            document.getElementById('partyModeToggle')?.click();
+        }
+
+        this.triggerHeartRain();
+
+        setTimeout(() => {
+            overlay.classList.add('fade-out');
+            setTimeout(() => {
+                overlay.remove();
+                this.konamiActivated = false;
+            }, 500);
+        }, 3500);
+    },
+
+    initSpecialDates() {
+        const today = new Date();
+        const month = today.getMonth() + 1;
+        const day = today.getDate();
+        const year = today.getFullYear();
+
+        if (month === 7 && day === 10) {
+            if (year === 2026) {
+                setTimeout(() => this.triggerWeddingDay(), 2000);
+            } else if (year > 2026) {
+                const anniversary = year - 2026;
+                setTimeout(() => this.triggerAnniversary(anniversary), 2000);
+            }
+        }
+    },
+
+    triggerWeddingDay() {
+        if (!document.body.classList.contains('party-mode')) {
+            document.getElementById('partyModeToggle')?.click();
+        }
+        this.showNotification(this.getLang() === 'en' ? "🎊 IT'S THE DAY! 👰🤵" : '🎊 TO JEST TEN DZIEŃ! 👰🤵');
+        this.triggerHeartRain();
+    },
+
+    triggerAnniversary(years) {
+        const ordinal = years === 1 ? 'st' : years === 2 ? 'nd' : years === 3 ? 'rd' : 'th';
+        this.showNotification(
+            this.getLang() === 'en'
+                ? `💕 Happy ${years}${ordinal} Anniversary! 💕`
+                : `💕 Szczęśliwej ${years}. rocznicy! 💕`
+        );
+    },
+
+    milestonesShown: new Set(),
+
+    initCountdownMilestones() {
+        const checkMilestones = () => {
+            const daysEl = document.getElementById('days');
+            if (!daysEl) return;
+
+            const days = parseInt(daysEl.textContent);
+            if (isNaN(days)) return;
+
+            const milestones = {
+                100: { en: 'Triple digits! 💯', pl: 'Trzy cyfry! 💯' },
+                69: { en: 'Nice. 😏', pl: 'Nice. 😏' },
+                7: { en: 'One week! 🎉', pl: 'Jeszcze tydzień! 🎉' },
+                1: { en: 'TOMORROW! 💒', pl: 'JUTRO! 💒' }
+            };
+
+            if (milestones[days] && !this.milestonesShown.has(days)) {
+                this.milestonesShown.add(days);
+                const msg = milestones[days];
+                setTimeout(() => this.showNotification(this.getLang() === 'en' ? msg.en : msg.pl), 3000);
+            }
+        };
+
+        setTimeout(checkMilestones, 2000);
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => EasterEggs.init());
