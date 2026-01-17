@@ -1060,7 +1060,7 @@ const EasterEggs = {
                 return;
             }
             partyToggle.classList.add('hint-active');
-            setTimeout(() => partyToggle.classList.remove('hint-active'), 1000);
+            setTimeout(() => partyToggle.classList.remove('hint-active'), 1800);
         };
 
         setTimeout(showHint, 30000);
