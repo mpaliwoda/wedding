@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function() {
         observer.observe(card);
     });
 
-    const weddingDate = new Date("2026-07-10T00:00:00");
+    const weddingDate = new Date("2026-07-10T14:00:00");
     const startDate = new Date("2024-11-17T00:00:00"); // Fixed start date for progress calculation
     let lastUpdate = 0;
 
@@ -236,10 +236,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     description:
                         "Wedding ceremony and reception at Gospoda Nad Zimną Rzeczką",
                     location: "Gospoda Nad Zimną Rzeczką, ul. Zimna Rzeczka 8, Kłokoczyn",
-                    startDate: "20260710",
-                    endDate: "20260711", // Next day for all-day event
-                    startTime: "", // No time yet
-                    endTime: "",
+                    startDate: "20260710T140000",
+                    endDate: "20260711T040000",
                 };
 
                 switch (service) {
@@ -260,8 +258,8 @@ document.addEventListener("DOMContentLoaded", function() {
                             "VERSION:2.0",
                             "PRODID:-//Irena & Marcin Wedding//EN",
                             "BEGIN:VEVENT",
-                            `DTSTART;VALUE=DATE:${eventDetails.startDate}`,
-                            `DTEND;VALUE=DATE:${eventDetails.endDate}`,
+                            `DTSTART:${eventDetails.startDate}`,
+                            `DTEND:${eventDetails.endDate}`,
                             `SUMMARY:${eventDetails.title}`,
                             `DESCRIPTION:${eventDetails.description}`,
                             `LOCATION:${eventDetails.location}`,
