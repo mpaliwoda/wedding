@@ -196,6 +196,31 @@ const photoLocations = [
     }
 ];
 
+// Small WebP thumbnails (assets/photos/thumbs/) for grid/map/bubbles;
+// full-size JPEGs only load in the photo viewer.
+function thumbSrc(photo) {
+    return photo
+        .replace('assets/photos/', 'assets/photos/thumbs/')
+        .replace(/\.jpeg$/, '.webp');
+}
+
+const landscapePhotos = new Set([
+    'budzyńpolska',
+    'clallamcountyunitedstates',
+    'courmayeuritalia',
+    'málagaespaña_1',
+    'seattleunitedstates',
+    'sevillaespaña',
+    'skaftárhreppurÍsland'
+]);
+
+function photoDimensions(photo) {
+    const base = photo.split('/').pop().replace(/\.jpeg$/, '');
+    return landscapePhotos.has(base)
+        ? { width: 1920, height: 1440 }
+        : { width: 1440, height: 1920 };
+}
+
 function initGallery() {
     const masonryGrid = document.getElementById('masonryGrid');
     if (!masonryGrid) return;
@@ -206,9 +231,13 @@ function initGallery() {
             const item = document.createElement('div');
             item.className = 'masonry-item';
             item.style.setProperty('--item-index', itemIndex++);
+            item.setAttribute('role', 'button');
+            item.setAttribute('tabindex', '0');
+            item.setAttribute('aria-label', `${location.name}, ${location.country}`);
 
+            const { width, height } = photoDimensions(photo);
             item.innerHTML = `
-                <img src="${photo}" alt="${location.name}, ${location.country}" loading="lazy">
+                <img src="${thumbSrc(photo)}" alt="${location.name}, ${location.country}" width="${width}" height="${height}" loading="lazy">
                 <div class="masonry-item-overlay">
                     <div class="masonry-item-location">${location.name}</div>
                     <div class="masonry-item-country">${location.country}</div>
@@ -217,6 +246,12 @@ function initGallery() {
 
             item.addEventListener('click', () => {
                 viewPhotos(`${location.name}, ${location.country}`, [photo]);
+            });
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    viewPhotos(`${location.name}, ${location.country}`, [photo]);
+                }
             });
 
             masonryGrid.appendChild(item);
@@ -233,10 +268,20 @@ function initPhotoMap() {
 
     const map = L.map('photoMap').setView([48.0, 10.0], 4);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 18,
+    // Muted CARTO basemap matches the site's palette better than default OSM
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19,
     }).addTo(map);
+
+    const pinIcon = L.divIcon({
+        className: 'custom-pin',
+        html: '<svg width="30" height="40" viewBox="0 0 30 40" xmlns="http://www.w3.org/2000/svg"><path d="M15 1C7.3 1 1 7.4 1 15.2 1 26 15 39 15 39s14-13 14-23.8C29 7.4 22.7 1 15 1z" fill="#8e6f80" stroke="#fbf9f6" stroke-width="1.5"/><circle cx="15" cy="15" r="5" fill="#fbf9f6"/></svg>',
+        iconSize: [30, 40],
+        iconAnchor: [15, 39],
+        popupAnchor: [0, -34]
+    });
 
     const markers = L.markerClusterGroup({
         maxClusterRadius: 80,
@@ -254,10 +299,10 @@ function initPhotoMap() {
     });
 
     photoLocations.forEach(location => {
-        const marker = L.marker([location.lat, location.lng]);
+        const marker = L.marker([location.lat, location.lng], { icon: pinIcon });
 
         const photosHtml = location.photos.map(photo =>
-            `<img src="${photo}" alt="${location.name}" onclick="viewPhotos('${location.name}', ${JSON.stringify(location.photos).replace(/"/g, '&quot;')})" />`
+            `<img src="${thumbSrc(photo)}" alt="${location.name}" loading="lazy" onclick="viewPhotos('${location.name}', ${JSON.stringify(location.photos).replace(/"/g, '&quot;')})" />`
         ).join('');
 
         const popupContent = `
@@ -303,6 +348,13 @@ window.viewPhotos = function(locationName, photos) {
         if (currentPhotoIndex === -1) currentPhotoIndex = 0;
     }
 
+    const counterEl = document.getElementById('photoCounter');
+    if (counterEl) {
+        counterEl.textContent = photos.length === 1
+            ? `${currentPhotoIndex + 1} / ${allPhotos.length}`
+            : '';
+    }
+
     const existingImg = photoGallery.querySelector('img');
     const isUpdate = existingImg && photos.length === 1;
 
@@ -328,11 +380,15 @@ window.viewPhotos = function(locationName, photos) {
         });
     }
 
+    const wasHidden = photoViewer.classList.contains('hidden');
     photoViewer.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 
-    // Push history state so back button works
-    history.pushState({ photoViewerOpen: true }, '', window.location.href);
+    // Push history state so back button works — but only when opening the
+    // viewer, not on every next/prev navigation (which also calls viewPhotos)
+    if (wasHidden) {
+        history.pushState({ photoViewerOpen: true }, '', window.location.href);
+    }
 };
 
 function nextPhoto() {
@@ -354,7 +410,7 @@ function closePhotoViewerModal(skipHistoryPop = false) {
     if (!photoViewer || photoViewer.classList.contains('hidden')) return;
 
     photoViewer.classList.add('hidden');
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = '';
 
     // If we're closing manually (not via back button), go back in history
     if (!skipHistoryPop && window.history.state?.photoViewerOpen) {

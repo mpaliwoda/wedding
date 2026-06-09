@@ -4,7 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Irena Owsiak i Marcin Paliwoda - Wesele 10 lipca 2026" />
-    <meta name="theme-color" content="#a77b94" />
+    <meta name="theme-color" content="#fbf9f6" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💍</text></svg>"
+    />
+    <!-- Link preview (WhatsApp, Messenger, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Irena i Marcin — 10.07.2026" />
+    <meta
+      property="og:description"
+      content="Z radością zapraszamy na nasz ślub i wesele! Gospoda Nad Zimną Rzeczką, 10 lipca 2026, 14:00."
+    />
+    <meta property="og:url" content="https://mpaliwoda.github.io/wedding/" />
+    <meta property="og:image" content="https://mpaliwoda.github.io/wedding/assets/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta name="twitter:card" content="summary_large_image" />
     <!-- Prevent auto-translation -->
     <meta name="google" content="notranslate" />
     <meta http-equiv="content-language" content="pl" />
@@ -28,14 +45,14 @@
     <link rel="preconnect" href="https://unpkg.com" crossorigin />
     <!-- Load fonts with font-display swap for better performance -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500;600&family=Bangers&family=Comic+Neue:wght@700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Lora:wght@400;500;600&family=Bangers&family=Comic+Neue:wght@700&display=swap"
       rel="stylesheet"
       media="print"
       onload="this.media='all'"
     />
     <noscript>
       <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500;600&family=Bangers&family=Comic+Neue:wght@700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Lora:wght@400;500;600&family=Bangers&family=Comic+Neue:wght@700&display=swap"
         rel="stylesheet"
       />
     </noscript>
@@ -96,6 +113,7 @@
         />
       </div>
       <div class="hero-content">
+        <p class="monogram" aria-hidden="true">I&nbsp;&middot;&nbsp;M</p>
         <h1 class="names" data-en="Irena & Marcin" data-pl="Irena i Marcin">
           Irena i Marcin
         </h1>
@@ -154,7 +172,6 @@
         <div class="details-grid">
           <!-- Venue -->
           <div class="detail-card venue-card">
-            <div class="icon">🌿</div>
             <h3>Gospoda Nad Zimną Rzeczką</h3>
             <p
               class="detail-time"
@@ -178,14 +195,12 @@
               target="_blank"
               class="map-link"
             >
-              <span class="map-icon">📍</span>
               <span data-en="Open in Google Maps" data-pl="Otwórz w Google Maps"
                 >Otwórz w Google Maps</span
               >
             </a>
             <div class="calendar-button-container">
               <button class="calendar-btn" id="addToCalendar">
-                <span class="calendar-icon">📅</span>
                 <span data-en="Add to Calendar" data-pl="Dodaj do kalendarza"
                   >Dodaj do kalendarza</span
                 >
@@ -247,21 +262,21 @@
 
           <ul class="rsvp-checklist">
             <li>
-              <span class="rsvp-check-icon">💍</span>
+              <span class="rsvp-check-icon">1</span>
               <span
                 data-en="Whether you'll be joining us"
                 data-pl="Czy będziecie z nami"
               >Czy będziecie z nami</span>
             </li>
             <li>
-              <span class="rsvp-check-icon">👫</span>
+              <span class="rsvp-check-icon">2</span>
               <span
                 data-en="If you're bringing a +1"
                 data-pl="Czy przyjdziecie z osobą towarzyszącą"
               >Czy przyjdziecie z osobą towarzyszącą</span>
             </li>
             <li>
-              <span class="rsvp-check-icon">🚌</span>
+              <span class="rsvp-check-icon">3</span>
               <span
                 data-en="Whether you'll need bus transport"
                 data-pl="Czy potrzebujecie transportu busem"
@@ -333,7 +348,6 @@
 
         <div class="info-grid">
           <div class="info-card">
-            <div class="info-icon">🚗</div>
             <h3 data-en="Transportation" data-pl="Transport">Transport</h3>
             <p
               data-en="Coach transportation to the wedding venue will be provided from Kraków and Chrzanów. Please let us know if you would like to use it when confirming your attendance. Return transportation to the Kraków and Chrzanów areas will also be provided, running from 12:30 a.m. to 6:00 a.m., taking you directly to your home or hotel."
@@ -348,7 +362,6 @@
           </div>
 
           <div class="info-card">
-            <div class="info-icon">🅿️</div>
             <h3 data-en="Parking" data-pl="Parking">Parking</h3>
             <p
               data-en="Parking is available at the venue."
@@ -359,7 +372,6 @@
           </div>
 
           <div class="info-card">
-            <div class="info-icon">🌱</div>
             <h3 data-en="Menu" data-pl="Menu">Menu</h3>
             <p
               data-en="The reception will be vegan. If you have any additional dietary requirements, please let us know when confirming your attendance."
@@ -371,7 +383,6 @@
           </div>
 
           <div class="info-card">
-            <div class="info-icon">🎁</div>
             <h3 data-en="Gifts" data-pl="Prezenty">Prezenty</h3>
             <p
               data-en="Your presence is the greatest gift to us. Should you wish to honor us with a gift, cash would be very welcome. We will also be collecting donations to support food aid for those in need through the Polish Humanitarian Action."
@@ -388,17 +399,35 @@
       </div>
     </section>
 
+    <!-- Couple Photo Interlude -->
+    <section class="section couple-section">
+      <div class="container">
+        <figure class="couple-figure">
+          <img
+            src="assets/couple-zermatt.webp"
+            alt="Irena i Marcin"
+            width="960"
+            height="1280"
+            loading="lazy"
+          />
+          <figcaption data-en="Zermatt, Switzerland" data-pl="Zermatt, Szwajcaria">
+            Zermatt, Szwajcaria
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
     <!-- Photo Gallery Section -->
     <section class="section photo-gallery-section">
       <div class="container">
+        <h2 data-en="Our Adventures" data-pl="Nasze Podróże">Nasze Podróże</h2>
+
         <!-- View Switcher -->
         <div class="view-switcher">
           <button class="view-btn active" data-view="gallery">
-            <span class="view-icon">📸</span>
             <span data-en="Gallery" data-pl="Galeria">Galeria</span>
           </button>
           <button class="view-btn" data-view="map">
-            <span class="view-icon">🗺️</span>
             <span data-en="Map" data-pl="Mapa">Mapa</span>
           </button>
         </div>
@@ -415,15 +444,16 @@
 
         <!-- Photo Viewer Modal -->
         <div id="photoViewer" class="photo-viewer hidden">
-          <button class="photo-viewer-close" id="closePhotoViewer">&times;</button>
-          <button class="photo-viewer-nav photo-viewer-prev" id="prevPhotoBtn">
+          <button class="photo-viewer-close" id="closePhotoViewer" aria-label="Close">&times;</button>
+          <button class="photo-viewer-nav photo-viewer-prev" id="prevPhotoBtn" aria-label="Previous photo">
             <span>‹</span>
           </button>
-          <button class="photo-viewer-nav photo-viewer-next" id="nextPhotoBtn">
+          <button class="photo-viewer-nav photo-viewer-next" id="nextPhotoBtn" aria-label="Next photo">
             <span>›</span>
           </button>
           <div class="photo-viewer-content">
             <h3 id="photoLocationName"></h3>
+            <p id="photoCounter" class="photo-counter"></p>
             <div id="photoGallery" class="photo-gallery"></div>
           </div>
         </div>
@@ -434,7 +464,6 @@
     <div id="timeAnnouncement" class="announcement-modal hidden">
       <div class="announcement-backdrop"></div>
       <div class="announcement-content">
-        <div class="announcement-icon">💒</div>
         <h2
           data-en="Ceremony time revealed!"
           data-pl="Godzina ceremonii ustalona!"

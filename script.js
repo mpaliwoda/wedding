@@ -166,12 +166,19 @@ document.addEventListener("DOMContentLoaded", function() {
         observer.observe(card);
     });
 
+    document.querySelectorAll(".section h2, .rsvp-card, .couple-figure").forEach((el) => {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(24px)";
+        el.style.transition = "opacity 0.7s ease, transform 0.7s ease";
+        observer.observe(el);
+    });
+
     const weddingDate = new Date("2026-07-10T14:00:00");
     const startDate = new Date("2024-11-17T00:00:00"); // Fixed start date for progress calculation
     let lastUpdate = 0;
 
     function updateCountdown(timestamp) {
-        if (timestamp - lastUpdate < 1000) {
+        if (lastUpdate !== 0 && timestamp - lastUpdate < 1000) {
             requestAnimationFrame(updateCountdown);
             return;
         }
@@ -714,14 +721,14 @@ function initPartyModeEffects() {
         if (activeBubbles.length >= maxBubbles) return;
 
         const samplePhotos = [
-            'assets/photos/krakówpolska.jpeg',
-            'assets/photos/seattleunitedstates.jpeg',
-            'assets/photos/vancouvercanada.jpeg',
-            'assets/photos/zermattschweizsuissesvizzerasvizra.jpeg',
-            'assets/photos/málagaespaña_1.jpeg',
-            'assets/photos/sevillaespaña.jpeg',
-            'assets/photos/courmayeuritalia.jpeg',
-            'assets/photos/manarolaitalia.jpeg'
+            'assets/photos/thumbs/krakówpolska.webp',
+            'assets/photos/thumbs/seattleunitedstates.webp',
+            'assets/photos/thumbs/vancouvercanada.webp',
+            'assets/photos/thumbs/zermattschweizsuissesvizzerasvizra.webp',
+            'assets/photos/thumbs/málagaespaña_1.webp',
+            'assets/photos/thumbs/sevillaespaña.webp',
+            'assets/photos/thumbs/courmayeuritalia.webp',
+            'assets/photos/thumbs/manarolaitalia.webp'
         ];
 
         const randomPhoto = samplePhotos[Math.floor(Math.random() * samplePhotos.length)];
@@ -1325,3 +1332,197 @@ const EasterEggs = {
 };
 
 document.addEventListener('DOMContentLoaded', () => EasterEggs.init());
+
+const PartyExtras = {
+    active: false,
+    titleInterval: null,
+    congaInterval: null,
+    titleStep: 0,
+    lastFanfare: 0,
+    originalTitle: null,
+    originalFavicon: null,
+    prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    isLowEnd: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || navigator.hardwareConcurrency <= 4,
+
+    init() {
+        const toggle = document.getElementById('partyModeToggle');
+        if (toggle) {
+            toggle.addEventListener('click', () => {
+                setTimeout(() => {
+                    const on = document.body.classList.contains('party-mode');
+                    if (on && !this.active) {
+                        this.start(true);
+                    } else if (!on && this.active) {
+                        this.stop();
+                    }
+                }, 0);
+            });
+        }
+        if (document.body.classList.contains('party-mode')) {
+            this.start(false);
+        }
+    },
+
+    start(manual) {
+        this.active = true;
+        this.swapTitleAndFavicon();
+
+        if (this.prefersReducedMotion) return;
+
+        this.mountDiscoBall();
+        this.mountMarquee();
+        if (!this.isLowEnd) this.mountSpotlights();
+
+        const congaDelay = this.isLowEnd ? 35000 : 22000;
+        this.congaInterval = setInterval(() => this.spawnCongaLine(), congaDelay);
+
+        if (manual) {
+            this.playFanfare();
+            this.dropEffect();
+            setTimeout(() => this.spawnCongaLine(), 1200);
+        } else {
+            setTimeout(() => this.spawnCongaLine(), 5000);
+        }
+    },
+
+    stop() {
+        this.active = false;
+        this.restoreTitleAndFavicon();
+        clearInterval(this.congaInterval);
+        this.congaInterval = null;
+        ['partyDiscoBall', 'partyMarquee', 'partySpotlights'].forEach(id => {
+            document.getElementById(id)?.remove();
+        });
+        document.querySelectorAll('.conga-dancer, .party-letsgo').forEach(el => el.remove());
+    },
+
+    swapTitleAndFavicon() {
+        this.originalTitle = document.title;
+        const favicon = document.querySelector('link[rel="icon"]');
+        if (favicon) {
+            this.originalFavicon = favicon.href;
+            favicon.href = 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪩</text></svg>';
+        }
+        const titles = ['🪩 PARTY TIME 🪩', '🎉 IRENA ♥ MARCIN 🎉'];
+        this.titleInterval = setInterval(() => {
+            document.title = titles[this.titleStep++ % titles.length];
+        }, 1600);
+    },
+
+    restoreTitleAndFavicon() {
+        clearInterval(this.titleInterval);
+        this.titleInterval = null;
+        if (this.originalTitle) document.title = this.originalTitle;
+        const favicon = document.querySelector('link[rel="icon"]');
+        if (favicon && this.originalFavicon) favicon.href = this.originalFavicon;
+    },
+
+    mountDiscoBall() {
+        const hero = document.querySelector('.hero');
+        if (!hero || document.getElementById('partyDiscoBall')) return;
+        const ball = document.createElement('div');
+        ball.id = 'partyDiscoBall';
+        ball.className = 'disco-ball';
+        hero.appendChild(ball);
+    },
+
+    mountMarquee() {
+        if (document.getElementById('partyMarquee')) return;
+        const marquee = document.createElement('div');
+        marquee.id = 'partyMarquee';
+        marquee.className = 'party-marquee';
+        const msg = ' IRENA ♥ MARCIN • 10.07.2026 • PARTY TIME 🪩 ';
+        const track = document.createElement('div');
+        track.className = 'party-marquee-track';
+        for (let i = 0; i < 2; i++) {
+            const span = document.createElement('span');
+            span.textContent = msg.repeat(4);
+            track.appendChild(span);
+        }
+        marquee.appendChild(track);
+        document.body.appendChild(marquee);
+    },
+
+    mountSpotlights() {
+        if (document.getElementById('partySpotlights')) return;
+        const lights = document.createElement('div');
+        lights.id = 'partySpotlights';
+        lights.className = 'disco-spotlights';
+        document.body.appendChild(lights);
+    },
+
+    spawnCongaLine() {
+        if (!this.active || document.hidden) return;
+        if (!document.body.classList.contains('party-mode')) return;
+
+        const dancers = ['🕺', '💃', '🕺', '💃', '🦩', '🐧', '🤖', '🦄', '🪩'];
+        const count = this.isLowEnd ? 4 : 7;
+        const duration = this.isLowEnd ? 14 : 11;
+
+        for (let i = 0; i < count; i++) {
+            setTimeout(() => {
+                if (!this.active) return;
+                const dancer = document.createElement('div');
+                dancer.className = 'conga-dancer';
+                dancer.style.animationDuration = duration + 's';
+                const inner = document.createElement('span');
+                inner.textContent = dancers[Math.floor(Math.random() * dancers.length)];
+                inner.style.animationDelay = (Math.random() * 0.4) + 's';
+                dancer.appendChild(inner);
+                dancer.addEventListener('animationend', () => dancer.remove());
+                document.body.appendChild(dancer);
+            }, i * 380);
+        }
+    },
+
+    dropEffect() {
+        document.documentElement.classList.add('party-drop');
+        setTimeout(() => document.documentElement.classList.remove('party-drop'), 700);
+
+        const isEn = (document.documentElement.lang || 'pl') === 'en';
+        const shout = document.createElement('div');
+        shout.className = 'party-letsgo';
+        shout.textContent = isEn ? "LET'S GO!" : 'JAZDA!';
+        document.body.appendChild(shout);
+        setTimeout(() => shout.remove(), 1400);
+    },
+
+    playFanfare() {
+        const now = Date.now();
+        if (now - this.lastFanfare < 1500) return;
+        this.lastFanfare = now;
+
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            const ctx = new AudioCtx();
+            // C major fanfare: C E G C, last note held with a fifth on top
+            const notes = [
+                { f: 261.63, t: 0, d: 0.18 },
+                { f: 329.63, t: 0.11, d: 0.18 },
+                { f: 392.0, t: 0.22, d: 0.18 },
+                { f: 523.25, t: 0.33, d: 0.5 },
+                { f: 783.99, t: 0.33, d: 0.5 }
+            ];
+            notes.forEach(n => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'square';
+                osc.frequency.value = n.f;
+                const start = ctx.currentTime + n.t;
+                gain.gain.setValueAtTime(0.0001, start);
+                gain.gain.exponentialRampToValueAtTime(0.08, start + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.0001, start + n.d);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(start);
+                osc.stop(start + n.d + 0.05);
+            });
+            setTimeout(() => ctx.close(), 1500);
+        } catch (e) {
+            // Audio is a bonus; never let it break the party
+        }
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => PartyExtras.init());
